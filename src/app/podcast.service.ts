@@ -14,5 +14,10 @@ export class PodcastService {
 		return of(PODCASTS);
 	}
 
+	getPodcast( title: string ): Observable<Podcast> {
+		this.messageService.add( `Podcast ${title} fetched!` );
+		return of(PODCASTS.find(pod => pod.title === title ));
+	}
+
   constructor(private messageService: MessageService) { }
 }
