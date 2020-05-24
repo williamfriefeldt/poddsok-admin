@@ -1,4 +1,5 @@
 export interface Podcast {
-	episodes: number;
+	episodes: [];
 	title: string;
+	epsNr: number;
 }

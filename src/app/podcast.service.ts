@@ -10,8 +10,23 @@ import { FirebaseService } from './firebase.service';
   providedIn: 'root'
 })
 export class PodcastService {
+
 	getPodcasts(): Observable<Podcast[]> {
-		this.firebaseService.getPodcasts();
+		if ( PODCASTS.length === 0 ) {
+			this.firebaseService.getPodcasts()
+				.subscribe( res => {
+					res.forEach( (podcast) => {
+						const title = podcast.key;
+						const episodes = podcast.payload.val();
+						PODCASTS.push(
+						{
+							title: title,
+							episodes: episodes,
+							epsNr: Object.keys(episodes).length
+						})
+					})
+				});
+		}
 		this.messageService.add( 'Podcasts fetched!' );
 		return of(PODCASTS);
 	}

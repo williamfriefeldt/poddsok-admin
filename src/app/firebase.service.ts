@@ -9,14 +9,9 @@ import { Podcast } from './podcast';
 })
 export class FirebaseService {
 
-  podcasts: Observable<Podcast[]>;
-
-  getPodcasts(): Observable<Podcast[]> {
-  	this.podcasts = this.db.list('/');
-  	console.log(this.podcasts);
+  getPodcasts(): Observable<any[]> {
+  	return this.db.list('/').snapshotChanges();
   }
 
-  constructor( private db: AngularFireDatabase ) {
-  	
-  }
+  constructor( private db: AngularFireDatabase ) { }
 }
