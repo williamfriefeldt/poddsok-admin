@@ -4,12 +4,14 @@ import { Observable, of } from 'rxjs';
 import { Podcast } from './podcast';
 import { PODCASTS } from './podcasts';
 import { MessageService } from './message.service';
+import { FirebaseService } from './firebase.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PodcastService {
 	getPodcasts(): Observable<Podcast[]> {
+		this.firebaseService.getPodcasts();
 		this.messageService.add( 'Podcasts fetched!' );
 		return of(PODCASTS);
 	}
@@ -19,5 +21,8 @@ export class PodcastService {
 		return of(PODCASTS.find(pod => pod.title === title ));
 	}
 
-  constructor(private messageService: MessageService) { }
+  constructor(
+  	private messageService: MessageService,
+  	private firebaseService: FirebaseService
+  ) { }
 }
