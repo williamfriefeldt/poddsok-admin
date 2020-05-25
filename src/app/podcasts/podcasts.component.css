@@ -8,3 +8,8 @@
   color: purple;
   font-size: 20px;
 }
+
+:host {
+	width:70%;
+}
+

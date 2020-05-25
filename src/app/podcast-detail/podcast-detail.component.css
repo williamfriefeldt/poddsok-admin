@@ -1,0 +1,11 @@
+:host {
+	width:70%;
+}
+
+.ep {
+	cursor: pointer;
+} 
+
+.minText {
+	width: 250px;
+}
