@@ -7,15 +7,28 @@
 		</span>
 		<ul *ngIf="selectedEp && selectedEp.name === ep.name">
 			<li *ngFor="let minutes of ep.minutes">
-				Min {{ minutes.nr }}:
-				<span *ngIf="selectedMin && selectedMin.nr == minutes.nr">
-					<input class="minText" type="text" placeholder="{{ minutes.text }}" >
+				<span *ngIf="minutes.text !== ''">
+					Min {{ minutes.nr }}:
+					<span *ngIf="selectedMin && selectedMin.nr == minutes.nr">
+						<input class="minText" type="text" placeholder="{{ minutes.text }}" [(ngModel)]="changeText">
+						<button *ngIf="changeText" (click)="textChanged()">
+							Change text
+						</button>
+					</span>
+					<span (click)="selectMin(minutes)" *ngIf="!selectedMin || selectedMin.nr !== minutes.nr" class="minText">
+						{{ minutes.text }}
+						<button (click)="removeMinText( minutes )">
+							Remove
+						</button>
+					</span>
 				</span>
-				<span (click)="selectMin(minutes)" *ngIf="!selectedMin || selectedMin.nr !== minutes.nr">
-					{{ minutes.text }}
-				</span>
-				<button (click)="removeMinText( minutes )">
-					Remove
+			</li>
+			<li>
+				Min
+				<input class="minText" [(ngModel)]="addMin"> :
+				<input class="minText" [(ngModel)]="addText">
+				<button (click)="addMinText( addMin, addText )">
+					Add segment
 				</button>
 			</li>
 		</ul>

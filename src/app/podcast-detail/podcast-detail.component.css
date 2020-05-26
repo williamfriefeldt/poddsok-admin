@@ -8,4 +8,9 @@
 
 .minText {
 	width: 250px;
+	cursor: pointer;
+}
+
+li:empty {
+	display: none;
 }

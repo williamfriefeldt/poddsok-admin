@@ -18,6 +18,9 @@ export class PodcastDetailComponent implements OnInit {
   selectedEp: Episode;
   selectedMin: Minute;
   minText = '';
+  changeText: string;
+  addMin: number;
+  addText: string;
 
   constructor(
   	private router: ActivatedRoute,
@@ -32,7 +35,10 @@ export class PodcastDetailComponent implements OnInit {
   getPodcast(): void {
   	const title = this.router.snapshot.paramMap.get('title');
   	this.podcastService.getPodcast( title ) 
-  		.subscribe(podcast => this.podcast = podcast );
+  		.subscribe(podcast => {
+        this.podcast = podcast;
+      });
+
   }
 
   goBack(): void {
@@ -57,8 +63,19 @@ export class PodcastDetailComponent implements OnInit {
       this.podcast,
       this.selectedEp,
       min
-    )
-      .subscribe( res => console.log(res) );
+    ).then( () => this.getPodcast() );
+  }
+
+  addMinText( nr: number, text: string ): void {
+    this.podcastService.addMinText(
+      this.podcast,
+      this.selectedEp,
+      {min: nr, text: text}
+    ).then( () => this.getPodcast() );
+  }
+
+  textChanged(): void {
+    console.log(this.changeText);
   }
 
 }
