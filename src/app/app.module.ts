@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
@@ -28,7 +28,6 @@ import { PodcastUpdateComponent } from './podcast-update/podcast-update.componen
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    HttpClientJsonpModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AppRoutingModule
