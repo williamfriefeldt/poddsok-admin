@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
@@ -12,6 +13,7 @@ import { PodcastsComponent } from './podcasts/podcasts.component';
 import { PodcastDetailComponent } from './podcast-detail/podcast-detail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { PodcastUpdateComponent } from './podcast-update/podcast-update.component';
 
 @NgModule({
   declarations: [
@@ -19,11 +21,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     PodcastsComponent,
     PodcastDetailComponent,
     MessagesComponent,
-    DashboardComponent
+    DashboardComponent,
+    PodcastUpdateComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
+    HttpClientJsonpModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AppRoutingModule

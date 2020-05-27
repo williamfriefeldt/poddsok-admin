@@ -48,9 +48,9 @@ export class PodcastService {
 		if ( PODCASTS.length === 0 ) {
 			this.callFirebase();
 		} else {
-			this.messageService.add( 'Podcasts fetched from service!' );		
+			this.messageService.add( 'Podcasts fetched from service!' );
 		}
-		return of(PODCASTS);
+		return of(PODCASTS);	
 	}
 
 	getPodcast( title: string ): Observable<Podcast> {
@@ -58,23 +58,13 @@ export class PodcastService {
 		return of(PODCASTS.find(pod => pod.title === title ));
 	}
 
-	removeMinText( podcast: Podcast, episode: Episode, min: Minute ): Promise<void> {
-		const updateString = '/'+podcast.title+'/ep'+episode.nr+'/minutes';
-		return this.firebaseService.removeItem( updateString, min )
-			.then( () => {
-				this.messageService.add( `Segment '${min.text}' is removed from podcast ${podcast.title}` );
-				return;
-			});
-	}
-
 	updatePodcast( podcast: Podcast, episode: Episode, min: Minute ): Promise<void> {
 		const updateString = '/'+podcast.title+'/ep'+episode.nr+'/minutes';
-		return this.firebaseService.removeItem( updateString, min )
+		return this.firebaseService.updateItem( updateString, min )
 			.then( () => {
-				this.messageService.add( `Segment '${min.text}' is removed from podcast ${podcast.title}` );
+				this.messageService.add( `Updated podcast ${podcast.title}!` );
 				return;
 			});
-
 	}
 
   constructor(

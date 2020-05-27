@@ -15,11 +15,11 @@ export class FirebaseService {
   getPodcasts(): Observable<any[]> {
   	this.items = this.db.list('/').snapshotChanges();
   	return this.items;
-  }
+  } 
 
-  removeItem(podcast: string, min: Minute): Promise<void> {
-  	return this.db.list(podcast).set( 'min' + min.nr , { text:'', nr: min.nr });
+  updateItem(podcast: string, min: Minute): Promise<void> {
+  	return this.db.list(podcast).set( 'min' + min.nr , min );
   }
-
+  
   constructor( private db: AngularFireDatabase ) { }
 }

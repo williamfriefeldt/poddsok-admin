@@ -1,5 +1,7 @@
 <span class="podcast-eps" *ngIf="podcast">
+
 	{{ podcast.title }} - {{ podcast.epsNr }}
+	<a routerLink="/update/{{podcast.title}}"> Update </a>
 
 	<li *ngFor="let ep of podcast.episodes">
 		<span class="ep" (click)="selectEp(ep)">
@@ -11,13 +13,13 @@
 					Min {{ minutes.nr }}:
 					<span *ngIf="selectedMin && selectedMin.nr == minutes.nr">
 						<input class="minText" type="text" placeholder="{{ minutes.text }}" [(ngModel)]="changeText">
-						<button *ngIf="changeText" (click)="textChanged()">
+						<button *ngIf="changeText" >
 							Change text
 						</button>
 					</span>
 					<span (click)="selectMin(minutes)" *ngIf="!selectedMin || selectedMin.nr !== minutes.nr" class="minText">
 						{{ minutes.text }}
-						<button (click)="removeMinText( minutes )">
+						<button (click)="updatePodcast( { nr: minutes.nr, text:'' } )">
 							Remove
 						</button>
 					</span>
@@ -25,9 +27,13 @@
 			</li>
 			<li>
 				Min
-				<input class="minText" [(ngModel)]="addMin"> :
-				<input class="minText" [(ngModel)]="addText">
-				<button (click)="addMinText( addMin, addText )">
+				<select [(ngModel)]="addMin.nr"> 
+					<option [ngValue]="num" *ngFor="let num of numbers( ep.length )">
+						{{ num }}
+					</option>
+				</select>:
+				<input class="minText" [(ngModel)]="addMin.text">
+				<button (click)="updatePodcast( addMin )">
 					Add segment
 				</button>
 			</li>
