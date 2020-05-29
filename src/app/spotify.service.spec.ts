@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ItunesService } from './itunes.service';
+import { SpotifyService } from './spotify.service';
 
-describe('ItunesService', () => {
-  let service: ItunesService;
+describe('SpotifyService', () => {
+  let service: SpotifyService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ItunesService);
+    service = TestBed.inject(SpotifyService);
   });
 
   it('should be created', () => {

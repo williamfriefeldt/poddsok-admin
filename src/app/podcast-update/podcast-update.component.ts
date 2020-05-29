@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ItunesService } from '../itunes.service';
+import { SpotifyService } from '../spotify.service';
 import { PodcastService} from '../podcast.service';
 import { MessageService } from '../message.service';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class PodcastUpdateComponent implements OnInit {
 
   constructor(
-  	private itunesService: ItunesService,
+  	private spotifyService: SpotifyService,
   	private podcastService: PodcastService,
   	private messageService: MessageService,
     private router: ActivatedRoute
@@ -20,7 +20,7 @@ export class PodcastUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     const pod = this.router.snapshot.paramMap.get('title');
-    this.itunesService.searchPod( pod ).subscribe( res => console.log(res) )
+    this.spotifyService.searchPod( pod ).subscribe( res => console.log(res) )
   }
 
 }

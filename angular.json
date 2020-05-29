@@ -26,7 +26,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],         
           },
           "configurations": {
             "production": {
@@ -62,7 +62,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "poddsok-admin:build"
+            "browserTarget": "poddsok-admin:build",
+            "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {

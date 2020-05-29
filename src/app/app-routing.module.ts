@@ -9,8 +9,8 @@ const routes: Routes = [
 	{ path: 'podcasts', component: PodcastsComponent },
 	{ path: 'detail/:title', component: PodcastDetailComponent },
 	{ path: 'update/:title', component: PodcastUpdateComponent },
-	{ path: 'dashboard', component: DashboardComponent },
-	{ path: '', redirectTo: '/dashboard', pathMatch: 'full'}
+	{ path: '', component: DashboardComponent },
+	{ path: '', redirectTo: '', pathMatch: 'full'}
 ];
 
 @NgModule({
