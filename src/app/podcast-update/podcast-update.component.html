@@ -1,1 +1,14 @@
-<p>podcast-update works!</p>
+<div *ngIf="newEps">
+
+	<button (click)="addNewEps()">
+		Add episodes
+	</button>
+
+	<ul>
+		<li *ngFor="let ep of newEps">
+			{{ ep.nr }} - 
+			<input [(ngModel)]="ep.name" placeholder="{{ ep.name }}"> 
+		</li>
+	</ul>
+
+</div>

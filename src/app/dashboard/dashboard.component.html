@@ -1,10 +1,1 @@
-<h3> Populära podcasts </h3>
-
-<div class="grid grid-pad">
-	<a *ngFor="let podcast of podcasts" class="col-1-4"
-			routerLink="/detail/{{podcast.title}}">
-		<div class="module podcast">
-			<h4> {{ podcast.title }} </h4>
-		</div>
-	</a>
-</div>
+<app-podcasts></app-podcasts>

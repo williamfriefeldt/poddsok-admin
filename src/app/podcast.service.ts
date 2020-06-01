@@ -30,14 +30,21 @@ export class PodcastService {
 				PODCASTS.length = 0;
 				res.forEach( podcast => {
 					const episodes = <Episode[]> Object.values(podcast.payload.val());
+					var info;
 					episodes.forEach( ep => {
-						ep.minutes = <Minute[]> Object.values(ep.minutes);
+						if(ep.minutes !==undefined) {
+							ep.minutes = <Minute[]> Object.values(ep.minutes);
+						} else {
+							info = ep;
+						}
 					})
 					PODCASTS.push(
 					{
 						title: podcast.key,
 						episodes: episodes.sort( this.sortNr ),
-						epsNr: Object.keys(episodes).length
+						epsNr: Object.keys(episodes).length,
+						info: info,
+						image: 'assets/images/' + podcast.key + '.png' 
 					})
 				});
 				this.messageService.add( 'Podcast fetched from Firebase!' );
@@ -65,6 +72,17 @@ export class PodcastService {
 				this.messageService.add( `Updated podcast ${podcast.title}!` );
 				return;
 			});
+	}
+
+	addNewEps( podcast: Podcast, episodes: Episode[]): Observable<Boolean> {
+		episodes.forEach( ep => {
+			const updateString = '/' + podcast.title;
+			this.firebaseService.addNewEps( updateString, ep ).then( () => {
+				this.messageService.add( `Updated podcast ${podcast.title} with episode ${ep.name}!` );
+				return;				
+			});		
+		});
+		return of();
 	}
 
   constructor(

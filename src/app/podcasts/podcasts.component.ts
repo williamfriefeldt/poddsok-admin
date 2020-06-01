@@ -13,7 +13,7 @@ export class PodcastsComponent implements OnInit {
 
   getPodcasts(): void {
     this.podcastService.getPodcasts()
-      .subscribe( podcasts => this.podcasts = podcasts);
+      .subscribe( podcasts => this.podcasts = podcasts );
   }
 
   constructor(private podcastService: PodcastService) { } 

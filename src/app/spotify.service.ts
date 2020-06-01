@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
+import { Podcast } from './podcast';
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +18,9 @@ export class SpotifyService {
     private cookie: CookieService
   ) { }
 
-  searchPod(pod: string): Observable<any[]> {
-    const accessToken = this.cookie.get( 'accessToken');
-    pod = '6teK7JLdnMLmCqs95AYsz5/episodes?limit=50';
-    console.log(accessToken);
-    this.http.get( this.spotifyURL + pod, { headers: { Authorization: 'Bearer ' + accessToken} } ).subscribe( res => { console.log(res) })
-  	return of();
+  searchPod(pod: Podcast): Observable<Object> {
+    const accessToken = this.cookie.get( 'accessToken' );
+    const podcastID = pod.info.spotifyID;
+    return this.http.get( this.spotifyURL + podcastID + '/episodes?limit=50', { headers: { Authorization: 'Bearer ' + accessToken} } );
   }
 }

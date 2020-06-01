@@ -2,9 +2,7 @@
 <ul class="podcasts">
 	<li *ngFor="let pod of podcasts">
 		<a routerLink="/detail/{{pod.title}}">
-			<span class="podcast-title"> 
-				{{ pod.title }}
-			</span>
+			<img [src]="pod.image">
 		</a>
 	</li>
 </ul>

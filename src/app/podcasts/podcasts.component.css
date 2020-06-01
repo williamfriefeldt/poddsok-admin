@@ -2,14 +2,19 @@
 	list-style: none;
 	margin: 15px;
 	cursor: pointer;
-}
-
-.podcasts li.selected {
-  color: purple;
-  font-size: 20px;
+	display: inline;
 }
 
 :host {
 	width:70%;
+}
+
+.podcasts img {
+	width: 17.5%;
+	height: 17.5%;
+}
+
+.podcasts ul {
+	display: flex;
 }
 
