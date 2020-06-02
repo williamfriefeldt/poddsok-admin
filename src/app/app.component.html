@@ -1,10 +1,10 @@
-<h1> {{ title }}</h1> 
-<h3>  {{ intro }} </h3>
+<header>
+	<img src="/assets/images/poddsok-title-icon.png">
+	<mat-button-toggle-group>
+		<mat-button-toggle *ngFor="let opt of menu" routerLink="/{{opt.url}}"> {{ opt.title }} </mat-button-toggle>
+	</mat-button-toggle-group>
+</header>
 
-<nav>
-	<a routerLink="/dashboard"> Dashboard </a>
-	<a routerLink="/podcasts"> Podcasts </a>
-</nav>
 
 <div class="row">
 	<router-outlet></router-outlet>

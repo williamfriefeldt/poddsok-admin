@@ -7,6 +7,9 @@ import { PodcastUpdateComponent } from './podcast-update/podcast-update.componen
 
 const routes: Routes = [
 	{ path: 'podcasts', component: PodcastsComponent },
+	{ path: 'statistik', component: PodcastsComponent },
+	{ path: 'uppdateraAlla', component: PodcastsComponent },
+	{ path: 'nypodd', component: PodcastsComponent },
 	{ path: 'detail/:title', component: PodcastDetailComponent },
 	{ path: 'update/:title', component: PodcastUpdateComponent },
 	{ path: '', component: DashboardComponent },

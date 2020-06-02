@@ -1,5 +1,6 @@
 :host {
 	width:70%;
+	margin-left: 1.5em;
 }
 
 .ep {
@@ -13,4 +14,13 @@
 
 li:empty {
 	display: none;
+}
+
+h1 {
+	color: #320E44;
+}
+header {
+	justify-content: space-between;
+	margin-bottom: 0.75em;
+	display: flex;
 }

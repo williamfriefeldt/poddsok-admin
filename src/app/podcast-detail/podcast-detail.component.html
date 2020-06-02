@@ -1,44 +1,52 @@
 <span class="podcast-eps" *ngIf="podcast">
 
-	{{ podcast.title }} - {{ podcast.epsNr }}
-	<a routerLink="/update/{{podcast.title}}"> Update </a>
+	<header>
+		<h1> {{ podcast.title }} </h1>
+		<mat-button-toggle-group>
+			<mat-button-toggle routerLink="/update/{{podcast.title}}"> Updatera </mat-button-toggle>
+			<mat-button-toggle (click)="goBack()"> Back </mat-button-toggle>
+		</mat-button-toggle-group>
+ 	</header>
 
-	<li *ngFor="let ep of podcast.episodes">
-		<span class="ep" (click)="selectEp(ep)">
-			{{ ep.nr }} - {{ ep.name }}
-		</span>
-		<ul *ngIf="selectedEp && selectedEp.name === ep.name">
-			<li *ngFor="let minutes of ep.minutes">
-				<span *ngIf="minutes.text !== ''">
-					Min {{ minutes.nr }}:
-					<span *ngIf="selectedMin && selectedMin.nr == minutes.nr">
-						<input class="minText" type="text" placeholder="{{ minutes.text }}" [(ngModel)]="changeText">
-						<button *ngIf="changeText" >
-							Change text
-						</button>
+	<mat-accordion>	
+		<mat-expansion-panel *ngFor="let ep of podcast.episodes">
+
+			<mat-expansion-panel-header>
+				<mat-panel-title>
+					{{ ep.nr }} - {{ ep.name }}
+				</mat-panel-title> 
+			</mat-expansion-panel-header>
+
+				<div *ngFor="let minutes of ep.minutes">
+					<span *ngIf="minutes.text !== ''">
+						<mat-label> Min {{ minutes.nr }}:</mat-label>
+						<span *ngIf="selectedMin && selectedMin.nr == minutes.nr">
+							<input class="minText" type="text" placeholder="{{ minutes.text }}" [(ngModel)]="changeText">
+							<button *ngIf="changeText" >
+								Change text
+							</button>
+						</span>
+						<span (click)="selectMin(minutes)" *ngIf="!selectedMin || selectedMin.nr !== minutes.nr" class="minText">
+							{{ minutes.text }}
+							<button (click)="updatePodcast( { nr: minutes.nr, text:'' } )">
+								Remove
+							</button>
+						</span>
 					</span>
-					<span (click)="selectMin(minutes)" *ngIf="!selectedMin || selectedMin.nr !== minutes.nr" class="minText">
-						{{ minutes.text }}
-						<button (click)="updatePodcast( { nr: minutes.nr, text:'' } )">
-							Remove
-						</button>
-					</span>
-				</span>
-			</li>
-			<li>
-				Min
-				<select [(ngModel)]="addMin.nr"> 
-					<option [ngValue]="num" *ngFor="let num of numbers( ep.length )">
-						{{ num }}
-					</option>
-				</select>:
-				<input class="minText" [(ngModel)]="addMin.text">
-				<button (click)="updatePodcast( addMin )">
-					Add segment
-				</button>
-			</li>
-		</ul>
-	</li>
+				</div>
+<!-- 				<mat-form-field>
+					Min
+					<select [(ngModel)]="addMin.nr"> 
+						<option [ngValue]="num" *ngFor="let num of numbers( ep.length )">
+							{{ num }}
+						</option>
+					</select>:
+					<input class="minText" [(ngModel)]="addMin.text">
+					<button (click)="updatePodcast( addMin )">
+						Add segment
+					</button>
+				</mat-form-field> -->
+
+		</mat-expansion-panel>
+	</mat-accordion>
 </span>
-
-<button (click)="goBack()"> Back </button>
