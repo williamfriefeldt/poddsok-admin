@@ -9,7 +9,7 @@
  	</header>
 
 	<mat-accordion>	
-		<mat-expansion-panel *ngFor="let ep of podcast.episodes">
+		<mat-expansion-panel [hideToggle]="true" *ngFor="let ep of podcast.episodes  | slice:0:50">
 
 			<mat-expansion-panel-header>
 				<mat-panel-title>
@@ -20,32 +20,33 @@
 				<div *ngFor="let minutes of ep.minutes">
 					<span *ngIf="minutes.text !== ''">
 						<mat-label> Min {{ minutes.nr }}:</mat-label>
-						<span *ngIf="selectedMin && selectedMin.nr == minutes.nr">
-							<input class="minText" type="text" placeholder="{{ minutes.text }}" [(ngModel)]="changeText">
-							<button *ngIf="changeText" >
-								Change text
-							</button>
-						</span>
-						<span (click)="selectMin(minutes)" *ngIf="!selectedMin || selectedMin.nr !== minutes.nr" class="minText">
-							{{ minutes.text }}
-							<button (click)="updatePodcast( { nr: minutes.nr, text:'' } )">
+<!-- 						<input class="minText" type="text" placeholder="{{ minutes.text }}" [(ngModel)]="changeText">
+						<button *ngIf="changeText" >
+							Change text
+						</button> -->
+						<mat-label> {{ minutes.text }} </mat-label>
+							<button (click)="updatePodcast( { nr: minutes.nr, text:'' }, ep )">
 								Remove
 							</button>
-						</span>
 					</span>
 				</div>
-<!-- 				<mat-form-field>
+				<div>
 					Min
-					<select [(ngModel)]="addMin.nr"> 
-						<option [ngValue]="num" *ngFor="let num of numbers( ep.length )">
-							{{ num }}
-						</option>
-					</select>:
-					<input class="minText" [(ngModel)]="addMin.text">
-					<button (click)="updatePodcast( addMin )">
+					<mat-form-field class="select-min">
+						<mat-select [(ngModel)]="addMin.nr"> 
+							<mat-option [value]="num" *ngFor="let num of numbers( ep.length )">
+								{{ num }} 
+							</mat-option>
+						</mat-select>
+					</mat-form-field>:
+
+					<mat-form-field>
+						<input  matInput class="minText" [(ngModel)]="addMin.text">
+					</mat-form-field>
+					<mat-button-toggle (click)="updatePodcast( addMin, ep )">
 						Add segment
-					</button>
-				</mat-form-field> -->
+					</mat-button-toggle>
+				</div>
 
 		</mat-expansion-panel>
 	</mat-accordion>

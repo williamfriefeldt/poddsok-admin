@@ -59,23 +59,10 @@ export class PodcastDetailComponent implements OnInit {
     this.location.back();
   } 
 
-  selectEp( ep: Episode ): void {
-    if ( this.selectedEp && ep.name === this.selectedEp.name ) {
-      this.selectedEp = null;
-    } else {
-      this.selectedEp = ep;
-    }
-    this.selectedMin = null;
-  }
-
-  selectMin( min: Minute ): void {
-    this.selectedMin = min;
-  }
-
-  updatePodcast( min: Minute ): void {
+  updatePodcast( min: Minute, ep: Episode ): void {
     this.podcastService.updatePodcast(
       this.podcast,
-      this.selectedEp,
+      ep,
       min
     ).then( () => this.getPodcast() );
   }
