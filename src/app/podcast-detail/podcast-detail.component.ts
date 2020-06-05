@@ -27,6 +27,7 @@ export class PodcastDetailComponent implements OnInit {
     nr:0,
     text:''
   }
+  countMinutes: Minute[];
 
   constructor(
   	private router: ActivatedRoute,
@@ -65,6 +66,14 @@ export class PodcastDetailComponent implements OnInit {
       ep,
       min
     ).then( () => this.getPodcast() );
+  }
+
+  countMin( minutes: Minute[] ): number {
+    this.countMinutes = minutes.map( min => {
+      if( min.text !== '' ) { return min;};
+    });
+    console.log(this.countMinutes);
+    return this.countMinutes.length;
   }
 
 }

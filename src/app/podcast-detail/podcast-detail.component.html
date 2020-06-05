@@ -9,28 +9,31 @@
  	</header>
 
 	<mat-accordion>	
-		<mat-expansion-panel [hideToggle]="true" *ngFor="let ep of podcast.episodes  | slice:0:50">
+		<mat-expansion-panel *ngFor="let ep of podcast.episodes  | slice:0:50">
 
 			<mat-expansion-panel-header>
 				<mat-panel-title>
 					{{ ep.nr }} - {{ ep.name }}
 				</mat-panel-title> 
+				<div class="min-count">
+					{{ countMin( ep.minutes ) }}
+				</div>
 			</mat-expansion-panel-header>
 
 				<div *ngFor="let minutes of ep.minutes">
-					<span *ngIf="minutes.text !== ''">
+					<div *ngIf="minutes.text !== ''" class="minute">
 						<mat-label> Min {{ minutes.nr }}:</mat-label>
 <!-- 						<input class="minText" type="text" placeholder="{{ minutes.text }}" [(ngModel)]="changeText">
 						<button *ngIf="changeText" >
 							Change text
 						</button> -->
 						<mat-label> {{ minutes.text }} </mat-label>
-							<button (click)="updatePodcast( { nr: minutes.nr, text:'' }, ep )">
-								Remove
-							</button>
-					</span>
+						<mat-button-toggle class="min-btn" (click)="updatePodcast( { nr: minutes.nr, text:'' }, ep )">
+							Remove
+						</mat-button-toggle>
+					</div>
 				</div>
-				<div>
+				<div class="minute">
 					Min
 					<mat-form-field class="select-min">
 						<mat-select [(ngModel)]="addMin.nr"> 
@@ -43,7 +46,7 @@
 					<mat-form-field>
 						<input  matInput class="minText" [(ngModel)]="addMin.text">
 					</mat-form-field>
-					<mat-button-toggle (click)="updatePodcast( addMin, ep )">
+					<mat-button-toggle class="min-btn" (click)="updatePodcast( addMin, ep )">
 						Add segment
 					</mat-button-toggle>
 				</div>

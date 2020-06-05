@@ -60,7 +60,7 @@ export class PodcastUpdateComponent implements OnInit {
     });
     var nrOfEps = this.podcast.episodes.length + this.newEps.length;
     this.newEps.map( ep => {
-      ep.nr = nrOfEps;
+      ep.nr = nrOfEps-1;
       nrOfEps--;
     });
   }
