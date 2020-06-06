@@ -1,11 +1,11 @@
-<h2> Message </h2>
-<div *ngIf="messageService.messages.length">
-	<div *ngFor="let message of messageService.messages">
-		{{ message }}
-	</div>
-
-	<button class="clear" (click)="messageService.clear()">
-		Clear
-	</button>
-
+<div class="mess-cont">
+	<h1> Meddelanden </h1>
+	<mat-button-toggle class="clear" (click)="messageService.clear()">
+		Rensa
+	</mat-button-toggle>
+	<ul *ngIf="messageService.messages.length">
+		<li mat-list-item *ngFor="let message of messageService.messages">
+			{{ message }}
+		</li>
+	</ul>
 </div>

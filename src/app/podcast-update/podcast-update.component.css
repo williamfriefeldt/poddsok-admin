@@ -1,3 +1,7 @@
 :host{
 	width:70%;
 }
+
+.error, .no-eps {
+	margin: 3%;
+}

@@ -1,4 +1,4 @@
-<span class="podcast-eps" *ngIf="podcast">
+<div class="podcast-eps" *ngIf="podcast">
 
 	<header>
 		<h1> {{ podcast.title }} </h1>
@@ -16,26 +16,27 @@
 					{{ ep.nr }} - {{ ep.name }}
 				</mat-panel-title> 
 				<div class="min-count">
-					{{ countMin( ep.minutes ) }}
+					{{ ep.countMin }}
 				</div>
 			</mat-expansion-panel-header>
 
 				<div *ngFor="let minutes of ep.minutes">
-					<div *ngIf="minutes.text !== ''" class="minute">
+					<div *ngIf="minutes.text !== ''" [ngClass]="activeMin ? 'minuteActive' : 'minute'">
 						<mat-label> Min {{ minutes.nr }}:</mat-label>
-<!-- 						<input class="minText" type="text" placeholder="{{ minutes.text }}" [(ngModel)]="changeText">
-						<button *ngIf="changeText" >
-							Change text
-						</button> -->
-						<mat-label> {{ minutes.text }} </mat-label>
-						<mat-button-toggle class="min-btn" (click)="updatePodcast( { nr: minutes.nr, text:'' }, ep )">
-							Remove
+						<mat-form-field>
+							<input  matInput (click)="activeMin = true" type="text" placeholder="{{ minutes.text }}" [(ngModel)]="minutes.newText">
+						</mat-form-field>
+						<mat-button-toggle *ngIf="!minutes.newText" class="min-btn" (click)="updatePodcast( { nr: minutes.nr, text:'' }, ep )">
+							Ta bort
+						</mat-button-toggle>
+						<mat-button-toggle *ngIf="minutes.newText" class="min-btn" (click)="updatePodcast( { nr: minutes.nr, text:minutes.newText }, ep )">
+							Ändra
 						</mat-button-toggle>
 					</div>
 				</div>
 				<div class="minute">
 					Min
-					<mat-form-field class="select-min">
+					<mat-form-field class="minNr">
 						<mat-select [(ngModel)]="addMin.nr"> 
 							<mat-option [value]="num" *ngFor="let num of numbers( ep.length )">
 								{{ num }} 
@@ -46,11 +47,11 @@
 					<mat-form-field>
 						<input  matInput class="minText" [(ngModel)]="addMin.text">
 					</mat-form-field>
-					<mat-button-toggle class="min-btn" (click)="updatePodcast( addMin, ep )">
-						Add segment
+					<mat-button-toggle class="min-btn" (click)="addMin.text ? updatePodcast( addMin, ep ) : ''" [disabled]="!addMin.text">
+						Lägg till
 					</mat-button-toggle>
 				</div>
 
 		</mat-expansion-panel>
 	</mat-accordion>
-</span>
+</div>

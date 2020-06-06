@@ -5,5 +5,6 @@ export interface Episode {
 	minutes: Minute[],
 	name: string,
 	link: string,
-	nr: number
+	nr: number,
+	countMin: number
 }

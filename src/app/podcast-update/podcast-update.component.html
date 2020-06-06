@@ -1,6 +1,6 @@
 <div *ngIf="newEps">
 
-	<button (click)="addNewEps()">
+	<button (click)="addNewEps()" *ngIf="newEps.length !== 0">
 		Add episodes
 	</button>
 
@@ -11,4 +11,13 @@
 		</li>
 	</ul>
 
+	<div class="no-eps" *ngIf="newEps.length === 0">
+		Inga nya avsnitt
+	</div>
+
+</div>
+
+
+<div class="error" *ngIf="error">
+	{{ error }}
 </div>

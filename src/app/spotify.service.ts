@@ -20,7 +20,11 @@ export class SpotifyService {
 
   searchPod(pod: Podcast): Observable<Object> {
     const accessToken = this.cookie.get( 'accessToken' );
-    const podcastID = pod.info.spotifyID;
-    return this.http.get( this.spotifyURL + podcastID + '/episodes?limit=50', { headers: { Authorization: 'Bearer ' + accessToken} } );
+    if( pod ) { 
+      const podcastID = pod.info.spotifyID;
+      return this.http.get( this.spotifyURL + podcastID + '/episodes?limit=50', { headers: { Authorization: 'Bearer ' + accessToken} } );
+    } else {
+      return of(undefined);
+    }
   }
 }

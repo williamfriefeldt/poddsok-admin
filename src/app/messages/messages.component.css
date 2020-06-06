@@ -1,0 +1,25 @@
+.mess-cont {
+	width: 400px;
+	background-color: #320E44;
+	color: white;
+	height: 600px;
+	margin-right: 30px;
+	border-radius: 25px;
+}
+
+h1 {
+	text-align: center;
+
+}
+
+.clear ::ng-deep .mat-button-toggle-label-content {
+  line-height: 25px !important;
+}
+
+.clear {
+  position:absolute;
+  top:8px;
+  right:45px;
+	border-radius: 25px;
+}
+

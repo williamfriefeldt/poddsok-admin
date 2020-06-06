@@ -27,7 +27,7 @@ export class PodcastDetailComponent implements OnInit {
     nr:0,
     text:''
   }
-  countMinutes: Minute[];
+  activeMin: boolean = false;
 
   constructor(
   	private router: ActivatedRoute,
@@ -44,6 +44,13 @@ export class PodcastDetailComponent implements OnInit {
   	this.podcastService.getPodcast( title ) 
   		.subscribe(podcast => {
         if ( podcast ) {
+          podcast.episodes = podcast.episodes.map(episode => {
+            if( episode !== undefined && episode.minutes !== undefined ) {
+              const minList = episode.minutes.filter( min => min.text !== "");
+              episode.countMin = minList.length;
+              return episode;
+            }
+          });
           this.podcast = podcast;
         } else {
           this.goBack();
@@ -66,14 +73,6 @@ export class PodcastDetailComponent implements OnInit {
       ep,
       min
     ).then( () => this.getPodcast() );
-  }
-
-  countMin( minutes: Minute[] ): number {
-    this.countMinutes = minutes.map( min => {
-      if( min.text !== '' ) { return min;};
-    });
-    console.log(this.countMinutes);
-    return this.countMinutes.length;
   }
 
 }

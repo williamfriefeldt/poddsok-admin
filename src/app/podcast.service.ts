@@ -66,7 +66,6 @@ export class PodcastService {
 	}
 
 	updatePodcast( podcast: Podcast, episode: Episode, min: Minute ): Promise<void> {
-		console.log(episode);
 		const updateString = '/'+podcast.title+'/ep'+episode.nr+'/minutes';
 		return this.firebaseService.updateItem( updateString, min )
 			.then( () => {

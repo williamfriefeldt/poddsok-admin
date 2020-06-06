@@ -3,6 +3,7 @@ import { SpotifyService } from '../spotify.service';
 import { PodcastService} from '../podcast.service';
 import { MessageService } from '../message.service';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { Episode } from '../episode';
 import { Podcast } from '../podcast';
@@ -17,12 +18,14 @@ export class PodcastUpdateComponent implements OnInit {
   episodes: Episode[];
   podcast: Podcast;
   newEps: Episode[];
+  error: string;
 
   constructor(
   	private spotifyService: SpotifyService,
   	private podcastService: PodcastService,
   	private messageService: MessageService,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -32,16 +35,24 @@ export class PodcastUpdateComponent implements OnInit {
 
   getEpsisodes(): void {
     this.spotifyService.searchPod( this.podcast ).subscribe( (res: any) => {
-      this.episodes = res.items.map( ep => {
-        return {
-          name: ep.name,
-          length: Math.round( parseInt(ep.duration_ms) / 1000 / 60 ),
-          minutes: { 'min1': { nr:1, text:'' } },
-          link: ep.uri,
-          nr: 0
-        }
-      });
-      this.mapNewEps();
+      if(res) {
+        this.episodes = res.items.map( ep => {
+          return {
+            name: ep.name,
+            length: Math.round( parseInt(ep.duration_ms) / 1000 / 60 ),
+            minutes: { 'min1': { nr:1, text:'' } },
+            link: ep.uri,
+            nr: 0
+          }
+        });
+        this.mapNewEps();
+      } else {
+        this.location.back();
+      }
+    },
+    err => {
+      this.messageService.add( err.message );
+      this.error = 'Tillgång till Spotify Api nekad, se konsolen';
     });
   }
 
@@ -55,7 +66,9 @@ export class PodcastUpdateComponent implements OnInit {
 
   mapNewEps(): void {
     this.newEps = this.episodes.filter( episode => {
-      const found = this.podcast.episodes.find( ep => episode.name.includes( ep.name ) );
+      const found = this.podcast.episodes.find( ep => {
+        if( ep !== undefined ) return episode.name.includes( ep.name );
+      });
       if ( !found ) return episode;
     });
     var nrOfEps = this.podcast.episodes.length + this.newEps.length;
