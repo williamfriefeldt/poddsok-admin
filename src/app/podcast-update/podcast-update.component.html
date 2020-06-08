@@ -1,15 +1,17 @@
 <div *ngIf="newEps">
 
-	<button (click)="addNewEps()" *ngIf="newEps.length !== 0">
+	<mat-button-toggle (click)="addNewEps()" *ngIf="newEps.length !== 0">
 		Add episodes
-	</button>
+	</mat-button-toggle>
 
-	<ul>
-		<li *ngFor="let ep of newEps">
-			{{ ep.nr }} - 
-			<input [(ngModel)]="ep.name" placeholder="{{ ep.name }}"> 
-		</li>
-	</ul>
+	<mat-accordion>
+		<div *ngFor="let ep of newEps">
+			<mat-label> {{ ep.nr }} - </mat-label> 
+			<mat-form-field>
+				<input matInput type="text" [(ngModel)]="ep.name" placeholder="{{ ep.name }}"> 
+			</mat-form-field>
+		</div>
+	</mat-accordion>
 
 	<div class="no-eps" *ngIf="newEps.length === 0">
 		Inga nya avsnitt

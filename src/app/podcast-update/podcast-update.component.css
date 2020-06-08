@@ -5,3 +5,7 @@
 .error, .no-eps {
 	margin: 3%;
 }
+
+mat-button-toggle {
+	float: right;
+}
