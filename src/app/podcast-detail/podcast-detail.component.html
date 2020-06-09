@@ -4,14 +4,14 @@
 		<h1> {{ podcast.title }} </h1>
 		<mat-button-toggle-group>
 			<mat-button-toggle routerLink="/update/{{podcast.title}}"> Updatera </mat-button-toggle>
-			<mat-button-toggle (click)="goBack()"> Back </mat-button-toggle>
+			<mat-button-toggle (click)="goBack()"> Tillbaka </mat-button-toggle>
 		</mat-button-toggle-group>
  	</header>
 
 	<mat-accordion>	
-		<mat-expansion-panel *ngFor="let ep of podcast.episodes  | slice:0:50">
+		<mat-expansion-panel *ngFor="let ep of podcast.episodes  | slice:0:10" >
 
-			<mat-expansion-panel-header>
+			<mat-expansion-panel-header (click)="activeMin = false">
 				<mat-panel-title>
 					{{ ep.nr }} - {{ ep.name }}
 				</mat-panel-title> 
@@ -23,10 +23,10 @@
 				<div *ngFor="let minutes of ep.minutes">
 					<div *ngIf="minutes.text !== ''" [ngClass]="activeMin ? 'minuteActive' : 'minute'">
 						<mat-label> Min {{ minutes.nr }}:</mat-label>
-						<mat-form-field>
-							<input  matInput (click)="activeMin = true" type="text" placeholder="{{ minutes.text }}" [(ngModel)]="minutes.newText">
+						<mat-form-field (click)="activeMin = true" class="minText">
+							<input  matInput type="text" placeholder="{{ minutes.text }}" [(ngModel)]="minutes.newText">
 						</mat-form-field>
-						<mat-button-toggle *ngIf="!minutes.newText" class="min-btn" (click)="updatePodcast( { nr: minutes.nr, text:'' }, ep )">
+						<mat-button-toggle *ngIf="!minutes.newText" class="min-btn" (click)="openDialog( { nr: minutes.nr, text:'' }, ep )">
 							Ta bort
 						</mat-button-toggle>
 						<mat-button-toggle *ngIf="minutes.newText" class="min-btn" (click)="updatePodcast( { nr: minutes.nr, text:minutes.newText }, ep )">
@@ -44,8 +44,8 @@
 						</mat-select>
 					</mat-form-field>:
 
-					<mat-form-field>
-						<input  matInput class="minText" [(ngModel)]="addMin.text">
+					<mat-form-field class="minText">
+						<input  matInput [(ngModel)]="addMin.text">
 					</mat-form-field>
 					<mat-button-toggle class="min-btn" (click)="addMin.text ? updatePodcast( addMin, ep ) : ''" [disabled]="!addMin.text">
 						Lägg till

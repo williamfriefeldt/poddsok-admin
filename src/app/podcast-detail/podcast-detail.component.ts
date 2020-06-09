@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogActions } from '@angular/material/dialog';
 
 import { PodcastService } from '../podcast.service';
 import { Podcast }  from '../podcast';
@@ -12,11 +13,10 @@ import { Minute } from '../minute';
   templateUrl: './podcast-detail.component.html',
   styleUrls: ['./podcast-detail.component.css']
 })
+
 export class PodcastDetailComponent implements OnInit {
 	
 	podcast: Podcast;
-  selectedEp: Episode;
-  selectedMin: Minute;
   minText = '';
   changeText: string;
   addMin: Minute = {
@@ -32,21 +32,22 @@ export class PodcastDetailComponent implements OnInit {
   constructor(
   	private router: ActivatedRoute,
   	private podcastService: PodcastService,
-  	private location: Location
+  	private location: Location,
+    public dialog: MatDialog
 	) { }
 
   ngOnInit(): void {
-  	this.getPodcast();
+    this.getPodcast();
   }
 
   getPodcast(): void {
-  	const title = this.router.snapshot.paramMap.get('title');
-  	this.podcastService.getPodcast( title ) 
-  		.subscribe(podcast => {
+  	const title = this.router.snapshot.paramMap.get( 'title' );
+  	this.podcastService.getPodcast( title )
+  		.subscribe( podcast => {
         if ( podcast ) {
-          podcast.episodes = podcast.episodes.map(episode => {
+          podcast.episodes = podcast.episodes.map( episode => {
             if( episode !== undefined && episode.minutes !== undefined ) {
-              const minList = episode.minutes.filter( min => min.text !== "");
+              const minList = episode.minutes.filter( min => min.text !== "" );
               episode.countMin = minList.length;
               return episode;
             }
@@ -60,7 +61,7 @@ export class PodcastDetailComponent implements OnInit {
   }
 
   numbers( num: number ): number[] {
-    return Array(num).fill(0).map((x,i)=>i+1);
+    return Array( num ).fill( 0 ).map( ( x, i ) => i+1 );
   }
 
   goBack(): void {
@@ -68,12 +69,41 @@ export class PodcastDetailComponent implements OnInit {
   } 
 
   updatePodcast( min: Minute, ep: Episode ): void {
-    this.podcastService.updatePodcast(
-      this.podcast,
-      ep,
-      min
-    ).then( () => this.getPodcast() );
+    this.podcastService.updatePodcast( this.podcast, ep, min )
+      .then( () => this.getPodcast() );
+  }
+
+  openDialog( min: Minute, ep: Episode): void {
+    const dialogRef = this.dialog.open(PodcastDetailDialog, {
+      data: {
+        min: min,
+        ep: ep
+      }
+    });
+    dialogRef.afterClosed().subscribe( res => {
+      if( res && res.val === 'yes') {
+        this.updatePodcast( res.min, res.ep );
+      }
+    });
   }
 
 }
-	
+
+/* Dialog for add / change ep */
+@Component({
+  selector: 'podcast-detail-dialog',
+  templateUrl: './podcast-detail-dialog.html'
+})
+
+export class PodcastDetailDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<PodcastDetailDialog>,
+    @Inject( MAT_DIALOG_DATA ) private data: Object
+  ) {}
+
+  close( val ): void {
+    this.data['val'] = val;
+    this.dialogRef.close( this.data );
+  }
+}

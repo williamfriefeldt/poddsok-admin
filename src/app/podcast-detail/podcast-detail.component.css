@@ -40,6 +40,10 @@ mat-form-field {
 	height: 30px;
 }
 
+.minText {
+	width:50%;
+}
+
 .minuteActive {
 	height: 45px;
 }
