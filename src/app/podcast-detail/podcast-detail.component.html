@@ -9,7 +9,7 @@
  	</header>
 
 	<mat-accordion>	
-		<mat-expansion-panel *ngFor="let ep of podcast.episodes  | slice:0:10" >
+		<mat-expansion-panel [expanded]="epOpen === ep.nr" *ngFor="let ep of podcast.episodes  | slice:0:10" >
 
 			<mat-expansion-panel-header (click)="activeMin = false">
 				<mat-panel-title>
@@ -47,7 +47,7 @@
 					<mat-form-field class="minText">
 						<input  matInput [(ngModel)]="addMin.text">
 					</mat-form-field>
-					<mat-button-toggle class="min-btn" (click)="addMin.text ? updatePodcast( addMin, ep ) : ''" [disabled]="!addMin.text">
+					<mat-button-toggle class="min-btn" (click)="(addMin.text && addMin.nr) ? updatePodcast( addMin, ep ) : ''" [disabled]="!addMin.text || !addMin.nr">
 						Lägg till
 					</mat-button-toggle>
 				</div>
