@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PodcastsComponent } from './podcasts/podcasts.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { PodcastDetailComponent } from './podcast-detail/podcast-detail.component';
-import { PodcastUpdateComponent } from './podcast-update/podcast-update.component';
+import { PodcastsComponent } from './components/podcasts/podcasts.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { PodcastDetailComponent } from './components/podcast-detail/podcast-detail.component';
+import { PodcastUpdateComponent } from './components/podcast-update/podcast-update.component';
 
 const routes: Routes = [
 	{ path: 'podcasts', component: PodcastsComponent },

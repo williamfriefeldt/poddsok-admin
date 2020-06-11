@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { Podcast } from './podcast';
-import { Episode } from './episode';
-import { Minute } from './minute';
-import { PODCASTS } from './podcasts';
+import { Podcast } from '../interfaces/podcast';
+import { Episode } from '../interfaces/episode';
+import { Minute } from '../interfaces/minute';
+import { PODCASTS } from '../interfaces/podcasts';
 import { MessageService } from './message.service';
 import { FirebaseService } from './firebase.service';
 

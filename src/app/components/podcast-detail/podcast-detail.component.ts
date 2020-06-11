@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogActions } from '@angular/material/dialog';
 
-import { PodcastService } from '../podcast.service';
-import { Podcast }  from '../podcast';
-import { Episode } from '../episode';
-import { Minute } from '../minute';
+import { PodcastService } from '../../services/podcast.service';
+import { Podcast }  from '../../interfaces/podcast';
+import { Episode } from '../../interfaces/episode';
+import { Minute } from '../../interfaces/minute';
 
 @Component({
   selector: 'app-podcast-detail',

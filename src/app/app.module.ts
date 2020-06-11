@@ -12,11 +12,11 @@ import { CookieService } from 'ngx-cookie-service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
-import { PodcastsComponent } from './podcasts/podcasts.component';
-import { PodcastDetailComponent } from './podcast-detail/podcast-detail.component';
-import { MessagesComponent } from './messages/messages.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { PodcastUpdateComponent } from './podcast-update/podcast-update.component';
+import { PodcastsComponent } from './components/podcasts/podcasts.component';
+import { PodcastDetailComponent } from './components/podcast-detail/podcast-detail.component';
+import { MessagesComponent } from './components/messages/messages.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { PodcastUpdateComponent } from './components/podcast-update/podcast-update.component';
 
 /* Material Design */
 import { MatButtonToggleModule } from '@angular/material/button-toggle';

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { SpotifyService } from '../spotify.service';
-import { PodcastService} from '../podcast.service';
-import { MessageService } from '../message.service';
+import { SpotifyService } from '../../services/spotify.service';
+import { PodcastService} from '../../services/podcast.service';
+import { MessageService } from '../../services/message.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Episode } from '../episode';
-import { Podcast } from '../podcast';
+import { Episode } from '../../interfaces/episode';
+import { Podcast } from '../../interfaces/podcast';
 
 @Component({
   selector: 'app-podcast-update',

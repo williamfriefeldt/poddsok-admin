@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Podcast } from '../podcast';
-import { PodcastService } from '../podcast.service';
+import { Podcast } from '../../interfaces/podcast';
+import { PodcastService } from '../../services/podcast.service';
 import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 import { AngularFireDatabase } from '@angular/fire/database';
-import { Podcast } from './podcast';
-import { Minute } from './minute';
-import { Episode } from './episode';
+import { Podcast } from '../interfaces/podcast';
+import { Minute } from '../interfaces/minute';
+import { Episode } from '../interfaces/episode';
 
 @Injectable({
   providedIn: 'root'
