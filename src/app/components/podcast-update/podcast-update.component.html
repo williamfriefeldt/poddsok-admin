@@ -6,11 +6,16 @@
 
 	<mat-accordion>
 		<div *ngFor="let ep of newEps">
-			<mat-label> {{ ep.nr }} - </mat-label> 
+			<mat-form-field> 
+				<input matInput type="number" [(ngModel)]="ep.nr" placeholder="{{ ep.nr }}">
+			</mat-form-field> 
 			<mat-form-field>
 				<input matInput type="text" [(ngModel)]="ep.name" placeholder="{{ ep.name }}"> 
 			</mat-form-field>
 		</div>
+		<mat-button-toggle (click)="getEpsisodes()">
+			Fler avsnitt
+		</mat-button-toggle> 
 	</mat-accordion>
 
 	<div class="no-eps" *ngIf="newEps.length === 0">

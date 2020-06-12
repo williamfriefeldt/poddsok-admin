@@ -18,13 +18,14 @@ export class SpotifyService {
     private cookie: CookieService
   ) { }
 
-  searchPod(pod: Podcast): Observable<Object> {
+  searchPod(pod: Podcast, offset: number): Observable<Object> {
     const accessToken = this.cookie.get( 'accessToken' );
     if( pod ) { 
       const podcastID = pod.info.spotifyID;
-      return this.http.get( this.spotifyURL + podcastID + '/episodes?limit=50', { headers: { Authorization: 'Bearer ' + accessToken} } );
+      return this.http.get( this.spotifyURL + podcastID + '/episodes?limit=50&offset=' + offset, { headers: { Authorization: 'Bearer ' + accessToken} } );
     } else {
       return of(undefined);
     }
   }
+
 }

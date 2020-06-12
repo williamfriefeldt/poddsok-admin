@@ -21,6 +21,7 @@ export class PodcastUpdateComponent implements OnInit {
   podcast: Podcast;
   newEps: Episode[];
   error: string;
+  offset: number = 0;
 
   constructor(
   	private spotifyService: SpotifyService,
@@ -37,26 +38,28 @@ export class PodcastUpdateComponent implements OnInit {
   }
 
   getEpsisodes(): void {
-    this.spotifyService.searchPod( this.podcast ).subscribe( (res: any) => {
-      if(res) {
-        this.episodes = res.items.map( ep => {
-          return {
-            name: ep.name,
-            length: Math.round( parseInt(ep.duration_ms) / 1000 / 60 ),
-            minutes: { 'min1': { nr:1, text:'' } },
-            link: ep.uri,
-            nr: 0
-          }
-        });
-        this.mapNewEps();
-      } else {
-        this.location.back();
-      }
-    },
-    err => {
-      this.messageService.add( err.message );
-      this.error = 'Tillgång till Spotify Api nekad, se konsolen';
-    });
+    this.spotifyService.searchPod( this.podcast, this.offset )
+      .subscribe( (res: any) => {
+        if(res) {
+          this.offset += 50;
+          this.episodes = res.items.map( ep => {
+            return {
+              name: ep.name,
+              length: Math.round( parseInt(ep.duration_ms) / 1000 / 60 ),
+              minutes: { 'min1': { nr:1, text:'' } },
+              link: ep.uri,
+              nr: 0
+            }
+          });
+          this.mapNewEps();
+        } else {
+          this.location.back();
+        }
+      },
+        err => {
+        this.messageService.add( err.message );
+        this.error = 'Tillgång till Spotify Api nekad, se konsolen';
+      });
   }
 
   getPodcast( pod ): void {
