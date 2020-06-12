@@ -6,5 +6,6 @@ export interface Episode {
 	name: string,
 	link: string,
 	nr: number,
-	countMin: number
+	countMin: number,
+	minList: number[]
 }

@@ -26,6 +26,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     PodcastDetailComponent,
     MessagesComponent,
     DashboardComponent,
-    PodcastUpdateComponent
+    PodcastUpdateComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,

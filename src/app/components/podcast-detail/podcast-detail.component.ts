@@ -1,12 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogActions } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 import { PodcastService } from '../../services/podcast.service';
 import { Podcast }  from '../../interfaces/podcast';
 import { Episode } from '../../interfaces/episode';
 import { Minute } from '../../interfaces/minute';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-podcast-detail',
@@ -45,12 +46,13 @@ export class PodcastDetailComponent implements OnInit {
   	const title = this.router.snapshot.paramMap.get( 'title' );
   	this.podcastService.getPodcast( title )
   		.subscribe( podcast => {
-        if ( podcast ) {
+        if( podcast ) {
           podcast.episodes = podcast.episodes.map( episode => {
             if( episode !== undefined && episode.minutes !== undefined ) {
               const minList = episode.minutes.filter( min => min.text !== "" );
               episode.minutes = minList.sort( this.sortNr );
               episode.countMin = minList.length;
+              episode.minList = this.numbers( episode.length );
               return episode;
             }
           });
@@ -59,7 +61,6 @@ export class PodcastDetailComponent implements OnInit {
           this.goBack();
         }
       });
-
   }
 
   numbers( num: number ): number[] {
@@ -80,47 +81,29 @@ export class PodcastDetailComponent implements OnInit {
   }
 
   sortNr( a: any, b:any ): number {
-    if ( a.nr < b.nr ) {
-          return -1;
-        } else if ( a.nr > b.nr ) {
-            return 1;
-        } else{
-            return 0;
-        }
+    if( a.nr < b.nr ) {
+      return -1;
+    } else if ( a.nr > b.nr ) {
+      return 1;
+    } else{
+      return 0;
+    }
     return 0;
   }
 
-  openDialog( min: Minute, ep: Episode): void {
-    const dialogRef = this.dialog.open(PodcastDetailDialog, {
+  openDialog( min: Minute, ep: Episode, type: string): void {
+    const dialogRef = this.dialog.open( DialogComponent, {
       data: {
         min: min,
-        ep: ep
+        ep: ep,
+        type: type
       }
     });
     dialogRef.afterClosed().subscribe( res => {
-      if( res && res.val === 'yes') {
+      if( res && res.val ) {
         this.updatePodcast( res.min, res.ep );
       }
     });
   }
 
-}
-
-/* Dialog for add / change ep */
-@Component({
-  selector: 'podcast-detail-dialog',
-  templateUrl: './podcast-detail-dialog.html'
-})
-
-export class PodcastDetailDialog {
-
-  constructor(
-    public dialogRef: MatDialogRef<PodcastDetailDialog>,
-    @Inject( MAT_DIALOG_DATA ) private data: Object
-  ) {}
-
-  close( val ): void {
-    this.data['val'] = val;
-    this.dialogRef.close( this.data );
-  }
 }

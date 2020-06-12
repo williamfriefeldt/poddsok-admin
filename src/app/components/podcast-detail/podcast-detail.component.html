@@ -15,8 +15,8 @@
 				<mat-panel-title>
 					{{ ep.nr }} - {{ ep.name }}
 				</mat-panel-title> 
-				<div class="min-count">
-					{{ ep.countMin }}
+				<div class="min-count">   
+					{{ ep.countMin }}  
 				</div>
 			</mat-expansion-panel-header>
 
@@ -26,10 +26,10 @@
 						<mat-form-field (click)="activeMin = true" class="minText">
 							<input  matInput type="text" placeholder="{{ minutes.text }}" [(ngModel)]="minutes.newText">
 						</mat-form-field>
-						<mat-button-toggle *ngIf="!minutes.newText" class="min-btn" (click)="openDialog( { nr: minutes.nr, text:'' }, ep )">
+						<mat-button-toggle *ngIf="!minutes.newText" class="min-btn" (click)="openDialog( { nr: minutes.nr, text:'' }, ep, 'deleteEp' )">
 							Ta bort
 						</mat-button-toggle>
-						<mat-button-toggle *ngIf="minutes.newText" class="min-btn" (click)="updatePodcast( { nr: minutes.nr, text:minutes.newText }, ep )">
+						<mat-button-toggle *ngIf="minutes.newText" class="min-btn" (click)="openDialog( { nr: minutes.nr, text:minutes.newText }, ep, 'changeEp' )">
 							Ändra
 						</mat-button-toggle>
 					</div>
@@ -38,7 +38,7 @@
 					Min
 					<mat-form-field class="minNr">
 						<mat-select [(ngModel)]="addMin.nr"> 
-							<mat-option [value]="num" *ngFor="let num of numbers( ep.length )">
+							<mat-option [value]="num" *ngFor="let num of ep.minList">
 								{{ num }} 
 							</mat-option>
 						</mat-select>

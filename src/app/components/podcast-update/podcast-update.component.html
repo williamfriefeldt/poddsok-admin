@@ -1,6 +1,6 @@
 <div *ngIf="newEps">
 
-	<mat-button-toggle (click)="addNewEps()" *ngIf="newEps.length !== 0">
+	<mat-button-toggle (click)="openDialog( 'newEps' )" *ngIf="newEps.length !== 0">
 		Add episodes
 	</mat-button-toggle>
 

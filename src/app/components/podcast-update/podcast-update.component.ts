@@ -4,9 +4,11 @@ import { PodcastService} from '../../services/podcast.service';
 import { MessageService } from '../../services/message.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Episode } from '../../interfaces/episode';
 import { Podcast } from '../../interfaces/podcast';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-podcast-update',
@@ -25,7 +27,8 @@ export class PodcastUpdateComponent implements OnInit {
   	private podcastService: PodcastService,
   	private messageService: MessageService,
     private router: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -81,5 +84,20 @@ export class PodcastUpdateComponent implements OnInit {
   addNewEps(): void {
     this.podcastService.addNewEps( this.podcast, this.newEps )
       .subscribe( res => console.log('added') );
+  }
+
+  openDialog( type: string ): void {
+    const dialogRef = this.dialog.open( DialogComponent, {
+      data: {
+        min: {},
+        ep: {},
+        type: type
+      }
+    });
+    dialogRef.afterClosed().subscribe( res => {
+      if( res && res.val ) {
+        this.addNewEps();
+      }
+    });
   }
 }
