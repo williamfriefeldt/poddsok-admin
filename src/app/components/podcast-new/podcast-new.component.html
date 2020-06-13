@@ -1,0 +1,26 @@
+<div class="container">
+	<mat-form-field>
+		<input  matInput placeholder="Podcast" [(ngModel)]="query" type="text">
+	</mat-form-field>
+
+	<mat-button-toggle (click)="search(query)">
+		Sök
+	</mat-button-toggle>
+
+	<ul *ngIf="podRes">
+		<li *ngFor="let pod of podRes">
+			<p (click)="selectPod( pod )" matTooltip="{{pod.description}}">
+				{{ pod.name }}
+			</p>
+		</li>
+	</ul>
+
+	<div *ngIf="podcast">
+		<header>
+			<h1> {{ podcast.title }} </h1>
+			<mat-button-toggle (click)="openDialog()"> Lägg till podcast </mat-button-toggle>
+		</header>
+
+		<img src="{{podcast.image}}">
+	</div>
+</div>

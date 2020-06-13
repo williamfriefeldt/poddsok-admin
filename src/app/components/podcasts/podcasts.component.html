@@ -1,8 +1,8 @@
-<ul class="podcasts">
-	<li *ngFor="let pod of podcasts">
+<div class="podcasts">
+	<div class="pod" *ngFor="let pod of podcasts">
 		<a routerLink="/detail/{{pod.title}}">
-			<img [src]="pod.image">
+			<img [src]="pod.info.image ? pod.info.image : pod.image">
 		</a>
-	</li>
-</ul>
+	</div>
+</div>
 

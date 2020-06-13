@@ -3,7 +3,9 @@
 	<header>
 		<h1> {{ podcast.title }} </h1>
 		<mat-button-toggle-group>
-			<mat-button-toggle routerLink="/update/{{podcast.title}}"> Updatera </mat-button-toggle>
+			<div [matTooltip]="podcast.info.finished ? 'Podcasten har slutat':''">
+				<mat-button-toggle routerLink="/update/{{podcast.title}}" [class.disabled]="podcast.info.finished"> Updatera </mat-button-toggle>
+			</div>
 			<mat-button-toggle (click)="goBack()"> Tillbaka </mat-button-toggle>
 		</mat-button-toggle-group>
  	</header>

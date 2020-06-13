@@ -18,12 +18,16 @@ export class FirebaseService {
   	return this.items;
   } 
 
-  updateItem(podcast: string, min: Minute): Promise<void> {
+  updateItem( podcast: string, min: Minute ): Promise<void> {
   	return this.db.list(podcast).set( 'min' + min.nr , min );
   }
 
-  addNewEps(podcast: string, episode: Episode): Promise<void> {
+  addNewEps( podcast: string, episode: Episode ): Promise<void> {
     return this.db.list(podcast).set( 'ep' + episode.nr, episode );
+  }
+
+  addPodcast( podcast: string, info: Object ): Promise<void> {
+    return this.db.list(podcast).set( 'info', info );
   }
   
   constructor( private db: AngularFireDatabase ) { }

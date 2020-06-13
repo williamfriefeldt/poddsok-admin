@@ -27,6 +27,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { PodcastNewComponent } from './components/podcast-new/podcast-new.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
     MessagesComponent,
     DashboardComponent,
     PodcastUpdateComponent,
-    DialogComponent
+    DialogComponent,
+    PodcastNewComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +56,9 @@ import { DialogComponent } from './components/dialog/dialog.component';
     MatInputModule,
     MatSelectModule,
     MatSidenavModule,
-    MatDialogModule
+    MatDialogModule,
+    DragDropModule,
+    MatTooltipModule
   ],
   providers: [
     CookieService

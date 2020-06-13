@@ -1,0 +1,13 @@
+.container {
+	margin: 2%;
+}
+
+mat-button-toggle {
+	margin-left: 2%;
+}
+
+header {
+	justify-content: space-between;
+	margin-bottom: 0.75em;
+	display: flex;
+}

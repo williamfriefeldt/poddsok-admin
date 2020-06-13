@@ -1,30 +1,50 @@
-<div *ngIf="newEps">
+<div class="ep-container" *ngIf="newEps.length !== 0" cdkDropListGroup>
 
-	<mat-button-toggle (click)="openDialog( 'newEps' )" *ngIf="newEps.length !== 0">
+	<mat-button-toggle (click)="openDialog( 'newEps' )">
 		Add episodes
 	</mat-button-toggle>
 
-	<mat-accordion>
-		<div *ngFor="let ep of newEps">
-			<mat-form-field> 
-				<input matInput type="number" [(ngModel)]="ep.nr" placeholder="{{ ep.nr }}">
-			</mat-form-field> 
-			<mat-form-field>
-				<input matInput type="text" [(ngModel)]="ep.name" placeholder="{{ ep.name }}"> 
-			</mat-form-field>
-		</div>
-		<mat-button-toggle (click)="getEpsisodes()">
-			Fler avsnitt
-		</mat-button-toggle> 
-	</mat-accordion>
+	<div *ngIf="newEps" class="ep-col">
 
-	<div class="no-eps" *ngIf="newEps.length === 0">
-		Inga nya avsnitt
+		<mat-accordion>
+			<div cdkDropList
+      		 [cdkDropListData]="newEps"
+      		 class="ep-list"
+      		 (cdkDropListDropped)="drop($event)">
+				<div class="ep-box" *ngFor="let ep of newEps" cdkDrag>
+					<mat-form-field> 
+						<input matInput type="number" [(ngModel)]="ep.nr" placeholder="{{ ep.nr }}">
+					</mat-form-field> 
+					<mat-form-field>
+						<input matInput type="text" [(ngModel)]="ep.name" placeholder="{{ ep.name }}"> 
+					</mat-form-field>
+				</div>
+			</div>
+			<mat-button-toggle (click)="getEpsisodes()">
+				Fler avsnitt
+			</mat-button-toggle> 
+		</mat-accordion>
+
+	</div>
+
+	<div class="ep-col">
+		<div
+      cdkDropList
+      [cdkDropListData]="notEPs"
+      class="ep-list"
+      (cdkDropListDropped)="drop($event)">
+     <div class="ep-box" *ngFor="let ep of notEPs" cdkDrag>
+      	{{ ep.name }}
+    	</div>
+  	</div>
 	</div>
 
 </div>
 
-
 <div class="error" *ngIf="error">
 	{{ error }}
+</div>
+
+<div class="no-eps" *ngIf="newEps.length === 0 && !error">
+	Inga nya avsnitt
 </div>

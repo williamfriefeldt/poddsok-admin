@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Episode } from '../../interfaces/episode';
 import { Podcast } from '../../interfaces/podcast';
 import { DialogComponent } from '../dialog/dialog.component';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-podcast-update',
@@ -19,7 +20,8 @@ export class PodcastUpdateComponent implements OnInit {
 
   episodes: Episode[];
   podcast: Podcast;
-  newEps: Episode[];
+  newEps: Episode[] = [];
+  notEPs: Episode[] = [];
   error: string;
   offset: number = 0;
 
@@ -102,5 +104,16 @@ export class PodcastUpdateComponent implements OnInit {
         this.addNewEps();
       }
     });
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+                        event.container.data,
+                        event.previousIndex,
+                        event.currentIndex);
+    }
   }
 }

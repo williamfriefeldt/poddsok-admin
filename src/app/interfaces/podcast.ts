@@ -5,7 +5,9 @@ export interface Podcast {
 	title: string;
 	epsNr: number;
 	info: {
-		spotifyID: string
+		spotifyID: string,
+		finished: boolean,
+		image: string
 	};
 	image: string;
 }
