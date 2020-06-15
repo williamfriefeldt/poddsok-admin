@@ -30,6 +30,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PodcastNewComponent } from './components/podcast-new/podcast-new.component';
+import { PodcastUpdateAllComponent } from './components/podcast-update-all/podcast-update-all.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { PodcastNewComponent } from './components/podcast-new/podcast-new.compon
     DashboardComponent,
     PodcastUpdateComponent,
     DialogComponent,
-    PodcastNewComponent
+    PodcastNewComponent,
+    PodcastUpdateAllComponent
   ],
   imports: [
     BrowserModule,

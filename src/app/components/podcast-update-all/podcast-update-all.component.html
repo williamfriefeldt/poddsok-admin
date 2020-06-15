@@ -1,0 +1,12 @@
+<div class="container" *ngIf="!error">
+	<div class="pod" *ngFor="let pod of podcasts">
+		<p *ngIf="pod.info.finished === false"> 
+			{{ pod.title }} 
+		</p>
+	</div>
+</div>
+
+<div class="error" *ngIf="error">
+	{{ error }}
+</div>
+  
