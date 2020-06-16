@@ -11,6 +11,15 @@ import { FirebaseService } from './firebase.service';
 @Injectable({
   providedIn: 'root'
 })
+
+/*
+* Handles Podcasts
+*  - Calls FirebaseService to get podcasts
+*  - Podcasts stored in interface PODCASTS
+*  - Functions to get, add, update podcast/episodes
+*  - Updates MessageService on events
+*/
+
 export class PodcastService {
 
 	sortNr( a: any, b:any ): number {

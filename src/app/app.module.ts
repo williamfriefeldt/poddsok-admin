@@ -12,11 +12,15 @@ import { CookieService } from 'ngx-cookie-service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
+
+/* Components */
 import { PodcastsComponent } from './components/podcasts/podcasts.component';
 import { PodcastDetailComponent } from './components/podcast-detail/podcast-detail.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PodcastUpdateComponent } from './components/podcast-update/podcast-update.component';
+import { PodcastNewComponent } from './components/podcast-new/podcast-new.component';
+import { PodcastUpdateAllComponent } from './components/podcast-update-all/podcast-update-all.component';
 
 /* Material Design */
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -29,8 +33,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { PodcastNewComponent } from './components/podcast-new/podcast-new.component';
-import { PodcastUpdateAllComponent } from './components/podcast-update-all/podcast-update-all.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTreeModule } from '@angular/material/tree';
+
 
 @NgModule({
   declarations: [
@@ -60,7 +66,10 @@ import { PodcastUpdateAllComponent } from './components/podcast-update-all/podca
     MatSidenavModule,
     MatDialogModule,
     DragDropModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    MatDividerModule,
+    MatTreeModule
   ],
   providers: [
     CookieService

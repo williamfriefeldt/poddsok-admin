@@ -1,9 +1,9 @@
+<mat-button-toggle *ngIf="newEps.length !== 0" (click)="openDialog( 'newEps' )">
+	Lägg till avsnitt
+</mat-button-toggle>
+
+
 <div class="ep-container" *ngIf="newEps.length !== 0" cdkDropListGroup>
-
-	<mat-button-toggle (click)="openDialog( 'newEps' )">
-		Add episodes
-	</mat-button-toggle>
-
 	<div *ngIf="newEps" class="ep-col">
 
 		<mat-accordion>

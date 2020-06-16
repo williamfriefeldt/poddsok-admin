@@ -9,6 +9,12 @@ import { Episode } from '../interfaces/episode';
 @Injectable({
   providedIn: 'root'
 })
+
+/*
+* Read and write data from Firebase Database.
+*  - Get, add and update podcast/episodes
+*/
+
 export class FirebaseService {
 
 	items: Observable<any[]>;

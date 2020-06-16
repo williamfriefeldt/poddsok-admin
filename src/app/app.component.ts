@@ -5,7 +5,16 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
+/*
+* 'title' is currently not used
+* Holds menu titles and params
+*/
+
 export class AppComponent {
+
+  title: string = 'poddsok-admin';
+
   menu = [
   	{ title: 'Podcasts', url: 'podcasts'},
   	{ title: 'Statistik', url: 'statistik'},

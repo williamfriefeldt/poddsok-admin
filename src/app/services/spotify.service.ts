@@ -7,6 +7,14 @@ import { Podcast } from '../interfaces/podcast';
 @Injectable({
   providedIn: 'root'
 })
+
+/*
+* Handles Spotify API calls.
+* Requires accessToken:
+* - Start 'node app.js' in main folder
+* - Enter 'localhost:8888' in browser
+*/
+
 export class SpotifyService {
 
 	private clientID = 'a15e3712d52f40edb5cd1644f543cef1';

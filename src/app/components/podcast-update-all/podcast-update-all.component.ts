@@ -3,6 +3,8 @@ import { Podcast } from '../../interfaces/podcast';
 import { PodcastService } from '../../services/podcast.service';
 import { SpotifyService } from '../../services/spotify.service';
 import { Episode } from '../../interfaces/episode';
+import { DialogComponent } from '../dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-podcast-update-all',
@@ -15,35 +17,43 @@ export class PodcastUpdateAllComponent implements OnInit {
 	newEps: Object[] = [];
 
 	error: string;
+  loading: boolean = true;
+  timeout: number = 4000;
 
   getPodcasts(): void {
+    this.error = '';
+    this.loading = true;
     this.podcastService.getPodcasts()
       .subscribe( podcasts => {
       	this.podcasts = podcasts;
       	setTimeout(() => {
       		if( this.podcasts.length > 0) {
       			this.callSpotify();
-	      	} else {
-	      		this.error = "Kunde inte ladda podcast, försök igen.";
+	      	} else { 
+	      		this.error = 'Kunde inte ladda podcast, försök igen.';
+            this.loading = false;
 	      	}
-      	}, 2000);
+      	}, this.timeout );
       });  
   }
 
   callSpotify(): void {
   	this.podcasts.forEach( (pod, index) => {
-			this.spotifyService.searchPod( this.podcasts[index], 0 )
-				.subscribe( (res: any) => {
-					this.newEps.push({
-						title: this.podcasts[index].title,
-						newEps: this.sortNewEps( res.items, this.podcasts[index] )
-					})
-				},
-				err => {
-					this.error = 'Tillgång till Spotify Api nekad, se konsolen';
-				});
+      if( pod.info.finished != true) {
+  			this.spotifyService.searchPod( pod, 0 )
+  				.subscribe( (res: any) => {
+  					this.newEps.push({
+  						title: pod.title,
+  						newEps: this.sortNewEps( res.items, pod )
+  					});
+            this.loading = false;
+  				},
+  				err => {
+  					this.error = 'Tillgång till Spotify Api nekad, se konsolen';
+            this.loading = false;
+  				});
+        }
 		});
-		console.log(this.newEps);
   }
 
   sortNewEps( data: any, podcast: Podcast ) : Episode[] {
@@ -70,9 +80,26 @@ export class PodcastUpdateAllComponent implements OnInit {
   	return newEps;
   }
 
+
+  openDialog( type: string ): void {
+    const dialogRef = this.dialog.open( DialogComponent, {
+      data: {
+        min: {},
+        ep: {},
+        type: type
+      }
+    });
+    dialogRef.afterClosed().subscribe( res => {
+      if( res && res.val ) {
+        console.log( res );
+      }
+    });
+  }
+
   constructor(
   	private podcastService: PodcastService,
-  	private spotifyService: SpotifyService
+  	private spotifyService: SpotifyService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
