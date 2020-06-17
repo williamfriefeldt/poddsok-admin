@@ -11,7 +11,7 @@
  	</header>
 
 	<mat-accordion>	
-		<mat-expansion-panel [expanded]="epOpen === ep.nr" *ngFor="let ep of podcast.episodes  | slice:0:10" >
+		<mat-expansion-panel [expanded]="epOpen === ep.nr" *ngFor="let ep of podcast.episodes  | slice: sliceStart : sliceEnd" >
 
 			<mat-expansion-panel-header (click)="activeMin = false">
 				<mat-panel-title>
@@ -56,4 +56,12 @@
 
 		</mat-expansion-panel>
 	</mat-accordion>
+
+	<mat-paginator [length]="podcast.episodes.length"
+				   [pageSize]="10"
+				   [pageSizeOptions]="[10,15,20,25]"
+				   (page)="pageEvent = $event"
+				   (click)="updateSlice()">
+	</mat-paginator>
+	
 </div>

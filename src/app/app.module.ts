@@ -35,7 +35,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatTreeModule } from '@angular/material/tree';
+import { MatTreeModule } from '@angular/material/tree'; //Not used atm
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { MatTreeModule } from '@angular/material/tree';
     MatTooltipModule,
     MatProgressSpinnerModule,
     MatDividerModule,
-    MatTreeModule
+    MatTreeModule,
+    MatPaginatorModule
   ],
   providers: [
     CookieService

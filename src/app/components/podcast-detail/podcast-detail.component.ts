@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 
 import { PodcastService } from '../../services/podcast.service';
 import { Podcast }  from '../../interfaces/podcast';
@@ -15,6 +16,9 @@ import { DialogComponent } from '../dialog/dialog.component';
   styleUrls: ['./podcast-detail.component.css']
 })
 
+/**
+ * @description Handles episodes from selected podcast.
+ */
 export class PodcastDetailComponent implements OnInit {
 	
 	podcast: Podcast;
@@ -31,6 +35,28 @@ export class PodcastDetailComponent implements OnInit {
   activeMin: boolean = false;
   epOpen: number;
 
+  pageEvent: PageEvent = {
+     length: 100,
+     pageSize: 10,
+     pageIndex: 0
+  };
+
+  sliceStart: number = this.pageEvent.pageIndex;
+  sliceEnd: number = this.pageEvent.pageSize;
+
+  /**
+   * @description Set range for number if episodes shown.
+   */
+  updateSlice(): void {
+    this.sliceStart = this.pageEvent.pageIndex * this.pageEvent.pageSize;
+    this.sliceEnd = this.sliceStart + this.pageEvent.pageSize;
+  }
+  /**
+   * @param { ActivatedRoute } - To get param from URL
+   * @param { PodcastService } - To get all podcasts
+   * @param { Location } - To go navigate from view
+   * @param { Dialog } - Create dialog in component
+   */
   constructor(
   	private router: ActivatedRoute,
   	private podcastService: PodcastService,
@@ -38,10 +64,16 @@ export class PodcastDetailComponent implements OnInit {
     public dialog: MatDialog
 	) { }
 
+  /**
+  * @description When component is ready - get podcasts.
+  */
   ngOnInit(): void {
     this.getPodcast();
   }
 
+  /**
+   * @description Get podcast from PodcastService according to podcast sepcified in URL.
+   */
   getPodcast(): void {
   	const title = this.router.snapshot.paramMap.get( 'title' );
   	this.podcastService.getPodcast( title )
@@ -63,14 +95,27 @@ export class PodcastDetailComponent implements OnInit {
       });
   }
 
+  /**
+   * @description Set number arrays for number of minuts in episode.
+   * @param { number } Length of episode.
+   * @return { array } Array with numbers from 1 - input.
+   */
   numbers( num: number ): number[] {
     return Array( num ).fill( 0 ).map( ( x, i ) => i+1 );
   }
 
+  /**
+   * @description Go back to previous page.
+   */
   goBack(): void {
     this.location.back();
   } 
 
+  /**
+   * @description Update podcast with given segment.
+   * @param { Minute } Minute that should be updated.
+   * @param { Episode } Episode that should be updated.
+   */
   updatePodcast( min: Minute, ep: Episode ): void {
     this.podcastService.updatePodcast( this.podcast, ep, min )
       .then( () => {
@@ -80,7 +125,12 @@ export class PodcastDetailComponent implements OnInit {
       });
   }
 
+  /**
+   * @description Sort array from lowest to highest number.
+   * @param { number[] }
+   */
   sortNr( a: any, b:any ): number {
+    console.log(a);
     if( a.nr < b.nr ) {
       return -1;
     } else if ( a.nr > b.nr ) {
