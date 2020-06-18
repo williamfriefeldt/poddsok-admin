@@ -51,6 +51,7 @@ export class PodcastDetailComponent implements OnInit {
     this.sliceStart = this.pageEvent.pageIndex * this.pageEvent.pageSize;
     this.sliceEnd = this.sliceStart + this.pageEvent.pageSize;
   }
+
   /**
    * @param { ActivatedRoute } - To get param from URL
    * @param { PodcastService } - To get all podcasts
@@ -97,7 +98,7 @@ export class PodcastDetailComponent implements OnInit {
 
   /**
    * @description Set number arrays for number of minuts in episode.
-   * @param { number } Length of episode.
+   * @param { number } num - Length of episode.
    * @return { array } Array with numbers from 1 - input.
    */
   numbers( num: number ): number[] {
@@ -106,6 +107,7 @@ export class PodcastDetailComponent implements OnInit {
 
   /**
    * @description Go back to previous page.
+   * TODO: If previous location is another site, redirect to start page.
    */
   goBack(): void {
     this.location.back();
@@ -113,8 +115,8 @@ export class PodcastDetailComponent implements OnInit {
 
   /**
    * @description Update podcast with given segment.
-   * @param { Minute } Minute that should be updated.
-   * @param { Episode } Episode that should be updated.
+   * @param { Minute } min - Minute that should be updated.
+   * @param { Episode } ep - Episode that should be updated.
    */
   updatePodcast( min: Minute, ep: Episode ): void {
     this.podcastService.updatePodcast( this.podcast, ep, min )
@@ -127,10 +129,10 @@ export class PodcastDetailComponent implements OnInit {
 
   /**
    * @description Sort array from lowest to highest number.
-   * @param { number[] }
+   * @param { Object } a - Segment with minute and text.
+   * @param { Object } b - Segment with minute and text.
    */
   sortNr( a: any, b:any ): number {
-    console.log(a);
     if( a.nr < b.nr ) {
       return -1;
     } else if ( a.nr > b.nr ) {
@@ -141,6 +143,11 @@ export class PodcastDetailComponent implements OnInit {
     return 0;
   }
 
+  /**
+   * @description Opens dialog to add / remove / change episode.
+   * @param { Minute } min - Minute that should be updated.
+   * @param { Episode } ep - Episode that should be updated.
+   */
   openDialog( min: Minute, ep: Episode, type: string): void {
     const dialogRef = this.dialog.open( DialogComponent, {
       data: {

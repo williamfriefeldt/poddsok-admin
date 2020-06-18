@@ -5,7 +5,8 @@
 
 .row {
 	display: flex;
-	width: 80%;
+	width: 95%;
+	justify-content: space-between;
 }
 
 .column-1 {
@@ -17,9 +18,19 @@
 }
 
 mat-divider {
-	width: 80%;
+	width: 90%;
 }
 
 mat-button-toggle {
 	float: right;
+}
+
+.remove-btn ::ng-deep .mat-button-toggle-label-content {
+  line-height: 25px !important;
+  color: white;
+}
+
+.remove-btn {
+	background-color: red;
+	margin-bottom: 0.5%;
 }

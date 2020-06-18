@@ -3,6 +3,7 @@ import { Podcast } from '../../interfaces/podcast';
 import { PodcastService } from '../../services/podcast.service';
 import { SpotifyService } from '../../services/spotify.service';
 import { Episode } from '../../interfaces/episode';
+import { NewEps } from '../../interfaces/neweps';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -14,7 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class PodcastUpdateAllComponent implements OnInit {
 
 	podcasts: Podcast[];
-	newEps: Object[] = [];
+	newEps: NewEps[] = [];
 
 	error: string;
   loading: boolean = true;
@@ -26,27 +27,31 @@ export class PodcastUpdateAllComponent implements OnInit {
     this.podcastService.getPodcasts()
       .subscribe( podcasts => {
       	this.podcasts = podcasts;
-      	setTimeout(() => {
-      		if( this.podcasts.length > 0) {
-      			this.callSpotify();
-	      	} else { 
-	      		this.error = 'Kunde inte ladda podcast, försök igen.';
+        if( this.podcasts.length > 0) {
+          this.callSpotify();
+          this.loading = false;
+        } else {
+          setTimeout(() => {
+            this.callSpotify();
             this.loading = false;
-	      	}
-      	}, this.timeout );
+          }, this.timeout );
+        }
       });  
   }
 
   callSpotify(): void {
+    this.newEps = [];
   	this.podcasts.forEach( (pod, index) => {
       if( pod.info.finished != true) {
   			this.spotifyService.searchPod( pod, 0 )
   				.subscribe( (res: any) => {
-  					this.newEps.push({
-  						title: pod.title,
-  						newEps: this.sortNewEps( res.items, pod )
-  					});
-            this.loading = false;
+            const newEpisodes = this.sortNewEps( res.items, pod );
+            if( newEpisodes.length > 0 && newEpisodes.length < 50 ) {
+    					this.newEps.push({
+    						title: pod.title,
+    						newEps: newEpisodes 
+    					});
+            }
   				},
   				err => {
   					this.error = 'Tillgång till Spotify Api nekad, se konsolen';
@@ -94,6 +99,16 @@ export class PodcastUpdateAllComponent implements OnInit {
         console.log( res );
       }
     });
+  }
+
+  removeEp( ep: Episode, pod: Podcast): void {
+    this.newEps.find( ( podcast, index ) => {
+      if( podcast.title === pod.title ) {
+        const newEpisodes = podcast.newEps.filter( episode => ep.name !== episode.name); 
+        this.newEps[ index ].newEps = newEpisodes;
+      }
+    });
+    this.newEps = this.newEps.filter( pod => pod.newEps.length !== 0 );
   }
 
   constructor(

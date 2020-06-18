@@ -1,12 +1,13 @@
 <div class="container">
 
+	<mat-button-toggle (click)="getPodcasts()">
+		<mat-icon>refresh</mat-icon>
+	</mat-button-toggle>
 	<mat-button-toggle *ngIf="newEps.length !== 0" (click)="openDialog( 'newEps' )">
 		Lägg till avsnitt
 	</mat-button-toggle>
 
 	<mat-spinner *ngIf="loading"></mat-spinner>
-
-<!-- TODO: Implement material tree structure -->
 	
 	<div *ngIf="!loading && !error">
 
@@ -16,24 +17,28 @@
 		</div>
 
 		<div *ngFor="let pod of newEps">
+
 			<div class="row">
+
 				<p class="column-1"> 
 					{{ pod.title }}
 				</p>
 
-				<div class="column-2" *ngIf="pod.newEps.length < 50"> 
-					<p *ngFor="let ep of pod.newEps">
-						{{ ep.name }}
-					</p>
+				<div class="column-2"> 
+					<div class="row" *ngFor="let ep of pod.newEps">
+						<p> {{ ep.name }} </p>
+						<mat-button-toggle class="remove-btn" (click)="removeEp( ep, pod )"> X </mat-button-toggle>
+					</div>
 				</div>
 
-				<p class="column-2" *ngIf="pod.newEps.length >= 50">
-					Fler än 50 avsnitt, uppdatera enskilt
-				</p>
 			</div>
 
 			<mat-divider></mat-divider>
 
+		</div>
+
+		<div *ngIf="newEps.length === 0">
+			Inga nya avsnitt
 		</div>
 
 	</div>
