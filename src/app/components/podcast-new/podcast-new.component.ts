@@ -45,9 +45,11 @@ export class PodcastNewComponent implements OnInit {
   		info: { 
         spotifyID: pod.id, 
         finished: false, 
-        image: pod.images[2].url 
+        image: pod.images[2].url,
+        notEPs: []
       },
-  		image: pod.images[2].url
+  		image: pod.images[2].url,
+      totalSegments: 0
   	};
   	this.podRes = [];
   }

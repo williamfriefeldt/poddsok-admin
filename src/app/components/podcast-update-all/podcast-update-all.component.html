@@ -1,53 +1,65 @@
 <div class="container">
 
-	<mat-button-toggle (click)="getPodcasts()">
-		<mat-icon>refresh</mat-icon>
-	</mat-button-toggle>
-	<mat-button-toggle *ngIf="newEps.length !== 0" (click)="openDialog( 'newEps' )">
-		Lägg till avsnitt
-	</mat-button-toggle>
-
-	<mat-spinner *ngIf="loading"></mat-spinner>
-	
-	<div *ngIf="!loading && !error">
-
-		<div class="row">
-			<h2 class="column-1"> Podcast </h2>
-			<h2 class="column-2"> Nya avsnitt </h2>
+	<div *ngIf="!addEps">
+		<mat-button-toggle (click)="getPodcasts()">
+			<mat-icon>refresh</mat-icon>
+		</mat-button-toggle>
+		<div *ngIf="newEps.length !== 0">
+			<mat-button-toggle (click)="openDialog( 'newEps' )">
+				Lägg till avsnitt
+			</mat-button-toggle>
 		</div>
 
-		<div *ngFor="let pod of newEps">
+		<mat-spinner *ngIf="loading"></mat-spinner>
+		
+		<div *ngIf="!loading && !error">
 
 			<div class="row">
+				<h2 class="column-1"> Podcast </h2>
+				<h2 class="column-2"> Nya avsnitt </h2>
+			</div>
 
-				<p class="column-1"> 
-					{{ pod.title }}
-				</p>
+			<div *ngFor="let pod of newEps">
 
-				<div class="column-2"> 
-					<div class="row" *ngFor="let ep of pod.newEps">
-						<p> {{ ep.name }} </p>
-						<mat-button-toggle class="remove-btn" (click)="removeEp( ep, pod )"> X </mat-button-toggle>
+				<div class="row">
+
+					<p class="column-1"> 
+						{{ pod.title }}
+					</p>
+
+					<div class="column-2"> 
+						<div class="row" *ngFor="let ep of pod.newEps">
+							<p> {{ ep.nr }} -{{ ep.name }} </p>
+							<mat-button-toggle class="remove-btn" (click)="removeEp( ep, pod )"> X </mat-button-toggle>
+						</div>
 					</div>
+
 				</div>
+
+				<mat-divider></mat-divider>
 
 			</div>
 
-			<mat-divider></mat-divider>
+			<div *ngIf="newEps.length === 0">
+				Inga nya avsnitt
+			</div>
 
 		</div>
 
-		<div *ngIf="newEps.length === 0">
-			Inga nya avsnitt
+		<div class="error" *ngIf="error">
+			{{ error }}
+			<mat-button-toggle (click)="getPodcasts()"> 
+				Försök igen
+			</mat-button-toggle>
 		</div>
-
 	</div>
 
-	<div class="error" *ngIf="error">
-		{{ error }}
-		<mat-button-toggle (click)="getPodcasts()"> 
-			Försök igen
-		</mat-button-toggle>
+	<div *ngIf="addEps">
+			<p *ngIf="progressCounter !== progressTotal"> Lägger till avsnitt.. </p>
+      <mat-progress-bar
+          [mode]="'determine'"
+          [value]="progressCounter">
+      </mat-progress-bar>
 	</div>
 
 </div>

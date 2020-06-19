@@ -6,6 +6,7 @@ import { Episode } from '../../interfaces/episode';
 import { NewEps } from '../../interfaces/neweps';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-podcast-update-all',
@@ -20,6 +21,10 @@ export class PodcastUpdateAllComponent implements OnInit {
 	error: string;
   loading: boolean = true;
   timeout: number = 4000;
+  addEps: boolean;
+  addEpsProgress: number = 0;
+  progressCounter: number = 0;
+  progressTotal: number = 0;
 
   getPodcasts(): void {
     this.error = '';
@@ -79,8 +84,14 @@ export class PodcastUpdateAllComponent implements OnInit {
     });
     var nrOfEps = podcast.episodes.length + newEps.length;
     newEps.map( ep => {
-      ep.nr = nrOfEps-1;
-      nrOfEps--;
+      if( ep.name.match(/^\d/) ) {
+        const split = ep.name.split('.');
+        ep.name = split[1];
+        ep.nr = parseInt(split[0]);
+      } else {
+        ep.nr = nrOfEps-1;
+        nrOfEps--;
+      }
     });
   	return newEps;
   }
@@ -96,9 +107,23 @@ export class PodcastUpdateAllComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe( res => {
       if( res && res.val ) {
-        console.log( res );
+        this.newEps.forEach( pod => this.addEpsProgress += pod.newEps.length );
+        this.progressTotal = this.addEpsProgress * (100/this.addEpsProgress);
+        this.addEps = true;
+        this.progress();
       }
     });
+  }
+
+  progress(): void {
+    if( this.progressCounter !== this.progressTotal ) {
+      this.progressCounter += (100/this.addEpsProgress);
+      setTimeout( () => this.progress(), 500);
+    } else {
+      this.snackBar.open('Avsnitt tillagda', 'Klar!', {
+        duration: 5000,
+      });
+    }
   }
 
   removeEp( ep: Episode, pod: Podcast): void {
@@ -114,7 +139,8 @@ export class PodcastUpdateAllComponent implements OnInit {
   constructor(
   	private podcastService: PodcastService,
   	private spotifyService: SpotifyService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {

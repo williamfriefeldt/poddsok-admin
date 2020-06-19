@@ -10,6 +10,8 @@
 		</mat-button-toggle-group>
  	</header>
 
+	<h3> Totalt antal segment: {{ podcast.totalSegments }} </h3>
+
 	<mat-accordion>	
 		<mat-expansion-panel [expanded]="epOpen === ep.nr" *ngFor="let ep of podcast.episodes  | slice: sliceStart : sliceEnd" >
 

@@ -53,7 +53,8 @@ export class PodcastService {
 						episodes: episodes.sort( this.sortNr ),
 						epsNr: Object.keys(episodes).length,
 						info: info,
-						image: 'assets/images/' + podcast.key + '.png' 
+						image: 'assets/images/' + podcast.key + '.png',
+						totalSegments: 0
 					})
 				});
 				this.messageService.add( 'Podcast fetched from Firebase!' );
@@ -91,6 +92,17 @@ export class PodcastService {
 				return;				
 			});		
 		});
+		return of();
+	}
+
+	addNotEps( podcast: Podcast, episodes: Episode[]): Observable<Boolean> {
+		episodes.forEach( ep => {
+			const updateString = '/' + podcast.title;
+			this.firebaseService.addNotEps( updateString, ep ).then( () => {
+				this.messageService.add( `Updated podcast ${podcast.title} with episode ${ep.name} to not episodes!` );
+				return;				
+			});		
+		});		
 		return of();
 	}
 

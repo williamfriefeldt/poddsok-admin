@@ -79,16 +79,37 @@ export class PodcastUpdateComponent implements OnInit {
       });
       if ( !found ) return episode;
     });
+    if( this.podcast.info.notEPs !== undefined ) {
+      this.newEps = this.newEps.filter( episode => {
+        const notEPs = Object.values( this.podcast.info.notEPs );
+        const found = notEPs.find( ep => {
+          const title  = Object.values( ep );
+          if( ep !== undefined ) return episode.name.includes( title[0].toString() );
+        });
+        if ( !found ) return episode;
+      });
+    }
     var nrOfEps = this.podcast.episodes.length + this.newEps.length;
     this.newEps.map( ep => {
-      ep.nr = nrOfEps-1;
-      nrOfEps--;
+      if( ep.name.match(/^\d/) ) {
+        const split = ep.name.split('.');
+        ep.name = split[1];
+        ep.nr = parseInt(split[0]);
+      } else {
+        ep.nr = nrOfEps-1;
+        nrOfEps--;
+      }
     });
   }
 
   addNewEps(): void {
-    this.podcastService.addNewEps( this.podcast, this.newEps )
-      .subscribe( res => console.log('added') );
+    console.log(this.newEps);
+    // this.podcastService.addNewEps( this.podcast, this.newEps )
+    //   .subscribe( res => console.log('added') );
+    if( this.notEPs ) {
+      this.podcastService.addNotEps( this.podcast, this.notEPs )
+        .subscribe( res => console.log('added to not eps') );
+    }
   }
 
   openDialog( type: string ): void {

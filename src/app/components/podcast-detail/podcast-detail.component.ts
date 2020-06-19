@@ -49,7 +49,12 @@ export class PodcastDetailComponent implements OnInit {
    */
   updateSlice(): void {
     this.sliceStart = this.pageEvent.pageIndex * this.pageEvent.pageSize;
+    if( this.sliceStart + this.pageEvent.pageSize > this.podcast.episodes.length ) {
+      console.log(this.podcast.episodes.length - this.sliceStart-1);
+      this.pageEvent.pageSize = this.podcast.episodes.length - this.sliceStart -1;
+    }
     this.sliceEnd = this.sliceStart + this.pageEvent.pageSize;
+    
   }
 
   /**
@@ -80,9 +85,11 @@ export class PodcastDetailComponent implements OnInit {
   	this.podcastService.getPodcast( title )
   		.subscribe( podcast => {
         if( podcast ) {
+          let totalSegments = 0;
           podcast.episodes = podcast.episodes.map( episode => {
             if( episode !== undefined && episode.minutes !== undefined ) {
               const minList = episode.minutes.filter( min => min.text !== "" );
+              totalSegments += minList.length;
               episode.minutes = minList.sort( this.sortNr );
               episode.countMin = minList.length;
               episode.minList = this.numbers( episode.length );
@@ -90,6 +97,7 @@ export class PodcastDetailComponent implements OnInit {
             }
           });
           this.podcast = podcast;
+          this.podcast.totalSegments = totalSegments;
         } else {
           this.goBack();
         }
