@@ -3,7 +3,7 @@
 </mat-button-toggle>
 
 
-<div class="ep-container" cdkDropListGroup>
+<div class="ep-container" *ngIf="!error"cdkDropListGroup>
 	<div *ngIf="newEps" class="ep-col">
 
 		<mat-accordion>

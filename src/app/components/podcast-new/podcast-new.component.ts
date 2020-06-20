@@ -48,9 +48,10 @@ export class PodcastNewComponent implements OnInit {
         image: pod.images[2].url,
         notEPs: []
       },
-  		image: pod.images[2].url,
+  		image: pod.images[0].url,
       totalSegments: 0
   	};
+    console.log(this.podcast.image);
   	this.podRes = [];
   }
 

@@ -1,7 +1,7 @@
 <div class="podcasts">
 	<div class="pod" *ngFor="let pod of podcasts">
 		<a routerLink="/detail/{{pod.title}}">
-			<img [src]="pod.info.image ? pod.info.image : pod.image">
+			<img [src]="pod.info.image">
 		</a>
 	</div>
 </div>

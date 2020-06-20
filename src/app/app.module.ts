@@ -13,6 +13,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 
+import { ChartsModule } from 'ng2-charts';
+
 /* Components */
 import { PodcastsComponent } from './components/podcasts/podcasts.component';
 import { PodcastDetailComponent } from './components/podcast-detail/podcast-detail.component';
@@ -39,6 +41,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { PodcastsStatsComponent } from './components/podcasts-stats/podcasts-stats.component';
 
 
 @NgModule({
@@ -51,7 +54,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     PodcastUpdateComponent,
     DialogComponent,
     PodcastNewComponent,
-    PodcastUpdateAllComponent
+    PodcastUpdateAllComponent,
+    PodcastsStatsComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +65,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     AngularFireDatabaseModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ChartsModule,
     MatButtonToggleModule,
     MatExpansionModule,
     MatFormFieldModule,
