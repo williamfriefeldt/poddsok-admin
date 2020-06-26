@@ -44,6 +44,8 @@ export class PodcastDetailComponent implements OnInit {
   sliceStart: number = this.pageEvent.pageIndex;
   sliceEnd: number = this.pageEvent.pageSize;
 
+  sortEpsText: string = "Senaste";
+  filter: string = "Filter";
   /**
    * @description Set range for number if episodes shown.
    */
@@ -94,6 +96,9 @@ export class PodcastDetailComponent implements OnInit {
               return episode;
             }
           });
+          if( this.sortEpsText === "Tidigast" ) {
+            podcast.episodes.sort( this.sortNrHigh );
+          }
           this.podcast = podcast;
           this.podcast.totalSegments = totalSegments;
         } else {
@@ -101,7 +106,7 @@ export class PodcastDetailComponent implements OnInit {
         }
       });
   }
-
+ 
   /**
    * @description Set number arrays for number of minuts in episode.
    * @param { number } num - Length of episode.
@@ -135,18 +140,49 @@ export class PodcastDetailComponent implements OnInit {
 
   /**
    * @description Sort array from lowest to highest number.
-   * @param { Object } a - Segment with minute and text.
-   * @param { Object } b - Segment with minute and text.
+   *              Applies for all four functions below.
+   * @param { object } a - Segment with minute and text.
+   * @param { object } b - Segment with minute and text.
+   * @return { number } Sort number, 0 or 1.
    */
   sortNr( a: any, b:any ): number {
-    if( a.nr < b.nr ) {
-      return -1;
-    } else if ( a.nr > b.nr ) {
-      return 1;
-    } else {
-      return 0;
+    return a.nr - b.nr;
+  }
+
+  sortNrHigh( a: any, b:any ): number {
+    return b.nr - a.nr;
+  }
+
+  sortNrMin( a: any, b:any ): number {
+    return a.countMin - b.countMin;
+  }
+
+  sortNrMinHigh( a: any, b:any ): number {
+    return b.countMin - a.countMin;
+  }
+
+  /**
+   * @description Sort the episodes depending on option. 
+   */
+  sortEps(): void {
+    switch ( this.sortEpsText ) {
+      case "Senaste":
+        this.podcast.episodes.sort( this.sortNrHigh );
+        this.sortEpsText = "Tidigast";
+        break;
+      case "Tidigast":
+        this.podcast.episodes.sort( this.sortNr );
+        this.sortEpsText = "Senaste";
+        break;
+      case "Mest antal":
+        this.podcast.episodes.sort( this.sortNrMinHigh );
+        this.sortEpsText = "Minst antal";
+        break;
+      case "Minst antal":
+        this.podcast.episodes.sort( this.sortNrMin );
+        this.sortEpsText = "Mest antal";
+        break;
     }
-    return 0;
   }
 
   /**

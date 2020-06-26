@@ -26,6 +26,9 @@ export class PodcastUpdateAllComponent implements OnInit {
   progressCounter: number = 0;
   progressTotal: number = 0;
 
+  //temporary var
+  value: boolean = false;
+
   getPodcasts(): void {
     this.error = '';
     this.loading = true;
@@ -138,7 +141,7 @@ export class PodcastUpdateAllComponent implements OnInit {
     this.newEps = this.newEps.filter( pod => pod.newEps.length !== 0 );
   }
 
-  clickRadioBtn( input: string ): void {
+  clickRadioBtn( input: boolean ): void {
     console.log('hej');
     console.log( input );
   }

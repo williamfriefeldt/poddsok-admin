@@ -94,7 +94,7 @@ export class PodcastUpdateComponent implements OnInit {
       if( ep.name.match(/^\d/) ) {
         const split = ep.name.split('.');
         ep.name = split[1];
-        ep.nr = parseInt(split[0]);
+        ep.nr = parseInt( split[0] );
       } else {
         ep.nr = nrOfEps-1;
         nrOfEps--;
@@ -103,11 +103,13 @@ export class PodcastUpdateComponent implements OnInit {
   }
 
   addNewEps(): void {
-    if( this.notEPs ) {
-      this.podcastService.addNotEps( this.podcast, this.notEPs )
-        .subscribe( res => console.log('added to not eps') );
-    }
+    //if( this.notEPs ) {
+      this.podcastService.addNewEps( this.podcast, this.newEps )
+        .subscribe( res => console.log('added to eps') );
+    //}
   }
+
+  //Make addNotEpFunc
 
   openDialog( type: string ): void {
     const dialogRef = this.dialog.open( DialogComponent, {
@@ -124,14 +126,16 @@ export class PodcastUpdateComponent implements OnInit {
     });
   }
 
-  drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+  drop( event: CdkDragDrop<string[]> ) {
+    if( event.previousContainer === event.container ) {
+      moveItemInArray( event.container.data, 
+                       event.previousIndex, 
+                       event.currentIndex );
     } else {
-      transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
+      transferArrayItem( event.previousContainer.data,
+                         event.container.data,
+                         event.previousIndex,
+                         event.currentIndex );
     }
   }
 }

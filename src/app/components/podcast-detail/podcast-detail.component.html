@@ -3,10 +3,22 @@
 	<header>
 		<h1> {{ podcast.info.name }} </h1>
 		<mat-button-toggle-group>
+			<mat-button-toggle [matMenuTriggerFor]="menu"> {{ filter }} </mat-button-toggle>
+			<mat-menu #menu="matMenu">
+			  <button mat-menu-item (click)="filter = 'Avsnitt'; sortEpsText = 'Senaste'; sortEps()"> Avsnitt </button>
+			  <button mat-menu-item (click)="filter = 'Segment'; sortEpsText = 'Mest antal'; sortEps()"> Segment </button>
+			</mat-menu>	
+			<mat-button-toggle  *ngIf="filter !== 'Filter'" (click)="sortEps()">
+				{{ sortEpsText }}	
+			</mat-button-toggle>
 			<div [matTooltip]="podcast.info.finished ? 'Podcasten har slutat':''">
-				<mat-button-toggle routerLink="/update/{{podcast.title}}" [class.disabled]="podcast.info.finished"> Updatera </mat-button-toggle>
+				<mat-button-toggle routerLink="/update/{{podcast.title}}" [class.disabled]="podcast.info.finished"> 
+					Updatera 
+				</mat-button-toggle>
 			</div>
-			<mat-button-toggle (click)="goBack()"> Tillbaka </mat-button-toggle>
+			<mat-button-toggle (click)="goBack()"> 
+				Tillbaka 
+			</mat-button-toggle>
 		</mat-button-toggle-group>
  	</header>
 
