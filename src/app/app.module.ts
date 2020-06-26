@@ -23,6 +23,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PodcastUpdateComponent } from './components/podcast-update/podcast-update.component';
 import { PodcastNewComponent } from './components/podcast-new/podcast-new.component';
 import { PodcastUpdateAllComponent } from './components/podcast-update-all/podcast-update-all.component';
+import { PodcastsStatsComponent } from './components/podcasts-stats/podcasts-stats.component';
 
 /* Material Design */
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -41,8 +42,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { PodcastsStatsComponent } from './components/podcasts-stats/podcasts-stats.component';
-
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -80,7 +80,8 @@ import { PodcastsStatsComponent } from './components/podcasts-stats/podcasts-sta
     MatPaginatorModule,
     MatIconModule,
     MatProgressBarModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatRadioModule
   ],
   providers: [
     CookieService

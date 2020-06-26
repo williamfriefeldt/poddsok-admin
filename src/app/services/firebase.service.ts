@@ -10,20 +10,29 @@ import { Episode } from '../interfaces/episode';
   providedIn: 'root'
 })
 
-/*
-* Read and write data from Firebase Database.
-*  - Get, add and update podcast/episodes
-*/
+/**
+ * @description Read and write data from Firebase Database.
+ */
 
 export class FirebaseService {
 
 	items: Observable<any[]>;
 
+  /**
+   * @description Get all podcasts from Firebase Database.
+   * @return { Observable } Return promise with podcasts.
+   */
   getPodcasts(): Observable<any[]> {
   	this.items = this.db.list('/').snapshotChanges();
   	return this.items;
   } 
 
+  /**
+   * @description
+   * @param
+   * @param
+   * @return
+   */
   updateItem( podcast: string, min: Minute ): Promise<void> {
   	return this.db.list(podcast).set( 'min' + min.nr , min );
   }

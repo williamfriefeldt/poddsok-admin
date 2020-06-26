@@ -50,11 +50,9 @@ export class PodcastDetailComponent implements OnInit {
   updateSlice(): void {
     this.sliceStart = this.pageEvent.pageIndex * this.pageEvent.pageSize;
     if( this.sliceStart + this.pageEvent.pageSize > this.podcast.episodes.length ) {
-      console.log(this.podcast.episodes.length - this.sliceStart-1);
       this.pageEvent.pageSize = this.podcast.episodes.length - this.sliceStart -1;
     }
     this.sliceEnd = this.sliceStart + this.pageEvent.pageSize;
-    
   }
 
   /**
@@ -145,7 +143,7 @@ export class PodcastDetailComponent implements OnInit {
       return -1;
     } else if ( a.nr > b.nr ) {
       return 1;
-    } else{
+    } else {
       return 0;
     }
     return 0;

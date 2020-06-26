@@ -41,17 +41,17 @@ export class PodcastNewComponent implements OnInit {
   	this.podcast = {
   		title: pod.name,
   		episodes: [],
-  		epsNr:0,
+  		epsNr: 0,
   		info: { 
         spotifyID: pod.id, 
         finished: false, 
         image: pod.images[2].url,
-        notEPs: []
+        notEPs: [],
+        name: pod.name
       },
   		image: pod.images[0].url,
       totalSegments: 0
   	};
-    console.log(this.podcast.image);
   	this.podRes = [];
   }
 

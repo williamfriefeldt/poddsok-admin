@@ -4,7 +4,7 @@
 <div class="podcasts">
 	<div class="pod" *ngFor="let pod of podcasts">
 		<a routerLink="/detail/{{pod.title}}">
-			<img [hidden]="loading" (load)="onLoad()" [src]="pod.info.image">
+			<img matTooltip="{{ pod.info.name }}" [hidden]="loading" (load)="onLoad()" [src]="pod.info.image">
 		</a>
 	</div>
 </div>

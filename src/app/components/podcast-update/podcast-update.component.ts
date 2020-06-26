@@ -103,9 +103,6 @@ export class PodcastUpdateComponent implements OnInit {
   }
 
   addNewEps(): void {
-    console.log(this.newEps);
-    // this.podcastService.addNewEps( this.podcast, this.newEps )
-    //   .subscribe( res => console.log('added') );
     if( this.notEPs ) {
       this.podcastService.addNotEps( this.podcast, this.notEPs )
         .subscribe( res => console.log('added to not eps') );

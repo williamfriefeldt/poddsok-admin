@@ -8,7 +8,8 @@ export interface Podcast {
 		spotifyID: string,
 		finished: boolean,
 		image: string,
-		notEPs: []
+		notEPs: [],
+		name: string
 	};
 	image: string;
 	totalSegments: number;

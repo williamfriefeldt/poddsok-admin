@@ -51,7 +51,9 @@ export class PodcastUpdateAllComponent implements OnInit {
   			this.spotifyService.searchPod( pod, 0 )
   				.subscribe( (res: any) => {
             const newEpisodes = this.sortNewEps( res.items, pod );
-            if( newEpisodes.length > 0 && newEpisodes.length < 50 ) {
+            console.log( newEpisodes);
+            console.log(newEpisodes.length);
+            if( newEpisodes.length > 0 && newEpisodes.length < 49 ) {
     					this.newEps.push({
     						title: pod.title,
     						newEps: newEpisodes 
@@ -134,6 +136,11 @@ export class PodcastUpdateAllComponent implements OnInit {
       }
     });
     this.newEps = this.newEps.filter( pod => pod.newEps.length !== 0 );
+  }
+
+  clickRadioBtn( input: string ): void {
+    console.log('hej');
+    console.log( input );
   }
 
   constructor(
