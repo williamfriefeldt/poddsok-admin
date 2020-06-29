@@ -26,8 +26,7 @@ export class PodcastNewComponent implements OnInit {
     public dialog: MatDialog
   ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   search( query: string ): void {
   	this.podcast = null;

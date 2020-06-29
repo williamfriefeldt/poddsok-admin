@@ -1,8 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { PageEvent } from '@angular/material/paginator';
+import { PageEvent, MatPaginatorIntl } from '@angular/material/paginator';
 
 import { PodcastService } from '../../services/podcast.service';
 import { Podcast }  from '../../interfaces/podcast';
@@ -46,6 +46,7 @@ export class PodcastDetailComponent implements OnInit {
 
   sortEpsText: string = "Senaste";
   filter: string = "Filter";
+
   /**
    * @description Set range for number if episodes shown.
    */
@@ -67,13 +68,16 @@ export class PodcastDetailComponent implements OnInit {
   	private router: ActivatedRoute,
   	private podcastService: PodcastService,
   	private location: Location,
+    private matpaginator: MatPaginatorIntl,
     public dialog: MatDialog
 	) { }
 
   /**
-  * @description When component is ready - get podcasts.
+  * @description When component is ready - get podcasts and set paginator tooltip.
   */
   ngOnInit(): void {
+    this.matpaginator.nextPageLabel = 'Nästa sida';
+    this.matpaginator.previousPageLabel = 'Föregående sida';
     this.getPodcast();
   }
 
@@ -96,11 +100,9 @@ export class PodcastDetailComponent implements OnInit {
               return episode;
             }
           });
-          if( this.sortEpsText === "Tidigast" ) {
-            podcast.episodes.sort( this.sortNrHigh );
-          }
           this.podcast = podcast;
           this.podcast.totalSegments = totalSegments;
+          if( podcast.episodes.length < 10 ) this.sliceEnd = podcast.episodes.length - 1;
         } else {
           this.goBack();
         }

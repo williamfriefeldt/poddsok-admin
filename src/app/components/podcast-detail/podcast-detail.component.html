@@ -74,8 +74,7 @@
 	<mat-paginator [length]="podcast.episodes.length"
 				   [pageSize]="10"
 				   [pageSizeOptions]="[10,15,20,25]"
-				   (page)="pageEvent = $event"
-				   (click)="updateSlice()">
+				   (page)="pageEvent = $event; updateSlice()">
 	</mat-paginator>
 	
 </div>
