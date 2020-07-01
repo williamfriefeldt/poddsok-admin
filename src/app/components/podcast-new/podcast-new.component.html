@@ -8,19 +8,40 @@
 	</mat-button-toggle>
 
 	<ul *ngIf="podRes">
-		<li *ngFor="let pod of podRes">
+		<li class="pod" *ngFor="let pod of podRes">
 			<p (click)="selectPod( pod )" matTooltip="{{pod.description}}">
 				{{ pod.name }}
 			</p>
 		</li>
+
+		<div *ngIf="podRes.length === 0 && !podcast">
+			Ingen podcast matchade sökordet
+		</div>
 	</ul>
+
+
 
 	<div *ngIf="podcast">
 		<header>
 			<h1> {{ podcast.title }} </h1>
-			<mat-button-toggle (click)="openDialog()"> Lägg till podcast </mat-button-toggle>
+			<div class="row">
+				<mat-button-toggle (click)="openDialog()"> Lägg till podcast </mat-button-toggle>
+				<mat-button-toggle (click)="search( query )"> Tillbaka</mat-button-toggle>			
+			</div>
 		</header>
 
-		<img src="{{podcast.image}}">
+		<div class="row">
+			<img src="{{podcast.image}}">
+			<ul>
+				<li> <b> Namn: </b> {{ podcast.info.name }} </li> 
+				<li> <b> Spotify link: </b> <a [href]="sanitize( 'spotify:show:' + podcast.info.spotifyID )"> {{ podcast.info.spotifyID }} </a> </li> 
+				<li> <b> Beskrivning: </b> {{ description }} </li>
+			</ul>
+		</div>
+
 	</div>
+
+	<div *ngIf="error">
+		{{ error }}
+	</div>	
 </div>

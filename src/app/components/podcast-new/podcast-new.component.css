@@ -11,3 +11,20 @@ header {
 	margin-bottom: 0.75em;
 	display: flex;
 }
+
+img {
+	width: 150px;
+	height: 150px;
+}
+
+.row { 
+	display: flex;
+}
+
+ul {
+	list-style: none;
+}
+
+.pod {
+	cursor: pointer;
+}

@@ -54,8 +54,6 @@ export class PodcastUpdateAllComponent implements OnInit {
   			this.spotifyService.searchPod( pod, 0 )
   				.subscribe( (res: any) => {
             const newEpisodes = this.sortNewEps( res.items, pod );
-            console.log( newEpisodes);
-            console.log(newEpisodes.length);
             if( newEpisodes.length > 0 && newEpisodes.length < 49 ) {
     					this.newEps.push({
     						title: pod.title,

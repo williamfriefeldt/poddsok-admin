@@ -33,7 +33,9 @@ export class PodcastsComponent implements OnInit {
   getPodcasts(): void {
     this.podcastService.getPodcasts()    
       .subscribe( podcasts => {
-        this.podcasts = podcasts;
+        this.podcasts = podcasts.sort( (a, b) => {
+          return ( '' + a.info.name ).localeCompare( b.info.name );
+        });
       });
   }
 
