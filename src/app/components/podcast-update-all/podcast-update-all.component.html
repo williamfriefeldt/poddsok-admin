@@ -29,12 +29,11 @@
 
 					<div class="column-2"> 
 						<div class="row" *ngFor="let ep of pod.newEps">
-							<p> {{ ep.nr }} -{{ ep.name }} </p>
-							<div>
-								<mat-radio-button value="false"
-											  (click)="value = !value; clickRadioBtn(value);">
-								</mat-radio-button>
+							<p class="column-2"> {{ ep.nr }} - {{ ep.name }} </p>
+							<div class="column-1">
 								<mat-button-toggle class="remove-btn" (click)="removeEp( ep, pod )"> X </mat-button-toggle>
+
+								<mat-checkbox (change)="clickCheckBox( $event, pod.title, ep )"> </mat-checkbox>
 							</div>
 						</div>
 					</div>
@@ -53,18 +52,27 @@
 
 		<div class="error" *ngIf="error">
 			{{ error }}
-			<mat-button-toggle (click)="getPodcasts()"> 
-				Försök igen
-			</mat-button-toggle>
 		</div>
 	</div>
 
 	<div *ngIf="addEps">
-			<p *ngIf="progressCounter !== progressTotal"> Lägger till avsnitt.. </p>
-      <mat-progress-bar
+		<p *ngIf="progressCounter !== progressTotal"> Lägger till avsnitt.. </p>
+    	<mat-progress-bar
           [mode]="'determine'"
-          [value]="progressCounter">
-      </mat-progress-bar>
+          [value]="progressCounter"
+          [color]="progressColor">
+      	</mat-progress-bar>
+
+      	<div class="row">
+      		<div class="column-1">
+      			<h2> Tillagda avsnitt </h2>
+      			<p *ngFor="let ep of epsAdded"> {{ ep.nr }} - {{ ep.name }} </p>
+      		</div>
+      		<div class="column-2">
+      			<h2> Tillagda avsnitt som ej ska visas </h2>
+      			<p *ngFor="let ep of epsAddedToNot"> {{ ep.nr }} - {{ ep.name }} </p>
+      		</div>
+      	</div>
 	</div>
 
 </div>

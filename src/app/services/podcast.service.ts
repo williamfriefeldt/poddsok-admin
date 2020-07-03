@@ -38,25 +38,27 @@ export class PodcastService {
 			.subscribe( res => {
 				PODCASTS.length = 0;
 				res.forEach( podcast => {
-					const episodes = <Episode[]> Object.values(podcast.payload.val());
+					const episodes = <Episode[]> Object.values( podcast.payload.val() );
 					var info;
 					episodes.forEach( ep => {
-						if(ep.minutes !==undefined) {
-							ep.minutes = <Minute[]> Object.values(ep.minutes);
+						if( ep.minutes !== undefined ) {
+							ep.minutes = <Minute[]> Object.values( ep.minutes );
 						} else {
 							info = ep;
 						}
 					})
-					PODCASTS.push(
-					{
+					PODCASTS.push({
 						title: podcast.key,
 						episodes: episodes.sort( this.sortNr ),
 						epsNr: Object.keys(episodes).length,
 						info: info,
 						image: 'assets/images/' + podcast.key + '.png',
 						totalSegments: 0
-					})
+					});
 				});
+				PODCASTS.sort( (a, b) => {
+          			return ( '' + a.info.name ).localeCompare( b.info.name );
+        		});
 				this.messageService.add( 'Podcast fetched from Firebase!' );
 			});
 	}

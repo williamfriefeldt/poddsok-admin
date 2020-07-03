@@ -16,16 +16,16 @@ export class PodcastsStatsComponent implements OnInit {
   barChartOptions: ChartOptions = {
     responsive: true,
     scales: {
-        xAxes: [{
-            gridLines: {
-                color: "rgba(0, 0, 0, 0)",
-            }
-        }],
-        yAxes: [{
-            gridLines: {
-                color: "rgba(0, 0, 0, 0)",
-            }   
-        }]
+      xAxes: [{
+        gridLines: {
+          color: "rgba(0, 0, 0, 0)",
+        }
+      }],
+      yAxes: [{
+        gridLines: {
+          color: "rgba(0, 0, 0, 0)",
+        }   
+      }]
     }
   };
   barChartLabels: Label[] = [];

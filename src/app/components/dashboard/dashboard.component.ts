@@ -20,14 +20,9 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-  	this.getPodcasts();
     this.name = this.router.snapshot.queryParamMap.get("access_token");
     this.cookie.set( 'accessToken', this.name );
   }
 
-  getPodcasts(): void {
-  	this.podcastService.getPodcasts()
-  		.subscribe( podcasts => this.podcasts = podcasts.slice( 1 , 4 ) );
-  }
 
 }

@@ -1,6 +1,5 @@
 .container {
 	margin: 2%;
-
 }
 
 .row {
@@ -21,7 +20,7 @@ mat-divider {
 	width: 90%;
 }
 
-mat-button-toggle {
+mat-button-toggle, mat-checkbox {
 	float: right;
 }
 
@@ -31,6 +30,19 @@ mat-button-toggle {
 }
 
 .remove-btn {
-	background-color: red;
+	background-color: #320E44;
 	margin-bottom: 0.5%;
 }
+
+mat-checkbox {
+	margin-right: 5%;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+    opacity: 0.03 !important;
+    background-color: #320E44!important;
+  }
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: #320E44;
+  }

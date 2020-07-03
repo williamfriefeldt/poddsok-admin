@@ -42,7 +42,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
@@ -82,7 +82,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatIconModule,
     MatProgressBarModule,
     MatSnackBarModule,
-    MatRadioModule,
+    MatCheckboxModule,
     MatMenuModule
   ],
   providers: [

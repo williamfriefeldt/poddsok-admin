@@ -13,22 +13,31 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './podcast-update-all.component.html',
   styleUrls: ['./podcast-update-all.component.css']
 })
+
+/**
+ * @description Update all podcasts with new episodes from SpotifyAPI.
+ */
 export class PodcastUpdateAllComponent implements OnInit {
 
 	podcasts: Podcast[];
 	newEps: NewEps[] = [];
+  notEPs: NewEps[] = [];
+  epsAdded: Episode[] = [];
+  epsAddedToNot: Episode[] = [];
 
 	error: string;
-  loading: boolean = true;
+  loading: boolean = true; 
   timeout: number = 4000;
   addEps: boolean;
   addEpsProgress: number = 0;
   progressCounter: number = 0;
   progressTotal: number = 0;
+  progressColor: string = 'primary';
 
-  //temporary var
-  value: boolean = false;
 
+  /**
+   * @description Get all podcasts (if not fetched from Firebase Database, wait for that).
+   */
   getPodcasts(): void {
     this.error = '';
     this.loading = true;
@@ -47,12 +56,15 @@ export class PodcastUpdateAllComponent implements OnInit {
       });  
   }
 
+  /**
+   * @description Call SpotifyAPI for each pod to get new episodes.
+   */
   callSpotify(): void {
     this.newEps = [];
   	this.podcasts.forEach( (pod, index) => {
       if( pod.info.finished != true) {
   			this.spotifyService.searchPod( pod, 0 )
-  				.subscribe( (res: any) => {
+  				.subscribe( ( res: any ) => {
             const newEpisodes = this.sortNewEps( res.items, pod );
             if( newEpisodes.length > 0 && newEpisodes.length < 49 ) {
     					this.newEps.push({
@@ -67,13 +79,22 @@ export class PodcastUpdateAllComponent implements OnInit {
   				});
         }
 		});
+    this.newEps.sort( (a, b) => {
+      return ( '' + a.title ).localeCompare( b.title );
+    });
   }
 
+  /**
+   * @description Sort out new episodes depenidng if thet already exsists in Firebase Database or not.
+   * @param { any } data - Result from SpotifyAPI.
+   * @param { Podcast } podcast - The current podcast.
+   * @return { Episode[] } The new episodes for current podcast.
+   */
   sortNewEps( data: any, podcast: Podcast ) : Episode[] {
   	const eps = data.map( ep => {
       return {
         name: ep.name,
-        length: Math.round( parseInt(ep.duration_ms) / 1000 / 60 ),
+        length: Math.round( parseInt( ep.duration_ms ) / 1000 / 60 ),
         minutes: { 'min1': { nr:1, text:'' } },
         link: ep.uri,
         nr: 0
@@ -87,19 +108,22 @@ export class PodcastUpdateAllComponent implements OnInit {
     });
     var nrOfEps = podcast.episodes.length + newEps.length;
     newEps.map( ep => {
-      if( ep.name.match(/^\d/) ) {
-        const split = ep.name.split('.');
+      if( ep.name.match( /^\d/ ) ) {
+        const split = ep.name.split( '.' );
         ep.name = split[1];
-        ep.nr = parseInt(split[0]);
+        ep.nr = parseInt( split[0] );
       } else {
-        ep.nr = nrOfEps-1;
+        ep.nr = nrOfEps - 1;
         nrOfEps--;
       }
     });
   	return newEps;
   }
 
-
+  /**
+   * @description Opens dialog to add episodes.
+   * @param { string } type - type of dialog that should be opened.
+   */
   openDialog( type: string ): void {
     const dialogRef = this.dialog.open( DialogComponent, {
       data: {
@@ -110,25 +134,56 @@ export class PodcastUpdateAllComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe( res => {
       if( res && res.val ) {
+        if( this.notEPs.length > 0) {
+          this.notEPs.forEach( ep => {
+            const podcast = this.podcasts.find( pod => pod.title === ep.title );
+            ep.newEps.forEach( episode =>  {
+              this.removeEp( episode, podcast );
+            });
+          });
+        }
         this.newEps.forEach( pod => this.addEpsProgress += pod.newEps.length );
-        this.progressTotal = this.addEpsProgress * (100/this.addEpsProgress);
+        this.notEPs.forEach( pod => this.addEpsProgress += pod.newEps.length );
+        this.progressTotal = this.addEpsProgress * ( 100/this.addEpsProgress );
         this.addEps = true;
         this.progress();
       }
     });
   }
 
+  /**
+   * @description Calculating progress in adding episodes to Firebase Database.
+   */
   progress(): void {
-    if( this.progressCounter !== this.progressTotal ) {
-      this.progressCounter += (100/this.addEpsProgress);
-      setTimeout( () => this.progress(), 500);
+    if( this.progressCounter <= this.progressTotal ) {
+      this.progressCounter += ( 100/this.addEpsProgress );
+      if( this.newEps.length > 0 ) {
+        if( this.newEps[0].newEps.length > 0 ) {
+          this.epsAdded.push( this.newEps[0].newEps[0] );
+          this.newEps[0].newEps.shift();
+        } else {
+          this.newEps.shift();
+        }
+      } else if( this.notEPs.length > 0 ){
+        this.progressColor ='warn';
+        this.epsAddedToNot.push( this.notEPs[0].newEps[0] );
+        this.notEPs.shift();
+      }
+      setTimeout( () => {
+        this.progress();
+      }, 500 );
     } else {
       this.snackBar.open('Avsnitt tillagda', 'Klar!', {
-        duration: 5000,
+        duration: 15000,
       });
     }
   }
 
+  /**
+   * @description Remove new episode from 'episodes to be added'.
+   * @param { Episode } ep - Episode to be removed.
+   * @param { Podcast } pod - Podcast from which to remove the episode.
+   */
   removeEp( ep: Episode, pod: Podcast): void {
     this.newEps.find( ( podcast, index ) => {
       if( podcast.title === pod.title ) {
@@ -139,11 +194,40 @@ export class PodcastUpdateAllComponent implements OnInit {
     this.newEps = this.newEps.filter( pod => pod.newEps.length !== 0 );
   }
 
-  clickRadioBtn( input: boolean ): void {
-    console.log('hej');
-    console.log( input );
+  /**
+   * @description Handle states of checkbox. Checked - add episode to 'episodes not to be added to Firebase Database'.
+   *                                         Not checked - remove episode from 'episodes not to be added to Firebase Database'.
+   */
+  clickCheckBox( event, podTitle: string, ep: Episode ): void {
+    if( event.checked ) {
+      const podcast = this.notEPs.find( ( pod, index ) => {
+        if( pod.title === podTitle ) {
+          this.notEPs[ index ].newEps.push( ep );
+          return true;
+        }
+      });
+      if( podcast === undefined ) {
+        const newEps = [];
+        newEps.push( ep );
+        this.notEPs.push( { title: podTitle, newEps: newEps });
+      }
+    } else {
+      this.notEPs.find( ( pod, index ) => {
+        if( pod.title === podTitle ) {
+          const newEpisodes = pod.newEps.filter( episode => ep.name !== episode.name); 
+          this.notEPs[ index ].newEps = newEpisodes;
+        }
+      });
+      this.notEPs = this.notEPs.filter( pod => pod.newEps.length !== 0 );
+    }
   }
 
+  /**
+   * @param { PodcastService } - To get all podcasts
+   * @param { SpotifyService } - To get episodes from SpotifyAPI
+   * @param { Dialog } - Create dialog in component
+   * @param { SnackBar } - SnackBar to show user when completed task.
+   */
   constructor(
   	private podcastService: PodcastService,
   	private spotifyService: SpotifyService,
@@ -151,6 +235,9 @@ export class PodcastUpdateAllComponent implements OnInit {
     private snackBar: MatSnackBar
   ) { }
 
+  /**
+  * @description When component is ready - get podcasts.
+  */
   ngOnInit(): void {
   	this.getPodcasts();
   }
