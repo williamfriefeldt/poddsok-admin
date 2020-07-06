@@ -64,11 +64,12 @@ export class PodcastUpdateAllComponent implements OnInit {
   			this.spotifyService.searchPod( pod, 0 )
   				.subscribe( ( res: any ) => {
             const newEpisodes = this.sortNewEps( res.items, pod );
+            const latestEp = pod.episodes.length > 1 ? pod.episodes[ pod.episodes.length - 2 ] : { nr:0, name: 'Inga avsnitt' };
             if( newEpisodes.length > 0 && newEpisodes.length < 49 ) {
     					this.newEps.push({
     						title: pod.title,
     						newEps: newEpisodes,
-                latestEp: pod.episodes[ pod.episodes.length - 1 ].name
+                latestEp: latestEp.nr + ' - ' + latestEp.name
     					});
             }
   				},
