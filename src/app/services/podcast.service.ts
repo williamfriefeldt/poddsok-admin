@@ -94,7 +94,7 @@ export class PodcastService {
 				return;				
 			});		
 		});
-		return of();
+		return of(true);
 	}
 
 	addNotEps( podcast: Podcast, episodes: Episode[]): Observable<Boolean> {
@@ -105,7 +105,7 @@ export class PodcastService {
 				return;				
 			});		
 		});		
-		return of();
+		return of(true);
 	}
 
   constructor(

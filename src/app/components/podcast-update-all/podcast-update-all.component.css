@@ -6,6 +6,7 @@
 	display: flex;
 	width: 95%;
 	justify-content: space-between;
+	padding: 0.25%;
 }
 
 .column-1 {

@@ -31,7 +31,7 @@ export class PodcastUpdateAllComponent implements OnInit {
   addEps: boolean;
   addEpsProgress: number[] = [ 0, 0 ];
   progressCounter: number[] = [ 0, 0 ];
-  progressTotal: number[] = [ 0, 10 ];
+  progressTotal: number[] = [ 0, 0 ];
 
   /**
    * @description Get all podcasts (if not fetched from Firebase Database, wait for that).
@@ -68,6 +68,7 @@ export class PodcastUpdateAllComponent implements OnInit {
             if( newEpisodes.length > 0 && newEpisodes.length < 49 ) {
     					this.newEps.push({
     						title: pod.title,
+                podcast: pod,
     						newEps: newEpisodes,
                 latestEp: latestEp.nr + ' - ' + latestEp.name
     					});
@@ -144,8 +145,8 @@ export class PodcastUpdateAllComponent implements OnInit {
         }
         this.newEps.forEach( pod => this.addEpsProgress[0] += pod.newEps.length );
         this.notEPs.forEach( pod => this.addEpsProgress[1] += pod.newEps.length );
-        this.progressTotal[0] = this.addEpsProgress[0] * ( 100/this.addEpsProgress[1] );
-        this.progressTotal[1] = this.addEpsProgress[1] * ( 100/this.addEpsProgress[1] );
+        this.progressTotal[0] = this.addEpsProgress[0] !== 0 ? this.addEpsProgress[0] * ( 100/this.addEpsProgress[0] ) : 0;
+        this.progressTotal[1] = this.addEpsProgress[1] !== 0 ? this.addEpsProgress[1] * ( 100/this.addEpsProgress[1] ) : 0;
         this.addEps = true;
         this.progress();
       }
@@ -157,25 +158,31 @@ export class PodcastUpdateAllComponent implements OnInit {
    */
   progress(): void {     
     if( this.newEps.length > 0 ) {
-      this.epsAdded.push( this.newEps[0].newEps[0] );
-      this.newEps[0].newEps.shift();
-      if( this.newEps[0].newEps.length === 0 ) {
-        this.newEps.shift();
-      }
-      setTimeout( () => {
-        this.progressCounter[0] += ( 100/this.addEpsProgress[0] );
-        this.progress();
-      }, 500 );
-    } else if( this.notEPs.length > 0 ){
-      this.epsAddedToNot.push( this.notEPs[0].newEps[0] );
-      this.notEPs[0].newEps.shift();
-      if( this.notEPs[0].newEps.length === 0 ) {
-        this.notEPs.shift();
-      }
-      setTimeout( () => {
-        this.progressCounter[1] += ( 100/this.addEpsProgress[1] );
-        this.progress();
-      }, 500 );
+      this.podcastService.addNewEps( this.newEps[0].podcast, [ this.newEps[0].newEps[0] ] )
+        .subscribe( res => {
+          this.epsAdded.push( this.newEps[0].newEps[0] );
+          this.newEps[0].newEps.shift();
+          if( this.newEps[0].newEps.length === 0 ) {
+            this.newEps.shift();
+          }
+          setTimeout( () => {
+            this.progressCounter[0] += ( 100/this.addEpsProgress[0] );
+            this.progress();
+          }, 500 );       
+        });
+    } else if( this.notEPs.length > 0 ) {
+      this.podcastService.addNotEps( this.notEPs[0].podcast, [ this.notEPs[0].newEps[0] ] )
+        .subscribe( res => {
+          this.epsAddedToNot.push( this.notEPs[0].newEps[0] );
+          this.notEPs[0].newEps.shift();
+          if( this.notEPs[0].newEps.length === 0 ) {
+            this.notEPs.shift();
+          }
+          setTimeout( () => {
+            this.progressCounter[1] += ( 100/this.addEpsProgress[1] );
+            this.progress();
+          }, 500 );          
+        });
     } else {
       this.snackBar.open('Avsnitt tillagda', 'Klar!', {
         duration: 15000,
@@ -213,7 +220,8 @@ export class PodcastUpdateAllComponent implements OnInit {
       if( podcast === undefined ) {
         const newEps = [];
         newEps.push( ep );
-        this.notEPs.push( { title: podTitle, newEps: newEps, latestEp: '' });
+        const pod = this.podcasts.find( pod => pod.title === podTitle );
+        this.notEPs.push( { title: podTitle, newEps: newEps, latestEp: '', podcast: pod } );
       }
     } else {
       this.notEPs.find( ( pod, index ) => {

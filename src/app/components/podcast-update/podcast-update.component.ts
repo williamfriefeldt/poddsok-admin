@@ -103,13 +103,14 @@ export class PodcastUpdateComponent implements OnInit {
   }
 
   addNewEps(): void {
-    //if( this.notEPs ) {
-      this.podcastService.addNewEps( this.podcast, this.newEps )
-        .subscribe( res => console.log('added to eps') );
-    //}
+    this.podcastService.addNewEps( this.podcast, this.newEps )
+      .subscribe( res => console.log('added to eps') );
   }
 
-  //Make addNotEpFunc
+  addNotEps(): void {
+    this.podcastService.addNotEps( this.podcast, this.notEPs )
+      .subscribe( res => console.log('added to eps') );
+  }
 
   openDialog( type: string ): void {
     const dialogRef = this.dialog.open( DialogComponent, {
@@ -122,6 +123,9 @@ export class PodcastUpdateComponent implements OnInit {
     dialogRef.afterClosed().subscribe( res => {
       if( res && res.val ) {
         this.addNewEps();
+        if( this.notEPs.length > 0 ) {
+          this.addNotEps();
+        }
       }
     });
   }

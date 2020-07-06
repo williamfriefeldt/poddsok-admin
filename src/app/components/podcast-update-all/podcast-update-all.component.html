@@ -15,7 +15,10 @@
 		<div *ngIf="!loading && !error">
 
 			<div class="row">
-				<h2 class="column-1"> Podcast </h2>
+				<div class="row column-1">
+					<h2 class="column-1"> Podcast </h2>
+					<h2 class="column-2"> Senaste avsnittet </h2>
+				</div>
 				<h2 class="column-2"> Nya avsnitt </h2>
 			</div>
 
@@ -23,12 +26,14 @@
 
 				<div class="row">
 
-					<p class="column-2"> 
-						{{ pod.title }}
-					</p>
-					<p class="column-1"> 
-						{{ pod.latestEp }}
-					</p>
+					<div class="row column-1">
+						<p class="column-2"> 
+							{{ pod.title }}
+						</p>
+						<p class="column-1"> 
+							{{ pod.latestEp }}
+						</p>
+					</div>
 
 					<div class="column-2"> 
 						<div class="row" *ngFor="let ep of pod.newEps">
@@ -59,7 +64,8 @@
 	</div>
 
 	<div *ngIf="addEps">
-		<p *ngIf="progressCounter !== progressTotal"> Lägger till avsnitt.. </p>
+		<p *ngIf="newEps.length !== 0 || notEPs.length !== 0"> Lägger till avsnitt.. </p>
+		<p *ngIf="newEps.length === 0 && notEPs.length === 0"> Avsnitt tillagda! </p>
 		<div class="row">
 	    	<mat-progress-bar
 	          [mode]="'determine'"
