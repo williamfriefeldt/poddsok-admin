@@ -29,11 +29,9 @@ export class PodcastUpdateAllComponent implements OnInit {
   loading: boolean = true; 
   timeout: number = 4000;
   addEps: boolean;
-  addEpsProgress: number = 0;
-  progressCounter: number = 0;
-  progressTotal: number = 0;
-  progressColor: string = 'primary';
-
+  addEpsProgress: number[] = [ 0, 0 ];
+  progressCounter: number[] = [ 0, 0 ];
+  progressTotal: number[] = [ 0, 10 ];
 
   /**
    * @description Get all podcasts (if not fetched from Firebase Database, wait for that).
@@ -142,9 +140,10 @@ export class PodcastUpdateAllComponent implements OnInit {
             });
           });
         }
-        this.newEps.forEach( pod => this.addEpsProgress += pod.newEps.length );
-        this.notEPs.forEach( pod => this.addEpsProgress += pod.newEps.length );
-        this.progressTotal = this.addEpsProgress * ( 100/this.addEpsProgress );
+        this.newEps.forEach( pod => this.addEpsProgress[0] += pod.newEps.length );
+        this.notEPs.forEach( pod => this.addEpsProgress[1] += pod.newEps.length );
+        this.progressTotal[0] = this.addEpsProgress[0] * ( 100/this.addEpsProgress[1] );
+        this.progressTotal[1] = this.addEpsProgress[1] * ( 100/this.addEpsProgress[1] );
         this.addEps = true;
         this.progress();
       }
@@ -154,22 +153,25 @@ export class PodcastUpdateAllComponent implements OnInit {
   /**
    * @description Calculating progress in adding episodes to Firebase Database.
    */
-  progress(): void {
-    if( this.progressCounter <= this.progressTotal ) {
-      this.progressCounter += ( 100/this.addEpsProgress );
-      if( this.newEps.length > 0 ) {
-        if( this.newEps[0].newEps.length > 0 ) {
-          this.epsAdded.push( this.newEps[0].newEps[0] );
-          this.newEps[0].newEps.shift();
-        } else {
-          this.newEps.shift();
-        }
-      } else if( this.notEPs.length > 0 ){
-        this.progressColor ='warn';
-        this.epsAddedToNot.push( this.notEPs[0].newEps[0] );
+  progress(): void {     
+    if( this.newEps.length > 0 ) {
+      this.epsAdded.push( this.newEps[0].newEps[0] );
+      this.newEps[0].newEps.shift();
+      if( this.newEps[0].newEps.length === 0 ) {
+        this.newEps.shift();
+      }
+      setTimeout( () => {
+        this.progressCounter[0] += ( 100/this.addEpsProgress[0] );
+        this.progress();
+      }, 500 );
+    } else if( this.notEPs.length > 0 ){
+      this.epsAddedToNot.push( this.notEPs[0].newEps[0] );
+      this.notEPs[0].newEps.shift();
+      if( this.notEPs[0].newEps.length === 0 ) {
         this.notEPs.shift();
       }
       setTimeout( () => {
+        this.progressCounter[1] += ( 100/this.addEpsProgress[1] );
         this.progress();
       }, 500 );
     } else {
@@ -241,6 +243,5 @@ export class PodcastUpdateAllComponent implements OnInit {
   ngOnInit(): void {
   	this.getPodcasts();
   }
-
 
 }

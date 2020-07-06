@@ -57,11 +57,22 @@
 
 	<div *ngIf="addEps">
 		<p *ngIf="progressCounter !== progressTotal"> Lägger till avsnitt.. </p>
-    	<mat-progress-bar
-          [mode]="'determine'"
-          [value]="progressCounter"
-          [color]="progressColor">
-      	</mat-progress-bar>
+		<div class="row">
+	    	<mat-progress-bar
+	          [mode]="'determine'"
+	          [value]="progressCounter[0]" 
+	          [color]="'primary'"
+	          [style.width]="progressTotal[0] + '%'">
+	      	</mat-progress-bar>
+
+	      	<mat-progress-bar
+	          [mode]="'determine'"
+	          [value]="progressCounter[1]"
+	          [color]="'warn'"
+	          [style.width]="progressTotal[1] + '%'">
+	      	</mat-progress-bar>
+	     </div>
+
 
       	<div class="row">
       		<div class="column-1">
