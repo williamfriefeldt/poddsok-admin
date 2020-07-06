@@ -59,7 +59,7 @@ export class PodcastUpdateAllComponent implements OnInit {
    */
   callSpotify(): void {
     this.newEps = [];
-  	this.podcasts.forEach( (pod, index) => {
+  	this.podcasts.forEach( ( pod, index ) => {
       if( pod.info.finished != true) {
   			this.spotifyService.searchPod( pod, 0 )
   				.subscribe( ( res: any ) => {
@@ -67,7 +67,8 @@ export class PodcastUpdateAllComponent implements OnInit {
             if( newEpisodes.length > 0 && newEpisodes.length < 49 ) {
     					this.newEps.push({
     						title: pod.title,
-    						newEps: newEpisodes 
+    						newEps: newEpisodes,
+                latestEp: pod.episodes[ pod.episodes.length - 1 ].name
     					});
             }
   				},
@@ -211,7 +212,7 @@ export class PodcastUpdateAllComponent implements OnInit {
       if( podcast === undefined ) {
         const newEps = [];
         newEps.push( ep );
-        this.notEPs.push( { title: podTitle, newEps: newEps });
+        this.notEPs.push( { title: podTitle, newEps: newEps, latestEp: '' });
       }
     } else {
       this.notEPs.find( ( pod, index ) => {
