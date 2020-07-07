@@ -60,7 +60,7 @@ export class PodcastUpdateAllComponent implements OnInit {
   callSpotify(): void {
     this.newEps = [];
   	this.podcasts.forEach( ( pod, index ) => {
-      if( pod.info.finished != true) {
+      if( pod.info.finished !== true) {
   			this.spotifyService.searchPod( pod, 0 )
   				.subscribe( ( res: any ) => {
             const newEpisodes = this.sortNewEps( res.items, pod );
@@ -101,12 +101,22 @@ export class PodcastUpdateAllComponent implements OnInit {
         nr: 0
       }
     });
-    const newEps = eps.filter( episode => {
+    let newEps = eps.filter( episode => {
       const found = podcast.episodes.find( ep => {
         if( ep !== undefined ) return episode.name.includes( ep.name );
       });
       if ( !found ) return episode;
     });
+    if( podcast.info.notEPs !== undefined ) {
+      newEps = newEps.filter( episode => {
+        const notEPs = Object.values( podcast.info.notEPs );
+        const found = notEPs.find( ep => {
+          const title  = Object.values( ep );
+          if( ep !== undefined ) return episode.name.includes( title[0].toString() );
+        });
+        if ( !found ) return episode;
+      });
+    }
     var nrOfEps = podcast.episodes.length + newEps.length;
     newEps.map( ep => {
       if( ep.name.match( /^\d/ ) ) {
