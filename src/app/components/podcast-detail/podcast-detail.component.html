@@ -63,7 +63,7 @@
 					<mat-form-field class="minText">
 						<input  matInput [(ngModel)]="addMin.text">
 					</mat-form-field>
-					<mat-button-toggle class="min-btn" (click)="(addMin.text && addMin.nr) ? updatePodcast( addMin, ep ) : ''" [disabled]="!addMin.text || !addMin.nr">
+					<mat-button-toggle class="min-btn" (click)="(addMin.text && addMin.nr) ? openDialog( addMin, ep, 'newEp' ) : ''" [disabled]="!addMin.text || !addMin.nr">
 						Lägg till
 					</mat-button-toggle>
 				</div>

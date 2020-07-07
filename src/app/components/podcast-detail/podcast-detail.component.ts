@@ -193,18 +193,24 @@ export class PodcastDetailComponent implements OnInit {
    * @param { Episode } ep - Episode that should be updated.
    */
   openDialog( min: Minute, ep: Episode, type: string): void {
-    const dialogRef = this.dialog.open( DialogComponent, {
-      data: {
-        min: min,
-        ep: ep,
-        type: type
-      }
-    });
-    dialogRef.afterClosed().subscribe( res => {
-      if( res && res.val ) {
-        this.updatePodcast( res.min, res.ep );
-      }
-    });
+    const selectedEp = this.podcast.episodes.find( episode => episode.name === ep.name );
+    const selectedMin = selectedEp.minutes.find( minute => minute.nr === min.nr );
+    if( ( selectedMin === undefined || selectedMin.text === '' ) && type === 'newEp' ) {
+      this.updatePodcast( min, ep);
+    } else {
+      const dialogRef = this.dialog.open( DialogComponent, {
+        data: {
+          min: min,
+          ep: ep,
+          type: type
+        }
+      });
+      dialogRef.afterClosed().subscribe( res => {
+        if( res && res.val ) {
+          this.updatePodcast( res.min, res.ep );
+        }
+      });
+    }
   }
 
 }
