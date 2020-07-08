@@ -22,8 +22,10 @@ export class PodcastUpdateComponent implements OnInit {
   podcast: Podcast;
   newEps: Episode[] = [];
   notEPs: Episode[] = [];
+  remEPs: Episode[] = [];
   error: string;
   offset: number = 0;
+  loading: boolean = true;
 
   constructor(
   	private spotifyService: SpotifyService,
@@ -35,13 +37,14 @@ export class PodcastUpdateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const pod = this.router.snapshot.paramMap.get('title');
+    const pod = this.router.snapshot.paramMap.get( 'title' );
     this.getPodcast( pod );
   }
 
   getEpsisodes(): void {
     this.spotifyService.searchPod( this.podcast, this.offset )
       .subscribe( (res: any) => {
+        this.loading = false;
         if(res) {
           this.offset += 50;
           this.episodes = res.items.map( ep => {
@@ -131,6 +134,8 @@ export class PodcastUpdateComponent implements OnInit {
   }
 
   drop( event: CdkDragDrop<string[]> ) {
+    console.log(event.previousContainer.data);
+    console.log(event.container.data);
     if( event.previousContainer === event.container ) {
       moveItemInArray( event.container.data, 
                        event.previousIndex, 

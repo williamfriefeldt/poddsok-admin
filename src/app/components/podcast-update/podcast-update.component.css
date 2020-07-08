@@ -6,7 +6,7 @@
 	margin: 3%;
 }
 
-mat-button-toggle {
+.side-menu {
 	float: right;
 }
 
@@ -55,4 +55,11 @@ mat-button-toggle.disabled {
 
 .ep-list {
 	min-height: 15vh;
+}
+
+.trash {
+	display: block;
+	padding-left: 30%;
+	font-size: 400%;
+	color: #320E44;
 }

@@ -1,48 +1,59 @@
-<mat-button-toggle [class.disabled]="newEps.length === 0" (click)="openDialog( 'newEps' )">
-	Lägg till avsnitt
-</mat-button-toggle>
+<div  cdkDropListGroup>
+	<div class="side-menu">
+		<mat-button-toggle [class.disabled]="newEps.length === 0" (click)="openDialog( 'newEps' )">
+			Lägg till avsnitt
+		</mat-button-toggle>
+		<div cdkDropList
+	      	[cdkDropListData]="remEPs"
+	      	class="ep-list"
+	      	(cdkDropListDropped)="drop($event)">
+			<mat-icon class="ep-box trash"> delete </mat-icon>
+		</div>
+	</div>
 
+	<div class="ep-container" *ngIf="!error">
+		<div *ngIf="newEps" class="ep-col">
 
-<div class="ep-container" *ngIf="!error"cdkDropListGroup>
-	<div *ngIf="newEps" class="ep-col">
+			<mat-spinner *ngIf="loading"></mat-spinner>
 
-		<mat-accordion>
-			<div cdkDropList
-      		 [cdkDropListData]="newEps"
-      		 class="ep-list"
-      		 (cdkDropListDropped)="drop( $event )"
-      		 *ngIf="newEps.length !== 0">
-				<div class="ep-box" *ngFor="let ep of newEps" cdkDrag>
-					<mat-form-field> 
-						<input matInput type="number" [(ngModel)]="ep.nr" placeholder="{{ ep.nr }}">
-					</mat-form-field> 
-					<mat-form-field>
-						<input matInput type="text" [(ngModel)]="ep.name" placeholder="{{ ep.name }}"> 
-					</mat-form-field>
+			<mat-accordion *ngIf="!loading">
+				<div cdkDropList
+	      		 [cdkDropListData]="newEps"
+	      		 class="ep-list"
+	      		 (cdkDropListDropped)="drop( $event )"
+	      		 *ngIf="newEps.length !== 0">
+					<div class="ep-box" *ngFor="let ep of newEps" cdkDrag>
+						<mat-form-field> 
+							<input matInput type="number" [(ngModel)]="ep.nr" placeholder="{{ ep.nr }}">
+						</mat-form-field> 
+						<mat-form-field>
+							<input matInput type="text" [(ngModel)]="ep.name" placeholder="{{ ep.name }}"> 
+						</mat-form-field>
+					</div>
 				</div>
-			</div>
-			<mat-button-toggle (click)="getEpsisodes()" *ngIf="newEps.length !== 0">
-				Fler avsnitt
-			</mat-button-toggle> 
-			<div class="no-eps" *ngIf="newEps.length === 0 && !error">
-				Inga nya avsnitt
-			</div>
-		</mat-accordion>
+				<mat-button-toggle (click)="getEpsisodes()" *ngIf="newEps.length !== 0">
+					Fler avsnitt
+				</mat-button-toggle> 
+				<div class="no-eps" *ngIf="newEps.length === 0 && !error">
+					Inga nya avsnitt
+				</div>
+			</mat-accordion>
 
+		</div>
+
+		<div class="ep-col">
+			<div
+	      		cdkDropList
+	      		[cdkDropListData]="notEPs"
+	      		class="ep-list"
+	      		(cdkDropListDropped)="drop($event)">
+
+	     		<div class="ep-box" *ngFor="let ep of notEPs" cdkDrag>
+	      			{{ ep.name }}
+	    		</div>
+	  		</div>
+		</div>
 	</div>
-
-	<div class="ep-col">
-		<div
-      cdkDropList
-      [cdkDropListData]="notEPs"
-      class="ep-list"
-      (cdkDropListDropped)="drop($event)">
-     <div class="ep-box" *ngFor="let ep of notEPs" cdkDrag>
-      	{{ ep.name }}
-    	</div>
-  	</div>
-	</div>
-
 </div>
 
 <div class="error" *ngIf="error">
