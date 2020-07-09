@@ -15,6 +15,10 @@ mat-button-toggle.disabled {
 	opacity: 0.5;
 }
 
+mat-form-field {
+	cursor: grab;
+}
+
 .ep-col {
 	width: 50%;
 	height: 80vh;
@@ -62,4 +66,8 @@ mat-button-toggle.disabled {
 	padding-left: 30%;
 	font-size: 400%;
 	color: #320E44;
+}
+
+.trash:hover {
+	font-size: 1000%;
 }

@@ -26,6 +26,7 @@ export class PodcastUpdateComponent implements OnInit {
   error: string;
   offset: number = 0;
   loading: boolean = true;
+  drag: boolean = true;
 
   constructor(
   	private spotifyService: SpotifyService,
@@ -134,8 +135,6 @@ export class PodcastUpdateComponent implements OnInit {
   }
 
   drop( event: CdkDragDrop<string[]> ) {
-    console.log(event.previousContainer.data);
-    console.log(event.container.data);
     if( event.previousContainer === event.container ) {
       moveItemInArray( event.container.data, 
                        event.previousIndex, 
@@ -146,5 +145,6 @@ export class PodcastUpdateComponent implements OnInit {
                          event.previousIndex,
                          event.currentIndex );
     }
+    //this.drag = false;
   }
 }

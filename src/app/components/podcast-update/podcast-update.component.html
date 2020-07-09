@@ -1,13 +1,12 @@
-<div  cdkDropListGroup>
+<div cdkDropListGroup>
 	<div class="side-menu">
 		<mat-button-toggle [class.disabled]="newEps.length === 0" (click)="openDialog( 'newEps' )">
 			Lägg till avsnitt
 		</mat-button-toggle>
-		<div cdkDropList
+		<div cdkDropList 
 	      	[cdkDropListData]="remEPs"
-	      	class="ep-list"
 	      	(cdkDropListDropped)="drop($event)">
-			<mat-icon class="ep-box trash"> delete </mat-icon>
+			<mat-icon *ngIf="drag" class="trash"> delete </mat-icon>
 		</div>
 	</div>
 
