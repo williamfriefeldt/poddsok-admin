@@ -1,61 +1,98 @@
-<div cdkDropListGroup>
-	<div class="side-menu">
-		<mat-button-toggle [class.disabled]="newEps.length === 0" (click)="openDialog( 'newEps' )">
-			Lägg till avsnitt
-		</mat-button-toggle>
-		<div cdkDropList 
-	      	[cdkDropListData]="remEPs"
-	      	(cdkDropListDropped)="drop($event)">
-			<mat-icon *ngIf="drag" class="trash"> delete </mat-icon>
+<div *ngIf="!addEps" class="container">	
+	<div cdkDropListGroup>
+		<div class="side-menu">
+			<mat-button-toggle [class.disabled]="newEps.length === 0" (click)="openDialog( 'newEps' )">
+				Lägg till avsnitt
+			</mat-button-toggle>
+			<mat-button-toggle (click)="goBack()"> 
+				Tillbaka 
+			</mat-button-toggle>
+			<div cdkDropList 
+		      	[cdkDropListData]="remEPs"
+		      	(cdkDropListDropped)="drop($event)">
+				<mat-icon class="trash"> delete </mat-icon>
+			</div>
 		</div>
-	</div>
 
-	<div class="ep-container" *ngIf="!error">
-		<div *ngIf="newEps" class="ep-col">
+		<div class="ep-container" *ngIf="!error">
+			<div *ngIf="newEps" class="ep-col">
 
-			<mat-spinner *ngIf="loading"></mat-spinner>
+				<mat-spinner *ngIf="loading"></mat-spinner>
 
-			<mat-accordion *ngIf="!loading">
-				<div cdkDropList
-	      		 [cdkDropListData]="newEps"
-	      		 class="ep-list"
-	      		 (cdkDropListDropped)="drop( $event )"
-	      		 *ngIf="newEps.length !== 0">
-					<div class="ep-box" *ngFor="let ep of newEps" cdkDrag>
-						<mat-form-field> 
-							<input matInput type="number" [(ngModel)]="ep.nr" placeholder="{{ ep.nr }}">
-						</mat-form-field> 
-						<mat-form-field>
-							<input matInput type="text" [(ngModel)]="ep.name" placeholder="{{ ep.name }}"> 
-						</mat-form-field>
+				<mat-accordion *ngIf="!loading">
+					<div cdkDropList
+		      		 [cdkDropListData]="newEps"
+		      		 class="ep-list"
+		      		 (cdkDropListDropped)="drop( $event )"
+		      		 *ngIf="newEps.length !== 0">
+						<div class="ep-box" *ngFor="let ep of newEps" cdkDrag>
+							<mat-form-field> 
+								<input matInput type="number" [(ngModel)]="ep.nr" placeholder="{{ ep.nr }}">
+							</mat-form-field> 
+							<mat-form-field>
+								<input matInput type="text" [(ngModel)]="ep.name" placeholder="{{ ep.name }}"> 
+							</mat-form-field>
+						</div>
 					</div>
-				</div>
-				<mat-button-toggle (click)="getEpsisodes()" *ngIf="newEps.length !== 0">
-					Fler avsnitt
-				</mat-button-toggle> 
-				<div class="no-eps" *ngIf="newEps.length === 0 && !error">
-					Inga nya avsnitt
-				</div>
-			</mat-accordion>
+					<mat-button-toggle (click)="getEpsisodes()" *ngIf="newEps.length !== 0">
+						Fler avsnitt
+					</mat-button-toggle> 
+					<div class="no-eps" *ngIf="newEps.length === 0 && !error">
+						Inga nya avsnitt
+					</div>
+				</mat-accordion>
 
+			</div>
+
+			<div class="ep-col">
+				<div
+		      		cdkDropList
+		      		[cdkDropListData]="notEPs"
+		      		class="ep-list"
+		      		(cdkDropListDropped)="drop($event)">
+
+		     		<div class="ep-box" *ngFor="let ep of notEPs" cdkDrag>
+		      			{{ ep.name }}
+		    		</div>
+		  		</div>
+			</div>
 		</div>
+	</div>
 
-		<div class="ep-col">
-			<div
-	      		cdkDropList
-	      		[cdkDropListData]="notEPs"
-	      		class="ep-list"
-	      		(cdkDropListDropped)="drop($event)">
-
-	     		<div class="ep-box" *ngFor="let ep of notEPs" cdkDrag>
-	      			{{ ep.name }}
-	    		</div>
-	  		</div>
-		</div>
+	<div class="error" *ngIf="error">
+		{{ error }}
 	</div>
 </div>
 
-<div class="error" *ngIf="error">
-	{{ error }}
-</div>
+<div *ngIf="addEps" class="container">
+	<p *ngIf="newEps.length !== 0 || notEPs.length !== 0"> Lägger till avsnitt.. </p>
+	<p *ngIf="newEps.length === 0 && notEPs.length === 0"> Avsnitt tillagda! </p>
+	<div class="row">
+    	<mat-progress-bar
+          [mode]="'determine'"
+          [value]="progressCounter[0]" 
+          [color]="'primary'"
+          [style.width]="progressTotal[0] + '%'">
+      	</mat-progress-bar>
+
+      	<mat-progress-bar
+          [mode]="'determine'"
+          [value]="progressCounter[1]"
+          [color]="'warn'"
+          [style.width]="progressTotal[1] + '%'">
+      	</mat-progress-bar>
+    </div>
+
+	<div class="row">
+		<div class="column-1">
+			<h2> Tillagda avsnitt </h2>
+			<p *ngFor="let ep of epsAdded"> {{ ep.nr }} - {{ ep.name }} </p>
+		</div>
+		<div class="column-2">
+			<h2> Tillagda avsnitt som ej ska visas </h2>
+			<p *ngFor="let ep of epsAddedToNot"> {{ ep.nr }} - {{ ep.name }} </p>
+		</div>
+	</div>
+</div> 
+	
 

@@ -5,6 +5,7 @@ import { MessageService } from '../../services/message.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Episode } from '../../interfaces/episode';
 import { Podcast } from '../../interfaces/podcast';
@@ -23,10 +24,17 @@ export class PodcastUpdateComponent implements OnInit {
   newEps: Episode[] = [];
   notEPs: Episode[] = [];
   remEPs: Episode[] = [];
+  epsAdded: Episode[] = [];
+  epsAddedToNot: Episode[] = [];
+
   error: string;
   offset: number = 0;
   loading: boolean = true;
-  drag: boolean = true;
+  addEps: boolean = false;
+  addEpsProgress: number[] = [ 0, 0 ];
+  progressCounter: number[] = [ 0, 0 ];
+  progressTotal: number[] = [ 0, 0 ];
+
 
   constructor(
   	private spotifyService: SpotifyService,
@@ -34,6 +42,7 @@ export class PodcastUpdateComponent implements OnInit {
   	private messageService: MessageService,
     private router: ActivatedRoute,
     private location: Location,
+    private snackBar: MatSnackBar,
     public dialog: MatDialog
   ) { }
 
@@ -41,6 +50,14 @@ export class PodcastUpdateComponent implements OnInit {
     const pod = this.router.snapshot.paramMap.get( 'title' );
     this.getPodcast( pod );
   }
+
+  /**
+   * @description Go back to previous page.
+   * TODO: If previous location is another site, redirect to start page.
+   */
+  goBack(): void {
+    this.location.back();
+  } 
 
   getEpsisodes(): void {
     this.spotifyService.searchPod( this.podcast, this.offset )
@@ -63,8 +80,8 @@ export class PodcastUpdateComponent implements OnInit {
         }
       },
         err => {
-        this.messageService.add( err.message );
-        this.error = 'Tillgång till Spotify Api nekad, se konsolen';
+          this.messageService.add( err.message );
+          this.error = 'Tillgång till Spotify Api nekad, se konsolen';
       });
   }
 
@@ -126,12 +143,50 @@ export class PodcastUpdateComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe( res => {
       if( res && res.val ) {
-        this.addNewEps();
-        if( this.notEPs.length > 0 ) {
-          this.addNotEps();
+        if( this.notEPs.length > 0) {
+          this.notEPs.forEach( ep => {
+            this.newEps = this.newEps.filter( episode => episode.name !== ep.name ); 
+          });
         }
+        this.newEps.forEach( ep => this.addEpsProgress[0] ++ );
+        this.notEPs.forEach( ep => this.addEpsProgress[1] ++ );
+        this.progressTotal[0] = this.addEpsProgress[0] !== 0 ? this.addEpsProgress[0] * ( 100/this.addEpsProgress[0] ) : 0;
+        this.progressTotal[1] = this.addEpsProgress[1] !== 0 ? this.addEpsProgress[1] * ( 100/this.addEpsProgress[1] ) : 0;
+        this.addEps = true;
+        this.progress();
       }
     });
+  }
+
+  /**
+   * @description Calculating progress in adding episodes to Firebase Database.
+   */
+  progress(): void {     
+    if( this.newEps.length > 0 ) {
+      this.podcastService.addNewEps( this.podcast, [ this.newEps[0] ] )
+        .subscribe( res => {
+          this.epsAdded.push( this.newEps[0] );
+          this.newEps.shift();
+          setTimeout( () => {
+            this.progressCounter[0] += ( 100/this.addEpsProgress[0] );
+            this.progress();
+          }, 500 );       
+       });
+    } else if( this.notEPs.length > 0 ) {
+      this.podcastService.addNotEps( this.podcast, [ this.notEPs[0] ] )
+        .subscribe( res => {
+          this.epsAddedToNot.push( this.notEPs[0] );
+          this.notEPs.shift();
+          setTimeout( () => {
+            this.progressCounter[1] += ( 100/this.addEpsProgress[1] );
+            this.progress();
+          }, 500 );          
+        });
+    } else {
+      this.snackBar.open('Avsnitt tillagda', 'Klar!', {
+        duration: 15000,
+      });
+    }
   }
 
   drop( event: CdkDragDrop<string[]> ) {
@@ -145,6 +200,5 @@ export class PodcastUpdateComponent implements OnInit {
                          event.previousIndex,
                          event.currentIndex );
     }
-    //this.drag = false;
   }
 }

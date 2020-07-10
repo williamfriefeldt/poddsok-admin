@@ -15,7 +15,11 @@ mat-button-toggle.disabled {
 	opacity: 0.5;
 }
 
-mat-form-field {
+mat-button-toggle {
+	display: block;
+}
+
+mat-form-field, .ep-box {
 	cursor: grab;
 }
 
@@ -68,6 +72,21 @@ mat-form-field {
 	color: #320E44;
 }
 
-.trash:hover {
-	font-size: 1000%;
+.row {
+	display: flex;
+	width: 95%;
+	justify-content: space-between;
+	padding: 0.25%;
+}
+
+.column-1 {
+	width: 40%;
+}
+
+.column-2 {
+	width: 60%;
+}
+
+.container {
+	margin: 2%;
 }
