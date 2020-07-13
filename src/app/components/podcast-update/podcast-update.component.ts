@@ -26,6 +26,7 @@ export class PodcastUpdateComponent implements OnInit {
   remEPs: Episode[] = [];
   epsAdded: Episode[] = [];
   epsAddedToNot: Episode[] = [];
+  latestEp: Episode;
 
   error: string;
   offset: number = 0;
@@ -68,7 +69,7 @@ export class PodcastUpdateComponent implements OnInit {
           this.episodes = res.items.map( ep => {
             return {
               name: ep.name,
-              length: Math.round( parseInt(ep.duration_ms) / 1000 / 60 ),
+              length: Math.round( parseInt( ep.duration_ms ) / 1000 / 60 ),
               minutes: { 'min1': { nr:1, text:'' } },
               link: ep.uri,
               nr: 0
@@ -89,6 +90,7 @@ export class PodcastUpdateComponent implements OnInit {
     this.podcastService.getPodcast( pod )
       .subscribe( podcast => {
         this.podcast = podcast;
+        if( this.podcast ) this.latestEp = podcast.episodes.length > 1 ? podcast.episodes[ podcast.episodes.length - 2 ] : null;
         this.getEpsisodes();
       });
   }

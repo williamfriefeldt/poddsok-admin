@@ -14,7 +14,11 @@
 			</div>
 		</div>
 
+		<h3 *ngIf="latestEp"> Senaste avsnitet: {{ latestEp.nr }} - {{ latestEp.name }} </h3>
+		<h3 *ngIf="!latestEp"> Inga avsnitt tillagda till denna podd </h3> 
+
 		<div class="ep-container" *ngIf="!error">
+
 			<div *ngIf="newEps" class="ep-col">
 
 				<mat-spinner *ngIf="loading"></mat-spinner>
