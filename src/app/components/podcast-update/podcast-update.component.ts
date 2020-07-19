@@ -17,6 +17,10 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
   templateUrl: './podcast-update.component.html',
   styleUrls: ['./podcast-update.component.css']
 })
+
+/**
+ * @description Update given podcast with new episodes from SpotifyAPI.
+ */
 export class PodcastUpdateComponent implements OnInit {
 
   episodes: Episode[];
@@ -36,7 +40,15 @@ export class PodcastUpdateComponent implements OnInit {
   progressCounter: number[] = [ 0, 0 ];
   progressTotal: number[] = [ 0, 0 ];
 
-
+  /**
+   * @param { SpotifyService } - To get episodes from SpotifyAPI.
+   * @param { PodcastService } - To get all podcasts.
+   * @param { MessageService } - To update user what is happening.
+   * @param { ActivatedRoute } - To get param from URL.
+   * @param { Location } - To go navigate from view.
+   * @param { SnackBar } - SnackBar to show user when completed task.
+   * @param { Dialog } - Create dialog in component.
+   */
   constructor(
   	private spotifyService: SpotifyService,
   	private podcastService: PodcastService,
@@ -47,6 +59,9 @@ export class PodcastUpdateComponent implements OnInit {
     public dialog: MatDialog
   ) { }
 
+  /**
+  * @description When component is ready - get podcasts from title in URL.
+  */
   ngOnInit(): void {
     const pod = this.router.snapshot.paramMap.get( 'title' );
     this.getPodcast( pod );
@@ -54,12 +69,15 @@ export class PodcastUpdateComponent implements OnInit {
 
   /**
    * @description Go back to previous page.
-   * TODO: If previous location is another site, redirect to start page.
+   * @TODO If previous location is another site, redirect to start page.
    */
   goBack(): void {
     this.location.back();
   } 
 
+  /**
+   * @description Get episodes for given podcast.
+   */
   getEpsisodes(): void {
     this.spotifyService.searchPod( this.podcast, this.offset )
       .subscribe( (res: any) => {
@@ -74,7 +92,7 @@ export class PodcastUpdateComponent implements OnInit {
               link: ep.uri,
               nr: 0
             }
-          });
+          }); 
           this.mapNewEps();
         } else {
           this.location.back();
@@ -86,6 +104,10 @@ export class PodcastUpdateComponent implements OnInit {
       });
   }
 
+  /**
+   * @description Get podcast based on input title.
+   * @param { string } pod - title for podcast.
+   */
   getPodcast( pod ): void {
     this.podcastService.getPodcast( pod )
       .subscribe( podcast => {
@@ -95,6 +117,9 @@ export class PodcastUpdateComponent implements OnInit {
       });
   }
 
+  /**
+   * @description Filter out new episodes that are already in Firebase Database.
+   */
   mapNewEps(): void {
     this.newEps = this.episodes.filter( episode => {
       const found = this.podcast.episodes.find( ep => {
@@ -125,16 +150,28 @@ export class PodcastUpdateComponent implements OnInit {
     });
   }
 
+  /**
+   * @description Add new episodes to Firebase Database.
+   * @TODO Change the response on subscribe.
+   */
   addNewEps(): void {
     this.podcastService.addNewEps( this.podcast, this.newEps )
       .subscribe( res => console.log('added to eps') );
   }
 
+  /**
+   * @description Add episodes to Firebase Database for episodes NOT to be shown.
+   * @TODO Change the response on subscribe.
+   */
   addNotEps(): void {
     this.podcastService.addNotEps( this.podcast, this.notEPs )
       .subscribe( res => console.log('added to eps') );
   }
 
+  /**
+   * @description Opens dialog to add episodes.
+   * @param { string } type - If user wants to add episodes.
+   */
   openDialog( type: string ): void {
     const dialogRef = this.dialog.open( DialogComponent, {
       data: {
@@ -191,6 +228,10 @@ export class PodcastUpdateComponent implements OnInit {
     }
   }
 
+  /**
+   * @description Drag n drop funciton. Determine if div is in drop area.
+   * @param { string[] } event - The div that is moved.
+   */
   drop( event: CdkDragDrop<string[]> ) {
     if( event.previousContainer === event.container ) {
       moveItemInArray( event.container.data, 
