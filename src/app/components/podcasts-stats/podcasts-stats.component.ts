@@ -12,6 +12,8 @@ import { Podcast } from '../../interfaces/podcast';
 export class PodcastsStatsComponent implements OnInit {
 
 	podcasts: Podcast[];
+  sortedArray: { title: string, segments: number } []  = [];
+  loading: boolean = true;
 
   barChartOptions: ChartOptions = {
     responsive: true,
@@ -51,23 +53,14 @@ export class PodcastsStatsComponent implements OnInit {
       	this.podcasts = podcasts;
       	if (podcasts.length === 0) {
       		setTimeout(() => {
-        		this.calcTotSegments();
-      			this.podcasts.map(podcast => {
-      				this.barChartData[0].data.push( podcast.totalSegments );
-      			});
-      			this.barChartData[0].data.sort( this.sortNr );
-      			this.addTitles();
-      		}, 1500);     	
+            this.calcTotSegments();
+          }, 2000);  
       	} else {
-      		this.calcTotSegments();
-      		this.podcasts.map(podcast => {
-      			this.barChartData[0].data.push( podcast.totalSegments );
-      		});
-					this.barChartData[0].data.sort( this.sortNr );
-      		this.addTitles();
-      	}
+          this.calcTotSegments();
+        }
     });
   }
+
 
   calcTotSegments(): void {
   	this.podcasts.forEach(podcast => {
@@ -79,25 +72,17 @@ export class PodcastsStatsComponent implements OnInit {
         }
       });
       podcast.totalSegments = totalSegments;
+      this.sortedArray.push( { title: podcast.title, segments: podcast.totalSegments } );
   	});
+    this.sortedArray = this.sortedArray.sort( this.sortNr );
+    this.sortedArray.forEach( pod => {
+      this.barChartData[0].data.push( pod.segments );
+      this.barChartLabels.push( pod.title );
+    });
+    this.loading = false;
   }
 
   sortNr( a: any, b:any ): number {
-    if( a > b ) {
-      return -1;
-    } else if ( a < b ) {
-      return 1;
-    } else{
-      return 0;
-    }
-    return 0;
-  }
-
-  addTitles(): void {
-  	this.barChartData[0].data.forEach( nr => {
-			this.podcasts.map(podcast => {
-					if( nr === podcast.totalSegments ) this.barChartLabels.push(podcast.title);
-			});
-		});
+    return b.segments - a.segments;
   }
 }

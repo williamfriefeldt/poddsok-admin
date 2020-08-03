@@ -48,6 +48,10 @@ export class FirebaseService {
   addNotEps( podcast: string, notEp: Episode ): Promise<void> {
     return this.db.list(podcast).set( 'info/notEPs/' + notEp.nr, { title: notEp.name } );
   }
+
+  removePod( podcast: string ): Promise<void> {
+    return this.db.list(podcast).remove();
+  }
   
   constructor( private db: AngularFireDatabase ) { }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { PageEvent, MatPaginatorIntl } from '@angular/material/paginator';
 
 import { PodcastService } from '../../services/podcast.service';
@@ -62,14 +63,17 @@ export class PodcastDetailComponent implements OnInit {
    * @param { ActivatedRoute } - To get param from URL
    * @param { PodcastService } - To get all podcasts
    * @param { Location } - To go navigate from view
+   * @param { MatPaginatorIntl } - Navigation results through pages
    * @param { Dialog } - Create dialog in component
+   * @param { MatSnackBar } - Create snackbar
    */
   constructor(
   	private router: ActivatedRoute,
   	private podcastService: PodcastService,
   	private location: Location,
     private matpaginator: MatPaginatorIntl,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
 	) { }
 
   /**
@@ -213,4 +217,20 @@ export class PodcastDetailComponent implements OnInit {
     }
   }
 
+  removeDialog(): void {
+    const dialogRef = this.dialog.open( DialogComponent, {
+      data: {
+        type: 'removePod'
+      }
+    });
+    dialogRef.afterClosed().subscribe( res => {
+      if( res.val === true && res.title === this.podcast.title ) {
+        this.podcastService.removePod( this.podcast.title );
+        this.snackBar.open('Podcast bortagen', 'Klar', {
+          duration: 15000,
+        });
+        this.goBack();
+      }
+    });
+  }
 }

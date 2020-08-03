@@ -108,6 +108,11 @@ export class PodcastService {
 		return of(true);
 	}
 
+	removePod( title: string ): Promise<void> {
+		return this.firebaseService.removePod( title )
+			.then( () => console.log('bortagen') );
+	}
+
   constructor(
   	private messageService: MessageService,
   	private firebaseService: FirebaseService

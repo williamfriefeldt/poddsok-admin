@@ -2,7 +2,13 @@
   {{ dialogText }}
 </p>
 
+<div *ngIf="data.type == 'removePod'">
+	<input  matInput type="text" placeholder="TITEL" [(ngModel)]="title">
+</div>
+
 <div mat-dialog-actions>
   <button mat-button (click)="close( true )" cdkFocusInitial>Ja</button>
   <button mat-button (click)="close( false )">Nej</button>
 </div>
+
+

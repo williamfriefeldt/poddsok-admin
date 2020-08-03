@@ -16,13 +16,14 @@ import { DialogOption } from '../../interfaces/dialog';
 export class DialogComponent implements OnInit{
 
 	dialogText: string;
+  title: string;
 
   /**
    * @param { MatDialogRef } - Dialog from Material library. 
    */
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
-    @Inject( MAT_DIALOG_DATA ) private data: DialogOption
+    @Inject( MAT_DIALOG_DATA ) public data: DialogOption
   ) {}
 
   /**
@@ -39,6 +40,7 @@ export class DialogComponent implements OnInit{
   */
   close( val ): void {
     this.data['val'] = val;
+    if( this.data.type === 'removePod' ) this.data['title'] = this.title;
     this.dialogRef.close( this.data );
   }
 

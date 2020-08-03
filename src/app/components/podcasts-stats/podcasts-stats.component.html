@@ -1,4 +1,6 @@
-<div class="container">
+<mat-spinner *ngIf="loading"></mat-spinner>
+
+<div *ngIf="!loading" class="container">
 	<div class="chart-wrapper" *ngIf="barChartLabels">
 	    <canvas baseChart 
 	    [datasets]="barChartData"
