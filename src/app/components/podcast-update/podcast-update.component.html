@@ -14,7 +14,11 @@
 			</div>
 		</div>
 
+		<h3 *ngIf="latestEp"> Senaste avsnitet: {{ latestEp.nr }} - {{ latestEp.name }} </h3>
+		<h3 *ngIf="!latestEp"> Inga avsnitt tillagda till denna podd </h3> 
+
 		<div class="ep-container" *ngIf="!error">
+
 			<div *ngIf="newEps" class="ep-col">
 
 				<mat-spinner *ngIf="loading"></mat-spinner>
@@ -34,7 +38,7 @@
 							</mat-form-field>
 						</div>
 					</div>
-					<mat-button-toggle (click)="getEpsisodes()" *ngIf="newEps.length !== 0">
+					<mat-button-toggle (click)="getEpsisodes()" *ngIf="newEps.length > 45">
 						Fler avsnitt
 					</mat-button-toggle> 
 					<div class="no-eps" *ngIf="newEps.length === 0 && !error">
@@ -65,6 +69,11 @@
 </div>
 
 <div *ngIf="addEps" class="container">
+	<div class="side-menu">
+		<mat-button-toggle (click)="goBack()"> 
+			Tillbaka 
+		</mat-button-toggle>
+	</div>
 	<p *ngIf="newEps.length !== 0 || notEPs.length !== 0"> Lägger till avsnitt.. </p>
 	<p *ngIf="newEps.length === 0 && notEPs.length === 0"> Avsnitt tillagda! </p>
 	<div class="row">
