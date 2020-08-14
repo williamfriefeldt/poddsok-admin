@@ -47,6 +47,7 @@ export class PodcastDetailComponent implements OnInit {
 
   sortEpsText: string = "Senaste";
   filter: string = "Filter";
+  currentSort: (a:any, b:any) => number = this.sortNr;
 
   /**
    * @description Set range for number if episodes shown.
@@ -107,6 +108,7 @@ export class PodcastDetailComponent implements OnInit {
           this.podcast = podcast;
           this.podcast.totalSegments = totalSegments;
           if( podcast.episodes.length < 10 ) this.sliceEnd = podcast.episodes.length - 1;
+          this.podcast.episodes.sort( this.currentSort );
         } else {
           this.goBack();
         }
@@ -174,18 +176,22 @@ export class PodcastDetailComponent implements OnInit {
     switch ( this.sortEpsText ) {
       case "Senaste":
         this.podcast.episodes.sort( this.sortNrHigh );
+        this.currentSort = this.sortNrHigh;
         this.sortEpsText = "Tidigast";
         break;
       case "Tidigast":
         this.podcast.episodes.sort( this.sortNr );
+        this.currentSort = this.sortNr;
         this.sortEpsText = "Senaste";
         break;
       case "Mest antal":
         this.podcast.episodes.sort( this.sortNrMinHigh );
+        this.currentSort = this.sortNrMinHigh;
         this.sortEpsText = "Minst antal";
         break;
       case "Minst antal":
         this.podcast.episodes.sort( this.sortNrMin );
+        this.currentSort = this.sortNrMin;
         this.sortEpsText = "Mest antal";
         break;
     }
