@@ -5,7 +5,6 @@ import { Podcast } from '../interfaces/podcast';
 import { Episode } from '../interfaces/episode';
 import { Minute } from '../interfaces/minute';
 import { PODCASTS } from '../interfaces/podcasts';
-import { MessageService } from './message.service';
 import { FirebaseService } from './firebase.service';
 
 @Injectable({
@@ -59,7 +58,7 @@ export class PodcastService {
 				PODCASTS.sort( (a, b) => {
           			return ( '' + a.info.name ).localeCompare( b.info.name );
         		});
-				this.messageService.add( 'Podcast fetched from Firebase!' );
+				console.log( 'Podcast fetched from Firebase!' );
 			});
 	}
 
@@ -67,13 +66,13 @@ export class PodcastService {
 		if ( PODCASTS.length === 0 ) {
 			this.callFirebase();
 		} else {
-			this.messageService.add( 'Podcasts fetched from service!' );
+			console.log( 'Podcasts fetched from service!' );
 		}
 		return of(PODCASTS);	
 	}
 
 	getPodcast( title: string ): Observable<Podcast> {
-		this.messageService.add( `Podcast ${title} fetched!` );
+		console.log( `Podcast ${title} fetched!` );
 		return of(PODCASTS.find(pod => pod.title === title ));
 	}
 
@@ -81,7 +80,7 @@ export class PodcastService {
 		const updateString = '/'+podcast.title+'/ep'+episode.nr+'/minutes';
 		return this.firebaseService.updateItem( updateString, min )
 			.then( () => {
-				this.messageService.add( `Updated podcast ${podcast.title}!` );
+				console.log( `Updated podcast ${podcast.title}!` );
 				return;
 			});
 	}
@@ -90,7 +89,7 @@ export class PodcastService {
 		episodes.forEach( ep => {
 			const updateString = '/' + podcast.title;
 			this.firebaseService.addNewEps( updateString, ep ).then( () => {
-				this.messageService.add( `Updated podcast ${podcast.title} with episode ${ep.name}!` );
+				console.log( `Updated podcast ${podcast.title} with episode ${ep.name}!` );
 				return;				
 			});		
 		});
@@ -101,7 +100,7 @@ export class PodcastService {
 		episodes.forEach( ep => {
 			const updateString = '/' + podcast.title;
 			this.firebaseService.addNotEps( updateString, ep ).then( () => {
-				this.messageService.add( `Updated podcast ${podcast.title} with episode ${ep.name} to not episodes!` );
+				console.log( `Updated podcast ${podcast.title} with episode ${ep.name} to not episodes!` );
 				return;				
 			});		
 		});		
@@ -114,7 +113,6 @@ export class PodcastService {
 	}
 
   constructor(
-  	private messageService: MessageService,
   	private firebaseService: FirebaseService
   ) { }
 }

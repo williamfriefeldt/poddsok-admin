@@ -1,14 +1,28 @@
-<mat-spinner *ngIf="loading"></mat-spinner>
-
-<div *ngIf="!loading" class="container">
-	<div class="chart-wrapper" *ngIf="barChartLabels">
-	    <canvas baseChart 
-	    [datasets]="barChartData"
-	    [labels]="barChartLabels"
-	    [options]="barChartOptions"
-	    [plugins]="barChartPlugins"
-	    [legend]="barChartLegend"
-	    [chartType]="barChartType">
-	  </canvas>
-	</div>
-</div>
+<mat-drawer-container>
+  <mat-drawer-content>
+  	<header>
+  		<div *ngIf="!loading">
+  			<h1> Antal inlägg i varje podd </h1>
+  			<p> Totala antalet inlägg: {{ totSegments }} </p>
+	  		<div class="container">
+					<div class="chart-wrapper" *ngIf="barChartLabels">
+					  <canvas baseChart 
+					    [datasets]="barChartData"
+					    [labels]="barChartLabels"
+					    [options]="barChartOptions"
+					    [plugins]="barChartPlugins"
+					    [chartType]="barChartType">
+					  </canvas>
+					</div>
+				</div>
+		  </div>
+		  <mat-spinner *ngIf="loading"></mat-spinner>
+		  	<mat-button-toggle (click)="drawer.toggle()"> 
+		  		<mat-icon> menu </mat-icon>
+		  	</mat-button-toggle>
+		</header>		
+  </mat-drawer-content>
+  <mat-drawer #drawer mode="side" opened="false" position="end">
+  	<app-messages></app-messages>
+  </mat-drawer>
+</mat-drawer-container>

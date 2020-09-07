@@ -14,6 +14,7 @@ export class PodcastsStatsComponent implements OnInit {
 	podcasts: Podcast[];
   sortedArray: { title: string, segments: number } []  = [];
   loading: boolean = true;
+  totSegments: number = 0;
 
   barChartOptions: ChartOptions = {
     responsive: true,
@@ -28,6 +29,9 @@ export class PodcastsStatsComponent implements OnInit {
           color: "rgba(0, 0, 0, 0)",
         }   
       }]
+    },
+    legend: {
+      display: false
     }
   };
   barChartLabels: Label[] = [];
@@ -36,7 +40,7 @@ export class PodcastsStatsComponent implements OnInit {
   barChartPlugins = [];
 
   barChartData: ChartDataSets[] = [
-    { data: [], label: 'Segment', backgroundColor: '#5900b3', hoverBackgroundColor:'#a64dff' }
+    { data: [], backgroundColor: '#5900b3', hoverBackgroundColor:'#a64dff' }
   ];
 
   constructor(
@@ -72,6 +76,7 @@ export class PodcastsStatsComponent implements OnInit {
         }
       });
       podcast.totalSegments = totalSegments;
+      this.totSegments += totalSegments;
       this.sortedArray.push( { title: podcast.title, segments: podcast.totalSegments } );
   	});
     this.sortedArray = this.sortedArray.sort( this.sortNr );

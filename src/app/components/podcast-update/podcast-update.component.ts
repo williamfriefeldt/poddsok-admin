@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SpotifyService } from '../../services/spotify.service';
 import { PodcastService} from '../../services/podcast.service';
-import { MessageService } from '../../services/message.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
@@ -52,7 +51,6 @@ export class PodcastUpdateComponent implements OnInit {
   constructor(
   	private spotifyService: SpotifyService,
   	private podcastService: PodcastService,
-  	private messageService: MessageService,
     private router: ActivatedRoute,
     private location: Location,
     private snackBar: MatSnackBar,
@@ -99,7 +97,7 @@ export class PodcastUpdateComponent implements OnInit {
         }
       },
         err => {
-          this.messageService.add( err.message );
+          console.log(err.message);
           this.error = 'Tillgång till Spotify Api nekad, se konsolen';
       });
   }

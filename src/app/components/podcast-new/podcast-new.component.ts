@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { SpotifyService } from '../../services/spotify.service';
 import { FirebaseService } from '../../services/firebase.service';
-import { MessageService } from '../../services/message.service';
 
 import { Podcast } from '../../interfaces/podcast';
 import { DialogComponent } from '../dialog/dialog.component';
@@ -38,7 +37,6 @@ export class PodcastNewComponent implements OnInit {
    */
   constructor(
   	private spotifyService: SpotifyService,
-    private messageService: MessageService,
     private firebaseService: FirebaseService,
     public dialog: MatDialog,
     private sanitizer: DomSanitizer,
@@ -59,8 +57,7 @@ export class PodcastNewComponent implements OnInit {
   			this.podRes = res.shows.items;
   		}, 
       err  => {
-        this.messageService.add( err.message );
-        this.error = 'Tillgång till Spotify Api nekad, se konsolen';
+        console.log(err);
       });
   }
 
@@ -95,7 +92,7 @@ export class PodcastNewComponent implements OnInit {
     const info = this.podcast.info;
     this.firebaseService.addPodcast( podName, info )
       .then( () => {
-        this.messageService.add(` Added podcast ${this.podcast.title}` );
+        console.log(` Added podcast ${this.podcast.title}` );
         this.snackBar.open( 'Podcast tillagd!', 'Succé' );
       });
   }

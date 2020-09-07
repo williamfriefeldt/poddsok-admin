@@ -6,3 +6,29 @@
 	position: relative; 
 	width:90vw;
 }
+
+mat-drawer-content {
+	background-color: white;
+}
+
+header {
+	justify-content: space-between;
+	margin-bottom: 0.75em;
+	display: flex;
+}
+
+mat-button-toggle {
+	height: 75px;
+}
+
+mat-drawer {
+	border-left: none !important;
+}
+
+h1 {
+	margin-left: 3%;
+}
+
+p {
+	margin-left: 3.5%;
+}
