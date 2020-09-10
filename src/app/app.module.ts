@@ -18,12 +18,13 @@ import { ChartsModule } from 'ng2-charts';
 /* Components */
 import { PodcastsComponent } from './components/podcasts/podcasts.component';
 import { PodcastDetailComponent } from './components/podcast-detail/podcast-detail.component';
-import { MessagesComponent } from './components/messages/messages.component';
+import { PodcastsStatsMenuComponent } from './components/podcasts-stats/podcasts-stats-menu/podcasts-stats-menu.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PodcastUpdateComponent } from './components/podcast-update/podcast-update.component';
 import { PodcastNewComponent } from './components/podcast-new/podcast-new.component';
 import { PodcastUpdateAllComponent } from './components/podcast-update-all/podcast-update-all.component';
 import { PodcastsStatsComponent } from './components/podcasts-stats/podcasts-stats.component';
+import { ResourcesComponent } from './components/resources/resources.component';
 
 /* Material Design */
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -50,13 +51,14 @@ import { MatMenuModule } from '@angular/material/menu';
     AppComponent,
     PodcastsComponent,
     PodcastDetailComponent,
-    MessagesComponent,
+    PodcastsStatsMenuComponent,
     DashboardComponent,
     PodcastUpdateComponent,
     DialogComponent,
     PodcastNewComponent,
     PodcastUpdateAllComponent,
-    PodcastsStatsComponent
+    PodcastsStatsComponent,
+    ResourcesComponent
   ],
   imports: [
     BrowserModule,

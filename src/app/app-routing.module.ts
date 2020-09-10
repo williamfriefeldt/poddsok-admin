@@ -7,6 +7,7 @@ import { PodcastUpdateComponent } from './components/podcast-update/podcast-upda
 import { PodcastNewComponent } from './components/podcast-new/podcast-new.component';
 import { PodcastUpdateAllComponent } from './components/podcast-update-all/podcast-update-all.component';
 import { PodcastsStatsComponent } from './components/podcasts-stats/podcasts-stats.component';
+import { ResourcesComponent } from './components/resources/resources.component';
 
 /*
 * Routes and corresponding components for entier app.
@@ -17,6 +18,7 @@ const routes: Routes = [
 	{ path: 'statistik', component: PodcastsStatsComponent },
 	{ path: 'uppdateraAlla', component: PodcastUpdateAllComponent },
 	{ path: 'nypodd', component: PodcastNewComponent },
+	{ path: 'resurser', component: ResourcesComponent },
 	{ path: 'detail/:title', component: PodcastDetailComponent },
 	{ path: 'update/:title', component: PodcastUpdateComponent },
 	{ path: '', component: DashboardComponent },

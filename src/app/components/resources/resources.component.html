@@ -1,0 +1,19 @@
+<div class="container">
+
+	<h1> Resurser </h1>
+
+	<p> Länkar till alla prdoukter och kontot (interna och externa) som ingår i Poddsök.nu. </p>
+
+	<div class="flex" *ngFor="let resource of resources">
+		<div class="link-width">
+			<a href="{{ resource.link }}" target="_blank"> 
+				{{ resource.name }}
+			</a>
+		</div>
+		<p class="inline"> 
+			{{ resource.description }}
+		</p>
+	</div>
+
+</div>
+

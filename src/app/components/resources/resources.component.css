@@ -1,0 +1,19 @@
+a {
+	margin-bottom: 0.75%;
+}
+
+.link-width {
+	width: 120px;
+}
+
+.container {
+	margin-left: 5%;
+}
+
+.inline {
+	display: inline;
+}
+
+.flex {
+	display: flex;
+}
