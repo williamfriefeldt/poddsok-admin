@@ -25,7 +25,7 @@ export class PodcastUpdateAllComponent implements OnInit {
   epsAdded: Episode[] = [];
   epsAddedToNot: Episode[] = [];
 
-	error: string;
+	error: boolean;
   loading: boolean = true; 
   timeout: number = 4000;
   addEps: boolean;
@@ -37,7 +37,7 @@ export class PodcastUpdateAllComponent implements OnInit {
    * @description Get all podcasts (if not fetched from Firebase Database, wait for that).
    */
   getPodcasts(): void {
-    this.error = '';
+    this.error = false;
     this.loading = true;
     this.podcastService.getPodcasts()
       .subscribe( podcasts => {
@@ -75,9 +75,9 @@ export class PodcastUpdateAllComponent implements OnInit {
             }
   				},
   				err => {
-  					this.error = 'Tillgång till Spotify Api nekad, se konsolen';
+  					this.error = true;
             this.loading = false;
-  				});
+  				}); 
         }
 		});
     this.newEps.sort( (a, b) => {
@@ -114,7 +114,9 @@ export class PodcastUpdateAllComponent implements OnInit {
           const title  = Object.values( ep );
           if( ep !== undefined ) return episode.name.includes( title[0].toString() );
         });
-        if ( !found ) return episode;
+        if ( !found ) {
+          return episode;
+        }
       });
     }
     var nrOfEps = podcast.episodes.length + newEps.length;
@@ -127,6 +129,9 @@ export class PodcastUpdateAllComponent implements OnInit {
         ep.nr = nrOfEps - 1;
         nrOfEps--;
       }
+    });
+    newEps = newEps.filter( ep => {
+      if( ep.name !== undefined ) return ep;
     });
   	return newEps;
   }

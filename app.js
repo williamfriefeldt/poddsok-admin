@@ -7,9 +7,7 @@ const port = 8888;
 
 const clientID = 'a15e3712d52f40edb5cd1644f543cef1';
 
-app.get('/', function(req, res) {
-	console.log('call');
-
+app.get('/', (req, res) => {
 	var scopes = 'user-read-private user-read-email';
 	
 	const redirect_uri = 'http://localhost:8888/callback';
@@ -21,8 +19,7 @@ app.get('/', function(req, res) {
 	);
 });
 
-app.get('/callback' , function(req, res) {
-	console.log('token granted');
+app.get('/callback' , (req, res) => {
 	const accessToken = req.query.code;
 	const clientSecret = '794045e6c48c4cae8fcc7bd3c6384a51';
 	const redirect_uri = 'http://localhost:8888/callback';
@@ -40,13 +37,12 @@ app.get('/callback' , function(req, res) {
     json: true
   };
 
-	request.post(authOptions, function(error, response, body) {
-    console.log(body);
+	request.post(authOptions, (error, response, body) => {
     res.redirect('http://localhost:4200?' + querystring.stringify({
             access_token: body.access_token,
             refresh_token: body.refresh_token,
             user: body.id
-          }));
+    }));
   });
 });
 

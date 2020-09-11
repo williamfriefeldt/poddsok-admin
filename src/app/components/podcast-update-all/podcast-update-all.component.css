@@ -4,21 +4,44 @@
 
 .row {
 	display: flex;
-	width: 95%;
-	justify-content: space-between;
+	width: 100%;
 	padding: 0.25%;
 }
 
+.flex{
+	display: flex;
+}
+
+.seperate {
+	justify-content: space-between;
+}
+
+.padding {
+	padding: 0.75%;
+}
+
 .column-1 {
-	width: 40%;
+	width: 20%;
 }
 
 .column-2 {
-	width: 60%;
+	width: 32.5%;
+}
+
+.column-3 {
+	width: 32.5% ;
+}
+
+.column-4 {
+	width: 47.5%;
 }
 
 mat-divider {
-	width: 90%;
+	width: 100%;
+}
+
+mat-button-toggle-group {
+	width: 15%;
 }
 
 mat-button-toggle, mat-checkbox {
@@ -27,12 +50,17 @@ mat-button-toggle, mat-checkbox {
 
 .remove-btn ::ng-deep .mat-button-toggle-label-content {
   line-height: 25px !important;
-  color: white;
+  color: #320E44;
 }
 
 .remove-btn {
-	background-color: #320E44;
+	border: none;
 	margin-bottom: 0.5%;
+}
+
+.remove-btn mat-icon {
+	height: 32px;
+	width: 13px;
 }
 
 mat-checkbox {

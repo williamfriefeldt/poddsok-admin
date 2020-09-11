@@ -1,47 +1,50 @@
 <div class="container">
 
 	<div *ngIf="!addEps">
-		<mat-button-toggle (click)="getPodcasts()">
-			<mat-icon>refresh</mat-icon>
-		</mat-button-toggle>
-		<div *ngIf="newEps.length !== 0">
-			<mat-button-toggle (click)="openDialog( 'newEps' )">
-				Lägg till avsnitt
-			</mat-button-toggle>
-		</div>
 
 		<mat-spinner *ngIf="loading"></mat-spinner>
 		
 		<div *ngIf="!loading && !error">
 
 			<div class="row">
-				<div class="row column-1">
-					<h2 class="column-1"> Podcast </h2>
-					<h2 class="column-2"> Senaste avsnittet </h2>
+				<h2 class="column-1 padding"> Podcast </h2>
+				<h2 class="column-2 padding"> Senaste avsnittet </h2>
+				<h2 class="column-3 padding"> Nya avsnitt </h2>
+
+				<div class="flex">
+					<div *ngIf="newEps.length !== 0">
+						<mat-button-toggle (click)="openDialog( 'newEps' )">
+							Lägg till avsnitt
+						</mat-button-toggle>
+					</div>
+					<div>
+						<mat-button-toggle (click)="getPodcasts()">
+							<mat-icon>refresh</mat-icon>
+						</mat-button-toggle>
+					</div>
 				</div>
-				<h2 class="column-2"> Nya avsnitt </h2>
+
 			</div>
 
 			<div *ngFor="let pod of newEps">
 
 				<div class="row">
-
-					<div class="row column-1">
-						<p class="column-1"> 
-							{{ pod.title }}
-						</p>
-						<p class="column-2"> 
-							{{ pod.latestEp }}
-						</p>
-					</div>
-
-					<div class="column-2"> 
-						<div class="row" *ngFor="let ep of pod.newEps">
-							<p class="column-2"> {{ ep.nr }} - {{ ep.name }} </p>
-							<div class="column-1">
-								<mat-button-toggle class="remove-btn" (click)="removeEp( ep, pod )"> X </mat-button-toggle>
-
+					<p class="column-1 padding"> 
+						{{ pod.title }}
+					</p>
+					<p class="column-2 padding"> 
+						{{ pod.latestEp }}
+					</p>
+					
+					<div class="column-4 padding"> 
+						<div class="row seperate" *ngFor="let ep of pod.newEps">
+							<p> {{ ep.nr }} - {{ ep.name }} </p>
+							<div class="flex">
 								<mat-checkbox (change)="clickCheckBox( $event, pod.title, ep )"> </mat-checkbox>
+								<mat-button-toggle class="remove-btn" (click)=" 
+								removeEp( ep, pod )">
+									<mat-icon>remove_circle</mat-icon>
+								</mat-button-toggle>
 							</div>
 						</div>
 					</div>
@@ -59,7 +62,9 @@
 		</div>
 
 		<div class="error" *ngIf="error">
-			{{ error }}
+			<p>
+				Saknar tillåtelse från Spotify, hämta <a href="http://localhost:8888"> här </a> .  
+			</p>
 		</div>
 	</div>
 
@@ -80,7 +85,7 @@
 	          [color]="'warn'"
 	          [style.width]="progressTotal[1] + '%'">
 	      	</mat-progress-bar>
-	     </div>
+	    </div>
 
 
       	<div class="row">

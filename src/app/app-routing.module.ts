@@ -16,7 +16,7 @@ import { ResourcesComponent } from './components/resources/resources.component';
 const routes: Routes = [
 	{ path: 'podcasts', component: PodcastsComponent },
 	{ path: 'statistik', component: PodcastsStatsComponent },
-	{ path: 'uppdateraAlla', component: PodcastUpdateAllComponent },
+	{ path: 'uppdatera-alla', component: PodcastUpdateAllComponent },
 	{ path: 'nypodd', component: PodcastNewComponent },
 	{ path: 'resurser', component: ResourcesComponent },
 	{ path: 'detail/:title', component: PodcastDetailComponent },

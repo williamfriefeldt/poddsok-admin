@@ -23,13 +23,13 @@ export class FirebaseService {
    * @return { Observable } Return promise with podcasts.
    */
   getPodcasts(): Observable<any[]> {
-  	this.items = this.db.list('/').snapshotChanges();
+  	this.items = this.db.list( '/' ).snapshotChanges();
   	return this.items;
   } 
 
   /**
    * @description
-   * @param
+   * @paramk
    * @param
    * @return
    */

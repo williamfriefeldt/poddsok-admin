@@ -26,7 +26,7 @@ export class AppComponent {
   menu = [
   	{ title: 'Podcasts', url: 'podcasts' },
   	{ title: 'Statistik', url: 'statistik' },
-  	{ title: 'Uppdatera alla', url: 'uppdateraAlla' },
+  	{ title: 'Uppdatera alla', url: 'uppdatera-alla' },
   	{ title: 'Lägg till ny podd', url: 'nypodd' },
     { title: 'Resurser', url: 'resurser' }
   ];
