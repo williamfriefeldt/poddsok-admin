@@ -77,7 +77,7 @@ export class PodcastsStatsComponent implements OnInit {
       });
       podcast.totalSegments = totalSegments;
       this.totSegments += totalSegments;
-      this.sortedArray.push( { title: podcast.title, segments: podcast.totalSegments } );
+      this.sortedArray.push( { title: podcast.info.name, segments: podcast.totalSegments } );
   	});
     this.sortedArray = this.sortedArray.sort( this.sortNr );
     this.sortedArray.forEach( pod => {

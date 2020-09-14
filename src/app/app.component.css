@@ -7,7 +7,12 @@ header img{
 
 header {
   display: flex;
-  margin: 2em;
+  position: sticky;
+  top: -1px;
+  width: 100%;
+  background-color: white;
+  padding: 2%;
+  z-index: 10;
 } 
 
 mat-button-toggle-group {
