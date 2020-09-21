@@ -16,17 +16,17 @@ import { Podcast } from '../interfaces/podcast';
 */
 export class SpotifyService {
 
-	private clientID = 'a15e3712d52f40edb5cd1644f543cef1';
-	private spotifyURLeps = 'https://api.spotify.com/v1/shows';
-  private spotifyURLshow = 'https://api.spotify.com/v1/search?type=show&q='
-  private authURL = 'http://localhost:8888';
+  private clientID       = 'a15e3712d52f40edb5cd1644f543cef1';
+  private spotifyURLeps  = 'https://api.spotify.com/v1/shows';
+  private spotifyURLshow = 'https://api.spotify.com/v1/search?type=show&q=';
+  private authURL        = 'http://localhost:8888';
 
   /**
    * @param { HttpClient } - To make HTTP requests.
    * @param { CookieService } - To get cookies.
    */
   constructor( 
-  	private http: HttpClient,
+    private http:   HttpClient,
     private cookie: CookieService
   ) { }
 
@@ -40,8 +40,7 @@ export class SpotifyService {
     const accessToken = this.cookie.get( 'accessToken' );
     if( pod ) { 
       if( accessToken === 'null' || accessToken === '') {
-        this.getAccess();
-        return throwError( 'No access token' )
+        return throwError( 'No access token' );
       } else {
         const podcastID = pod.info.spotifyID;
         return this.http.get( this.spotifyURLeps + '/' + podcastID + '/episodes?limit=50&offset=' + offset, { 
@@ -60,14 +59,13 @@ export class SpotifyService {
    */
   findPod( query: string ): Observable<Object> {
     const accessToken = this.cookie.get( 'accessToken' );
-    return this.http.get( this.spotifyURLshow + query, { headers: { 
-      Authorization: 'Bearer ' + accessToken } 
-    } );
-  }
-
-  getAccess(): void {
-    this.http.get( '/auth' )
-      .subscribe( res => { console.log(res) }, err => throwError( err.statusText ) )
+    if( accessToken === 'null' || accessToken === '') {
+      return throwError( 'No access token' );
+    } else {
+      return this.http.get( this.spotifyURLshow + query, { headers: { 
+        Authorization: 'Bearer ' + accessToken }
+      } );
+    }
   }
 
 }

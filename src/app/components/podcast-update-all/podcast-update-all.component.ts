@@ -68,6 +68,7 @@ export class PodcastUpdateAllComponent implements OnInit {
             if( newEpisodes.length > 0 && newEpisodes.length < 49 ) {
     					this.newEps.push({
     						title: pod.title,
+                name: pod.info.name,
                 podcast: pod,
     						newEps: newEpisodes,
                 latestEp: latestEp.nr + ' - ' + latestEp.name
@@ -81,7 +82,7 @@ export class PodcastUpdateAllComponent implements OnInit {
         }
 		});
     this.newEps.sort( (a, b) => {
-      return ( '' + a.title ).localeCompare( b.title );
+      return ( '' + a.name ).localeCompare( b.name );
     });
   }
 
@@ -236,7 +237,7 @@ export class PodcastUpdateAllComponent implements OnInit {
         const newEps = [];
         newEps.push( ep );
         const pod = this.podcasts.find( pod => pod.title === podTitle );
-        this.notEPs.push( { title: podTitle, newEps: newEps, latestEp: '', podcast: pod } );
+        this.notEPs.push( { title: podTitle, newEps: newEps, latestEp: '', podcast: pod, name: '' } );
       }
     } else {
       this.notEPs.find( ( pod, index ) => {

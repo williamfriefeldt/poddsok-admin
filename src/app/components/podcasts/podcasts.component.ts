@@ -13,9 +13,21 @@ import { PodcastService } from '../../services/podcast.service';
  */
 export class PodcastsComponent implements OnInit {
 
-	podcasts: Podcast[];
-  loading: boolean = true;
+  podcasts:  Podcast[];
+  loading:   boolean = true;
   loadCount: number = 0;
+
+  /**
+   * @param { PodcastService } - To get all podcasts
+   */
+  constructor( private podcastService: PodcastService ) { } 
+
+  /**
+  * @description When component is ready - get podcasts.
+  */
+  ngOnInit(): void {
+    this.getPodcasts();
+  }
 
   /**
    * @description Track images loaded. If done, hide loading.
@@ -37,18 +49,6 @@ export class PodcastsComponent implements OnInit {
           return ( '' + a.info.name ).localeCompare( b.info.name );
         });
       });
-  }
-
-  /**
-   * @param { PodcastService } - To get all podcasts
-   */
-  constructor(private podcastService: PodcastService) { } 
-
-  /**
-  * @description When component is ready - get podcasts.
-  */
-  ngOnInit(): void {
-    this.getPodcasts();
   }
 
 }

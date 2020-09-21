@@ -15,5 +15,13 @@
 		</p>
 	</div>
 
+	<ul aria-label="Github">
+		<li *ngFor="let git_item of git_items">
+			<a href="{{ git_item.link }}" target="_blank"> 
+				{{ git_item.name }}
+			</a>
+		</li>
+	</ul>
+
 </div>
 

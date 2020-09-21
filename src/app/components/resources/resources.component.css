@@ -3,17 +3,23 @@ a {
 }
 
 .link-width {
-	width: 120px;
+	width        : 120px;
 }
 
 .container {
-	margin-left: 5%;
+	margin-left  : 5%;
 }
 
 .inline {
-	display: inline;
+	display      : inline;
 }
 
 .flex {
-	display: flex;
+	display      : flex;
+}
+
+ul:before {
+	content      : attr( aria-label );
+	font-size    : 120%;
+	margin-left  : -40px;
 }

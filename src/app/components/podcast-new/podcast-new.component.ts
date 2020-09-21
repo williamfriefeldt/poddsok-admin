@@ -21,10 +21,10 @@ import { DialogComponent } from '../dialog/dialog.component';
  */
 export class PodcastNewComponent implements OnInit {
 
-	podRes: Podcast[];
-	query: string;
-	podcast: Podcast;
-  error: string;
+  podRes:      Podcast[];
+  query:       string;
+  podcast:     Podcast;
+  error:       boolean;
   description: string;
 
   /**
@@ -57,7 +57,7 @@ export class PodcastNewComponent implements OnInit {
   			this.podRes = res.shows.items;
   		}, 
       err  => {
-        console.log(err);
+        this.error = true;
       });
   }
 

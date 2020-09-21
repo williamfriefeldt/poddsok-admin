@@ -22,22 +22,22 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
  */
 export class PodcastUpdateComponent implements OnInit {
 
-  episodes: Episode[];
-  podcast: Podcast;
-  newEps: Episode[] = [];
-  notEPs: Episode[] = [];
-  remEPs: Episode[] = [];
-  epsAdded: Episode[] = [];
+  episodes:      Episode[];
+  podcast:       Podcast;
+  newEps:        Episode[] = [];
+  notEPs:        Episode[] = [];
+  remEPs:        Episode[] = [];
+  epsAdded:      Episode[] = [];
   epsAddedToNot: Episode[] = [];
-  latestEp: Episode;
+  latestEp:      Episode;
 
-  error: string;
-  offset: number = 0;
-  loading: boolean = true;
-  addEps: boolean = false;
-  addEpsProgress: number[] = [ 0, 0 ];
+  error:           string;
+  offset:          number   = 0;
+  loading:         boolean  = true;
+  addEps:          boolean  = false;
+  addEpsProgress:  number[] = [ 0, 0 ];
   progressCounter: number[] = [ 0, 0 ];
-  progressTotal: number[] = [ 0, 0 ];
+  progressTotal:   number[] = [ 0, 0 ];
 
   /**
    * @param { SpotifyService } - To get episodes from SpotifyAPI.

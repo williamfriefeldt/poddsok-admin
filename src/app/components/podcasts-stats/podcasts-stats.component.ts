@@ -9,12 +9,16 @@ import { Podcast } from '../../interfaces/podcast';
   templateUrl: './podcasts-stats.component.html',
   styleUrls: ['./podcasts-stats.component.css']
 })
+
+/**
+ * @description Show statisics for all podcasts.
+ */
 export class PodcastsStatsComponent implements OnInit {
 
-	podcasts: Podcast[];
+  podcasts:    Podcast[];
   sortedArray: { title: string, segments: number } []  = [];
-  loading: boolean = true;
-  totSegments: number = 0;
+  loading:     boolean = true;
+  totSegments: number  = 0;
 
   barChartOptions: ChartOptions = {
     responsive: true,
@@ -34,23 +38,37 @@ export class PodcastsStatsComponent implements OnInit {
       display: false
     }
   };
-  barChartLabels: Label[] = [];
-  barChartType: ChartType = 'bar';
-  barChartLegend = true;
+
+  barChartLabels: Label[]   = [];
+  barChartType:   ChartType = 'bar';
+  barChartLegend  = true;
   barChartPlugins = [];
 
   barChartData: ChartDataSets[] = [
-    { data: [], backgroundColor: '#5900b3', hoverBackgroundColor:'#a64dff' }
+    { 
+      data:                 [],
+      backgroundColor:      '#5900b3',
+      hoverBackgroundColor: '#a64dff'
+    }
   ];
 
+  /**
+   * @param { PodcastService } - To get all podcasts
+   */
   constructor(
   	private podcastService: PodcastService
   ) { }
 
+  /**
+  * @description When component is ready - get podcasts.
+  */
   ngOnInit(): void {
   	this.getPodcasts();
   }
 
+  /**
+   * @description Get podcasts from service.
+   */
   getPodcasts(): void {
     this.podcastService.getPodcasts()
       .subscribe( podcasts => {
@@ -65,7 +83,9 @@ export class PodcastsStatsComponent implements OnInit {
     });
   }
 
-
+  /**
+   * @description Calculate totalsegment and segments for each podcast.
+   */
   calcTotSegments(): void {
   	this.podcasts.forEach(podcast => {
   		let totalSegments = 0;
@@ -87,6 +107,13 @@ export class PodcastsStatsComponent implements OnInit {
     this.loading = false;
   }
 
+  /**
+   * @description Sort array from lowest to highest number.
+   *              Applies for all four functions below.
+   * @param { object } a - Segment with minute and text.
+   * @param { object } b - Segment with minute and text.
+   * @return { number } Sort number, 0 or 1.
+   */
   sortNr( a: any, b:any ): number {
     return b.segments - a.segments;
   }
