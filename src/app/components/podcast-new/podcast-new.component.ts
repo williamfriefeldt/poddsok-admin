@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { DomSanitizer }      from '@angular/platform-browser';
+import { MatDialog }         from '@angular/material/dialog';
+import { MatSnackBar }       from '@angular/material/snack-bar';
 
-import { SpotifyService } from '../../services/spotify.service';
+import { SpotifyService }  from '../../services/spotify.service';
 import { FirebaseService } from '../../services/firebase.service';
 
-import { Podcast } from '../../interfaces/podcast';
+import { Podcast }         from '../../interfaces/podcast';
 import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
-  selector: 'app-podcast-new',
+  selector:    'app-podcast-new',
   templateUrl: './podcast-new.component.html',
-  styleUrls: ['./podcast-new.component.css']
+  styleUrls:   ['./podcast-new.component.css']
 })
 
 /**
@@ -36,11 +36,11 @@ export class PodcastNewComponent implements OnInit {
    @ @param { SnackBar } - To show snackbar.
    */
   constructor(
-  	private spotifyService: SpotifyService,
+    private spotifyService:  SpotifyService,
     private firebaseService: FirebaseService,
-    public dialog: MatDialog,
-    private sanitizer: DomSanitizer,
-    private snackBar: MatSnackBar
+    public  dialog:          MatDialog,
+    private sanitizer:       DomSanitizer,
+    private snackBar:        MatSnackBar
   ) {}
 
   ngOnInit(): void { }
@@ -52,8 +52,8 @@ export class PodcastNewComponent implements OnInit {
   search( query: string ): void {
   	this.podcast = null;
   	this.spotifyService.findPod( query )
-  		.subscribe( (res: any) => {
-        this.error = '';
+  		.subscribe( ( res: any ) => {
+        this.error = false;
   			this.podRes = res.shows.items;
   		}, 
       err  => {
@@ -68,15 +68,15 @@ export class PodcastNewComponent implements OnInit {
   selectPod( pod ): void {
     this.description = pod.description;
   	this.podcast = {
-  		title: pod.name,
-  		episodes: [],
-  		epsNr: 0,
-  		info: { 
-        spotifyID: pod.id, 
-        finished: false, 
-        image: pod.images[0].url,
-        notEPs: [],
-        name: pod.name
+      title:    pod.name,
+      episodes: [],
+      epsNr:    0,
+      info:     {
+        spotifyID: pod.id,
+        finished:  false,
+        image:     pod.images[0].url,
+        notEPs:    [],
+        name:      pod.name
       },
   		image: pod.images[0].url,
       totalSegments: 0
@@ -92,7 +92,6 @@ export class PodcastNewComponent implements OnInit {
     const info = this.podcast.info;
     this.firebaseService.addPodcast( podName, info )
       .then( () => {
-        console.log(` Added podcast ${this.podcast.title}` );
         this.snackBar.open( 'Podcast tillagd!', 'Succé' );
       });
   }

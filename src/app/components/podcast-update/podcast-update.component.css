@@ -11,8 +11,8 @@
 }
 
 mat-button-toggle.disabled {
-	pointer-events: none;
-	opacity: 0.5;
+    pointer-events: none;
+    opacity:        0.5;
 }
 
 mat-button-toggle {
@@ -24,12 +24,12 @@ mat-form-field, .ep-box {
 }
 
 .ep-col {
-	width: 50%;
-	height: 80vh;
-	margin: 2%;
-	border: 1px solid #320E44;
-	overflow-y: scroll;
-	padding: 1%;
+    width:      50%;
+    height:     80vh;
+    margin:     2%;
+    border:     1px solid #320E44;
+    overflow-y: scroll;
+    padding:    1%;
 }
 
 .ep-container {
@@ -38,11 +38,11 @@ mat-form-field, .ep-box {
 
 /* Drag n drop CSS */
 .cdk-drag-preview {
-  box-sizing: border-box;
+  box-sizing:    border-box;
   border-radius: 4px;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-              0 8px 10px 1px rgba(0, 0, 0, 0.14),
-              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  box-shadow:    0 5px 5px -3px rgba( 0, 0, 0, 0.2 ),
+              	 0 8px 10px 1px rgba( 0, 0, 0, 0.14 ),
+              	 0 3px 14px 2px rgba( 0, 0, 0, 0.12 );
 }
 
 .cdk-drag-placeholder {
@@ -50,15 +50,15 @@ mat-form-field, .ep-box {
 }
 
 .cdk-drag-animating {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  transition: transform 250ms cubic-bezier( 0, 0, 0.2, 1 );
 }
 
 .ep-box:last-child {
   border: none;
 }
 
-.ep-list.cdk-drop-list-dragging .ep-box:not(.cdk-drag-placeholder) {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+.ep-list.cdk-drop-list-dragging .ep-box:not( .cdk-drag-placeholder ) {
+  transition: transform 250ms cubic-bezier( 0, 0, 0.2, 1 );
 }
 
 .ep-list {
@@ -66,17 +66,17 @@ mat-form-field, .ep-box {
 }
 
 .trash {
-	display: block;
-	padding-left: 30%;
-	font-size: 400%;
-	color: #320E44;
+    display:      block;
+    padding-left: 30%;
+    font-size:    400%;
+    color:        #320E44;
 }
 
 .row {
-	display: flex;
-	width: 95%;
-	justify-content: space-between;
-	padding: 0.25%;
+    display:         flex;
+    width:           95%;
+    justify-content: space-between;
+    padding:         0.25%;
 }
 
 .column-1 {

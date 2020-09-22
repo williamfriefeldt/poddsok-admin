@@ -9,7 +9,7 @@
 			</mat-button-toggle>
 			<div cdkDropList 
 		      	[cdkDropListData]="remEPs"
-		      	(cdkDropListDropped)="drop($event)">
+		      	(cdkDropListDropped)="drop( $event )">
 				<mat-icon class="trash"> delete </mat-icon>
 			</div>
 		</div>
@@ -53,7 +53,7 @@
 		      		cdkDropList
 		      		[cdkDropListData]="notEPs"
 		      		class="ep-list"
-		      		(cdkDropListDropped)="drop($event)">
+		      		(cdkDropListDropped)="drop( $event )">
 
 		     		<div class="ep-box" *ngFor="let ep of notEPs" cdkDrag>
 		      			{{ ep.name }}
@@ -64,7 +64,7 @@
 	</div>
 
 	<div class="error" *ngIf="error">
-		{{ error }}
+		Saknar tillåtelse från Spotify, hämta <a href="http://localhost:8888"> här </a>. 
 	</div>
 </div>
 

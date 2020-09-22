@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { SpotifyService } from '../../services/spotify.service';
-import { PodcastService} from '../../services/podcast.service';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SpotifyService }    from '../../services/spotify.service';
+import { PodcastService}     from '../../services/podcast.service';
+import { ActivatedRoute }    from '@angular/router';
+import { Location }          from '@angular/common';
+import { MatDialog }         from '@angular/material/dialog';
+import { MatSnackBar }       from '@angular/material/snack-bar';
 
-import { Episode } from '../../interfaces/episode';
-import { Podcast } from '../../interfaces/podcast';
+import { Episode }         from '../../interfaces/episode';
+import { Podcast }         from '../../interfaces/podcast';
 import { DialogComponent } from '../dialog/dialog.component';
+
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
-  selector: 'app-podcast-update',
+  selector:    'app-podcast-update',
   templateUrl: './podcast-update.component.html',
-  styleUrls: ['./podcast-update.component.css']
+  styleUrls:   ['./podcast-update.component.css']
 })
 
 /**
@@ -31,7 +32,7 @@ export class PodcastUpdateComponent implements OnInit {
   epsAddedToNot: Episode[] = [];
   latestEp:      Episode;
 
-  error:           string;
+  error:           boolean;
   offset:          number   = 0;
   loading:         boolean  = true;
   addEps:          boolean  = false;
@@ -49,12 +50,12 @@ export class PodcastUpdateComponent implements OnInit {
    * @param { Dialog } - Create dialog in component.
    */
   constructor(
-  	private spotifyService: SpotifyService,
-  	private podcastService: PodcastService,
-    private router: ActivatedRoute,
-    private location: Location,
-    private snackBar: MatSnackBar,
-    public dialog: MatDialog
+    private spotifyService: SpotifyService,
+    private podcastService: PodcastService,
+    private router:         ActivatedRoute,
+    private location:       Location,
+    private snackBar:       MatSnackBar,
+    public  dialog:         MatDialog
   ) { }
 
   /**
@@ -84,11 +85,11 @@ export class PodcastUpdateComponent implements OnInit {
           this.offset += 50;
           this.episodes = res.items.map( ep => {
             return {
-              name: ep.name,
-              length: Math.round( parseInt( ep.duration_ms ) / 1000 / 60 ),
+              name:    ep.name,
+              length:  Math.round( parseInt( ep.duration_ms ) / 1000 / 60 ),
               minutes: { 'min1': { nr:1, text:'' } },
-              link: ep.uri,
-              nr: 0
+              link:    ep.uri,
+              nr:      0
             }
           }); 
           this.mapNewEps();
@@ -97,8 +98,7 @@ export class PodcastUpdateComponent implements OnInit {
         }
       },
         err => {
-          console.log(err.message);
-          this.error = 'Tillgång till Spotify Api nekad, se konsolen';
+          this.error = true;
       });
   }
 
@@ -154,7 +154,7 @@ export class PodcastUpdateComponent implements OnInit {
    */
   addNewEps(): void {
     this.podcastService.addNewEps( this.podcast, this.newEps )
-      .subscribe( res => console.log('added to eps') );
+      .subscribe();
   }
 
   /**
@@ -163,7 +163,7 @@ export class PodcastUpdateComponent implements OnInit {
    */
   addNotEps(): void {
     this.podcastService.addNotEps( this.podcast, this.notEPs )
-      .subscribe( res => console.log('added to eps') );
+      .subscribe();
   }
 
   /**
@@ -220,7 +220,7 @@ export class PodcastUpdateComponent implements OnInit {
           }, 500 );          
         });
     } else {
-      this.snackBar.open('Avsnitt tillagda', 'Klar!', {
+      this.snackBar.open( 'Avsnitt tillagda', 'Klar!', {
         duration: 15000,
       });
     }
